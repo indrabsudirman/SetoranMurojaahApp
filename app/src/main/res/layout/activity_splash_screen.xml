@@ -12,7 +12,7 @@
         android:id="@+id/setoran"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" setoran"
+        android:text="setoran"
         android:textSize="55sp"
         android:fontFamily="@font/french_script"
         android:textStyle="bold"
@@ -22,11 +22,11 @@
         android:id="@+id/murojaah"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lateef"
+        android:fontFamily="@font/ae_cortoba"
         android:text="مراجعة"
         android:textColor="@color/purple_200"
-        android:textSize="75sp"
+        android:textSize="65sp"
         android:textStyle="bold"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="40dp"/>
 
 </RelativeLayout>

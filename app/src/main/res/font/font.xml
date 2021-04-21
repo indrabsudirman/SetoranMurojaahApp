@@ -8,4 +8,8 @@
         android:fontStyle="italic"
         android:fontWeight="400"
         android:font="@font/french_script" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="400"
+        android:font="@font/ae_cortoba" />
 </font-family>

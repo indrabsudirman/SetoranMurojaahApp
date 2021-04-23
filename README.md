@@ -7,3 +7,7 @@ Setoran Murojaah App adalah aplikasi yang memudakan siswa/santri mengirim setora
 Cukup dengan menggunakan aplikasi ini, kemudian pilih share, maka Setoran Murojaah App akan membuat gambar list setoran yang akan di setor siswa/santri.
 
 Semoga dapat selesai. Aamiin YRB. 
+
+Apa yang saya pelajari pada App ini :
+
+1. ViewBinding menggantikan findViewById

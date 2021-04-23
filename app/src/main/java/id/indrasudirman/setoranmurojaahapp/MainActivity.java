@@ -11,6 +11,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String SHARED_PREF_NAME = "sharedPrefLogin";
     private static final String KEY_EMAIL = "email";
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 mainBinding.textInputLayoutPassword.setError(null);
                 allFieldValid = true;
                 Arrays.fill(passwordUserChar, '0');
-                System.out.println("Pass " + Arrays.toString(passwordUserChar));
+                Log.d(TAG, "Pass " + Arrays.toString(passwordUserChar));
             }
         }
 

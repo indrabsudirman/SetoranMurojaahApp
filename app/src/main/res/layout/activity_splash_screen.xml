@@ -6,7 +6,7 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:id="@+id/lin_lay"
-    android:background="@color/splashscreenbg">
+    android:background="@color/splash_screen_bg">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/setoran"

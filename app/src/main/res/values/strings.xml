@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Setoran Murojaah App</string>
+    <string name="setoran">setoran</string>
+    <string name="murojaah_arab">مراجعة</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register_here">Don\'t have account! Register here!</string>
 </resources>

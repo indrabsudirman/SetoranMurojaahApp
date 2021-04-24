@@ -15,12 +15,17 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Objects;
 
 import id.indrasudirman.setoranmurojaahapp.databinding.ActivityMainBinding;
+
+import static id.indrasudirman.setoranmurojaahapp.PasswordMD5WithSalt.digest;
+import static id.indrasudirman.setoranmurojaahapp.PasswordMD5WithSalt.hexStringToByteArray;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,6 +54,18 @@ public class MainActivity extends AppCompatActivity {
         View view = mainBinding.getRoot();
         setContentView(view);
 
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+
+        sqLiteHelper = new SQLiteHelper(MainActivity.this);
+
+        //Check if sharedPreferences data available
+        String emailSharedPref = sharedPreferences.getString(KEY_EMAIL, null);
+        // if sharedPreferences available so directly to MainMenu.class
+        if (emailSharedPref != null) {
+            Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+            startActivity(intent);
+        }
+
         registerHere();
 
         mainBinding.appCompatButtonLogin.setOnClickListener(v -> loginClick());
@@ -62,11 +79,57 @@ public class MainActivity extends AppCompatActivity {
         //Call method to check all field valid
         checkFieldLogin();
 
+        length = mainBinding.textInputEditTextPassword.length();
+        pwd = new char[length];
+        Objects.requireNonNull(mainBinding.textInputEditTextPassword.getText()).getChars(0, length, pwd, 0);
+        System.out.println("Pass user sebelum dibuat 0 " + Arrays.toString(pwd));
+        if (allFieldValid) {
+
+            //Get salt from database
+            String salt = sqLiteHelper.getSalt(Objects.requireNonNull(mainBinding.textInputEditTextEmail.getText()).toString().trim());
+            if (salt != null) {
+                //convert salt to byte
+                byte[] saltByte = hexStringToByteArray(salt);
+                System.out.println("Salt number dari db "+Arrays.toString(saltByte));
+                try {
+
+                    userPassword = digest(pwd, saltByte);
+                    System.out.println("Pass User "+userPassword);
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+                if (userPassword.equals(sqLiteHelper.getPwdSalt(mainBinding.textInputEditTextEmail.getText().toString().trim()))) {
+                    //Save to sharedPreferences
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(KEY_EMAIL, mainBinding.textInputEditTextEmail.getText().toString().trim());
+                    editor.apply();
+                    mainBinding.textInputEditTextEmail.setText("");
+                    mainBinding.textInputEditTextPassword.setText("");
+                    allFieldValid = false;
+                    Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                    startActivity(intent);
+                    overridePendingTransition(0,0);
+                } else {
+
+                    Snackbar.make(mainBinding.nestedScrollView, "Password salah", Snackbar.LENGTH_LONG).show();
+                }
+
+            } else {
+                Snackbar.make(mainBinding.nestedScrollView, "Login failed, email not found", Snackbar.LENGTH_LONG).show();
+                mainBinding.textInputEditTextEmail.setText("");
+                mainBinding.textInputEditTextPassword.setText("");
+                allFieldValid = false;
+            }
+
+        }
+        Arrays.fill(pwd, '0');
+        System.out.println("Pass setelah dibuat 0 " + Arrays.toString(pwd));
+
     }
 
     private void checkFieldLogin() {
 
-        userName = mainBinding.textInputEditTextEmail.getText().toString(); //Objects.requireNonNull(username.getText()).toString();
+        userName = Objects.requireNonNull(mainBinding.textInputEditTextEmail.getText()).toString(); //Objects.requireNonNull(username.getText()).toString();
         int length = mainBinding.textInputEditTextPassword.length(); //password.length();
         char[] passwordUserChar = new char[length];
 

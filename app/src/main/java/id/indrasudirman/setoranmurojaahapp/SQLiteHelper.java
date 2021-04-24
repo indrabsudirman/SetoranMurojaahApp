@@ -74,4 +74,110 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
+    /**
+     * This method to check user exist or not
+     * @param email
+     * @return true/false
+     */
+    public boolean checkUser (String email) {
+        //array of columns to fetch
+        String[] columns = {COLUMN_ID};
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        //Selection criteria
+        String selection = COLUMN_USER_MAIL + " = ?";
+
+        //Selection argument
+        String [] selectionArgs = {email};
+
+        //Query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_email = 'indrabsudirman@gmail.com';
+         */
+        Cursor cursor = sqLiteDatabase.query(TABLE_USER,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null);
+        int cursorCount = cursor.getCount();
+        cursor.close();
+        sqLiteDatabase.close();
+
+        return cursorCount > 0;
+    }
+
+    public String getSalt(String email) {
+        String salt = null;
+
+        String[] columns = {COLUMN_PASSWORD_SALT};
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        //Selection criteria
+        String selection = COLUMN_USER_MAIL + " = ?";
+
+        //Selection argument
+        String[] selectionArgs = {email};
+
+        //Query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_email = 'indrabsudirman@gmail.com';
+         */
+        Cursor cursor = sqLiteDatabase.query(TABLE_USER, //Table to query
+                columns, // column to return
+                selection, //Select base on
+                selectionArgs, //select argument
+                null, //The values for the WHERE clause
+                null, //group the rows
+                null); //filter by row groups
+
+        if (cursor.moveToFirst()) {
+            salt = cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD_SALT));
+            System.out.println("Salt in cursor is in getSalt " + salt);
+
+        }
+        return salt;
+
+    }
+
+    public String getPwdSalt(String email) {
+        String salt1 = null;
+
+        String[] columns = {COLUMN_PASSWORD};
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        //Selection criteria
+        String selection = COLUMN_USER_MAIL + " = ?";
+
+        //Selection argument
+        String[] selectionArgs = {email};
+
+        //Query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_email = 'indrabsudirman@gmail.com';
+         */
+        Cursor cursor = sqLiteDatabase.query(TABLE_USER, //Table to query
+                columns, // column to return
+                selection, //Select base on
+                selectionArgs, //select argument
+                null, //The values for the WHERE clause
+                null, //group the rows
+                null); //filter by row groups
+
+        if (cursor.moveToFirst()) {
+            salt1 = cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD));
+            System.out.println("Pwd Salt in cursor is in getPwdSalt " + salt1);
+
+        }
+        return salt1;
+
+    }
+
 }

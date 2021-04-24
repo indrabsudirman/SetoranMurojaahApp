@@ -9,6 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="splash_screen_bg">#71B8B0</color>
     <color name="colorPrimary">#009650</color>
+    <color name="solidCircle">#AAFFFFFF</color>
+    <color name="gradEnd">#FF018786</color>
+    <color name="gradStart">#71B8B0</color>
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#FF018786</color>
 </resources>

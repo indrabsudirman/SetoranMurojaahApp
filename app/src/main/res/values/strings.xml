@@ -7,6 +7,13 @@
     <string name="password">Password</string>
     <string name="password_confirm">Confirm Password</string>
     <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
     <string name="register_here">Don\'t have account! Register here!</string>
     <string name="already_a_member_login">Already a member? Login</string>
+<!--    Detail Surat -->
+    <string name="surat_ke">Surat ke </string>
+    <string name="satu">1</string>
+    <string name="al_fatihah_arab">الفاتحة</string>
+    <string name="al_fatihah_ayat">7</string>
+    <string name="ayat">Ayat</string>
 </resources>

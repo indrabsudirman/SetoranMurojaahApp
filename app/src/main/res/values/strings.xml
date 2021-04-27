@@ -13,7 +13,7 @@
 <!--    Detail Surat -->
     <string name="surat_ke">Surat ke </string>
     <string name="satu">1</string>
-    <string name="al_fatihah_arab">الفاتحة</string>
+    <string name="al_fatihah_arab">ٱلْفَاتِحَةِ</string>
     <string name="al_fatihah_ayat">7</string>
     <string name="ayat">Ayat</string>
 </resources>

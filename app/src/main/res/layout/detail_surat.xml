@@ -16,13 +16,15 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/surat_ke" />
+            android:text="@string/surat_ke"
+            android:layout_marginRight="3dp"
+            android:layout_marginEnd="3dp"
+            android:gravity="center"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/suratKe"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/satu" />
+            android:layout_height="wrap_content"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -30,7 +32,6 @@
         android:id="@+id/namaSurat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/al_fatihah_arab"
         android:textSize="24sp" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -40,13 +41,14 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/jumlahAyat"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/al_fatihah_ayat" />
+            android:layout_height="wrap_content"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ayat" />
+            android:text="@string/ayat"
+            android:layout_marginLeft="3dp"
+            android:layout_marginStart="3dp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

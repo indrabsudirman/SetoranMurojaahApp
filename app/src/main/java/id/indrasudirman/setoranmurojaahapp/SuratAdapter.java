@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import id.indrasudirman.setoranmurojaahapp.databinding.ActivityMainBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.DetailSuratBinding;
 
 public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder> {
@@ -28,12 +29,18 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
         DetailSuratBinding detailSuratBinding;
 
 
+
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            //View Binding change findViewById
+//            detailSuratBinding = ActivityMainBinding.inflate(getLayoutInflater());
+//            itemView = detailSuratBinding.getRoot();
+//            setContentView(view);
 
-            suratKe = detailSuratBinding.suratKe;
-            namaSurat = detailSuratBinding.namaSurat;
-            jumlahAyat = detailSuratBinding.jumlahAyat;
+            suratKe = itemView.findViewById(R.id.suratKe);
+            namaSurat = itemView.findViewById(R.id.namaSurat);
+            jumlahAyat = itemView.findViewById(R.id.jumlahAyat);
         }
     }
 

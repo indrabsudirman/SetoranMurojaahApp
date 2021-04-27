@@ -2,54 +2,72 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="6dp"
-    android:layout_marginTop="6dp"
-    android:layout_marginRight="6dp"
-    android:background="@color/white"
-    android:padding="12dp"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/surat_ke"
-            android:layout_marginRight="3dp"
-            android:layout_marginEnd="3dp"
-            android:gravity="center"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/suratKe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/namaSurat"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp" />
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="6dp"
+        android:background="@color/white"
+        android:padding="12dp"
+        android:orientation="vertical">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/jumlahAyat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ayat"
-            android:layout_marginLeft="3dp"
-            android:layout_marginStart="3dp" />
+            android:gravity="center">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/surat_ke"
+                android:layout_marginRight="3dp"
+                android:layout_marginEnd="3dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/suratKe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/namaSurat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="26sp"
+            android:gravity="center"
+            android:fontFamily="@font/lateef"
+            android:textColor="@color/black"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/jumlahAyat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ayat"
+                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
+                android:textColor="@color/black"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>

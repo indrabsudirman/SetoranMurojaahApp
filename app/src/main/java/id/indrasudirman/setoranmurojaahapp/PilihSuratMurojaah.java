@@ -27,7 +27,7 @@ public class PilihSuratMurojaah extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pilih_surat_murojaah);
+//        setContentView(R.layout.activity_pilih_surat_murojaah);
 
         //View Binding change findViewById
         pilihSuratMurojaahBinding = ActivityPilihSuratMurojaahBinding.inflate(getLayoutInflater());
@@ -35,12 +35,12 @@ public class PilihSuratMurojaah extends AppCompatActivity {
         setContentView(view);
 
         addSuratList();
-        recyclerViewSurat = findViewById(R.id.recyclerViewSurat);
+//        recyclerViewSurat = findViewById(R.id.recyclerViewSurat);
 //        recyclerViewSurat.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        recyclerViewSurat.setLayoutManager(layoutManager);
+        pilihSuratMurojaahBinding.recyclerViewSurat.setLayoutManager(layoutManager);
         suratAdapter = new SuratAdapter(this, suratList, pilihSuratMurojaahBinding.recyclerViewSurat);
-        recyclerViewSurat.setAdapter(suratAdapter);
+        pilihSuratMurojaahBinding.recyclerViewSurat.setAdapter(suratAdapter);
     }
 
     private void addSuratList() {
@@ -143,6 +143,30 @@ public class PilihSuratMurojaah extends AppCompatActivity {
         suratList.add(surat);
 
         surat = new Surat(33, "الأَحۡزَاب", "73");
+        suratList.add(surat);
+
+        surat = new Surat(34, "سَبَإ", "54");
+        suratList.add(surat);
+
+        surat = new Surat(35, "فَاطِر", "45");
+        suratList.add(surat);
+
+        surat = new Surat(36, "يسٓ", "83");
+        suratList.add(surat);
+
+        surat = new Surat(37, "الصَّافَّات", "182");
+        suratList.add(surat);
+
+        surat = new Surat(38, "صٓ", "88");
+        suratList.add(surat);
+
+        surat = new Surat(39, "الزُّمَر", "75");
+        suratList.add(surat);
+
+        surat = new Surat(40, "غَافِر", "85");
+        suratList.add(surat);
+
+        surat = new Surat(41, " فُصِّلَت", "54");
         suratList.add(surat);
     }
 }

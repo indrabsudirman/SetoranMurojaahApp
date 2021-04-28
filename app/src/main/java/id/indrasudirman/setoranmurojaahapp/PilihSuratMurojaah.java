@@ -166,7 +166,166 @@ public class PilihSuratMurojaah extends AppCompatActivity {
         surat = new Surat(40, "غَافِر", "85");
         suratList.add(surat);
 
-        surat = new Surat(41, " فُصِّلَت", "54");
+        surat = new Surat(41, "فُصِّلَت", "54");
+        suratList.add(surat);
+
+        surat = new Surat(42, "الشُّورَى", "53");
+        suratList.add(surat);
+
+        surat = new Surat(43, "الزُّخۡرُف", "89");
+        suratList.add(surat);
+
+        surat = new Surat(44, "الدُّخَان", "59");
+        suratList.add(surat);
+
+        surat = new Surat(45, "الجَاثِيَة", "37");
+        suratList.add(surat);
+
+        surat = new Surat(46, "الأَحۡقَاف", "35");
+        suratList.add(surat);
+
+        surat = new Surat(47, "مُحَمَّد", "38");
+        suratList.add(surat);
+
+        surat = new Surat(48, "الفَتۡح", "29");
+        suratList.add(surat);
+
+        surat = new Surat(49, "الحُجُرَات", "18");
+        suratList.add(surat);
+
+        surat = new Surat(50, "قٓ", "45");
+        suratList.add(surat);
+
+        surat = new Surat(51, "الذَّارِيَات", "60");
+        suratList.add(surat);
+
+        surat = new Surat(52, "الطُّور", "49");
+        suratList.add(surat);
+
+        surat = new Surat(53, "النَّجۡم", "62");
+        suratList.add(surat);
+
+        surat = new Surat(54, "القَمَر", "55");
+        suratList.add(surat);
+
+        surat = new Surat(55, "الرَّحۡمَٰن", "78");
+        suratList.add(surat);
+
+        surat = new Surat(56, "الوَاقِعَة", "96");
+        suratList.add(surat);
+
+        surat = new Surat(57, "الحَدِيد", "29");
+        suratList.add(surat);
+
+        surat = new Surat(58, "المُجَادلَة", "22");
+        suratList.add(surat);
+
+        surat = new Surat(59, "الحَشۡر", "24");
+        suratList.add(surat);
+
+        surat = new Surat(60, "المُمۡتَحنَة", "13");
+        suratList.add(surat);
+
+        surat = new Surat(61, "الصَّفّ", "14");
+        suratList.add(surat);
+
+        surat = new Surat(62, "الجُمُعَة", "11");
+        suratList.add(surat);
+
+        surat = new Surat(63, "المُنَافِقُون", "11");
+        suratList.add(surat);
+
+        surat = new Surat(64, "التَّغَابُن", "18");
+        suratList.add(surat);
+
+        surat = new Surat(65, "الطَّلَاق", "12");
+        suratList.add(surat);
+
+        surat = new Surat(66, "التَّحۡرِيم", "12");
+        suratList.add(surat);
+
+        surat = new Surat(67, "المُلۡك", "30");
+        suratList.add(surat);
+
+        surat = new Surat(68, "القَلَم", "52");
+        suratList.add(surat);
+
+        surat = new Surat(69, "الحَاقَّة", "52");
+        suratList.add(surat);
+
+        surat = new Surat(70, "المَعَارِج", "44");
+        suratList.add(surat);
+
+        surat = new Surat(71, "نُوح", "28");
+        suratList.add(surat);
+
+        surat = new Surat(72, "الجِنّ", "28");
+        suratList.add(surat);
+
+        surat = new Surat(73, "المُزَّمِّلِ", "20");
+        suratList.add(surat);
+
+        surat = new Surat(74, "المُدَّثِّر", "56");
+        suratList.add(surat);
+
+        surat = new Surat(75, "القِيَامَة", "40");
+        suratList.add(surat);
+
+        surat = new Surat(76, "الإِنسَان", "31");
+        suratList.add(surat);
+
+        surat = new Surat(77, "المُرۡسَلَات", "50");
+        suratList.add(surat);
+
+        surat = new Surat(78, "النَّبَإ", "40");
+        suratList.add(surat);
+
+        surat = new Surat(79, "النَّازِعَات", "46");
+        suratList.add(surat);
+
+        surat = new Surat(80, "عَبَس", "42");
+        suratList.add(surat);
+
+        surat = new Surat(81, "التَّكۡوِير", "29");
+        suratList.add(surat);
+
+        surat = new Surat(82, "الانفِطَار", "19");
+        suratList.add(surat);
+
+        surat = new Surat(83, "المُطَفِّفِين", "36");
+        suratList.add(surat);
+
+        surat = new Surat(84, "الانشِقَاق", "25");
+        suratList.add(surat);
+
+        surat = new Surat(85, "البُرُوج", "22");
+        suratList.add(surat);
+
+        surat = new Surat(86, "الطَّارِق", "17");
+        suratList.add(surat);
+
+        surat = new Surat(87, "الأَعۡلَى", "19");
+        suratList.add(surat);
+
+        surat = new Surat(88, "الغَاشِيَة", "26");
+        suratList.add(surat);
+
+        surat = new Surat(89, "الفَجۡر", "30");
+        suratList.add(surat);
+
+        surat = new Surat(90, "البَلَد", "20");
+        suratList.add(surat);
+
+        surat = new Surat(91, "الشَّمۡس", "15");
+        suratList.add(surat);
+
+        surat = new Surat(92, "اللَّيۡل", "21");
+        suratList.add(surat);
+
+        surat = new Surat(93, "الضُّحَى", "11");
+        suratList.add(surat);
+
+        surat = new Surat(94, "الشَّرۡح", "8");
         suratList.add(surat);
     }
 }

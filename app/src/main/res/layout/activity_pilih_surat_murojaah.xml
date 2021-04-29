@@ -5,10 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PilihSuratMurojaah"
-    android:background="@android:color/darker_gray">
+    android:background="@android:color/darker_gray"
+    tools:showIn="@layout/activity_pilih_surat_murojaah">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recyclerViewSurat"/>
+        android:id="@+id/recyclerViewSurat"
+        android:clipToPadding="false"
+        android:paddingBottom="6dp"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

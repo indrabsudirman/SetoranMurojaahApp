@@ -327,5 +327,65 @@ public class PilihSuratMurojaah extends AppCompatActivity {
 
         surat = new Surat(94, "الشَّرۡح", "8");
         suratList.add(surat);
+
+        surat = new Surat(95, "التِّين", "8");
+        suratList.add(surat);
+
+        surat = new Surat(96, "العَلَقِ", "19");
+        suratList.add(surat);
+
+        surat = new Surat(97, "القَدۡر", "5");
+        suratList.add(surat);
+
+        surat = new Surat(98, "البَيِّنَة", "8");
+        suratList.add(surat);
+
+        surat = new Surat(99, "الزَّلۡزَلَة", "8");
+        suratList.add(surat);
+
+        surat = new Surat(100, "العَادِيَات", "11");
+        suratList.add(surat);
+
+        surat = new Surat(101, "القَارِعَة", "11");
+        suratList.add(surat);
+
+        surat = new Surat(102, "التَّكَاثُر", "8");
+        suratList.add(surat);
+
+        surat = new Surat(103, "العَصۡر", "3");
+        suratList.add(surat);
+
+        surat = new Surat(104, "الهُمَزَة", "9");
+        suratList.add(surat);
+
+        surat = new Surat(105, "الفِيل", "5");
+        suratList.add(surat);
+
+        surat = new Surat(106, "قُرَيۡش", "4");
+        suratList.add(surat);
+
+        surat = new Surat(107, "المَاعُون", "7");
+        suratList.add(surat);
+
+        surat = new Surat(108, "الكَوۡثَر", "3");
+        suratList.add(surat);
+
+        surat = new Surat(109, "الكَافِرُون", "6");
+        suratList.add(surat);
+
+        surat = new Surat(110, "النَّصۡر", "3");
+        suratList.add(surat);
+
+        surat = new Surat(111, "المَسَد", "5");
+        suratList.add(surat);
+
+        surat = new Surat(112, "الإِخۡلَاص", "4");
+        suratList.add(surat);
+
+        surat = new Surat(113, "الفَلَق", "5");
+        suratList.add(surat);
+
+        surat = new Surat(114, "النَّاس", "6");
+        suratList.add(surat);
     }
 }

@@ -55,7 +55,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="10dp" />
 
-                <include layout="@layout/layout_toolbar_profile" />
+                <include
+                    layout="@layout/layout_toolbar_profile"
+                    android:id="@+id/layout_toolbar_profile"/>
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"

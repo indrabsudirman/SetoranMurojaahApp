@@ -36,6 +36,7 @@ public class MainMenu extends AppCompatActivity {
     LayoutToolbarProfileBinding layoutToolbarProfileBinding;
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,13 +52,14 @@ public class MainMenu extends AppCompatActivity {
 
         //Set Tanggal Masehi
         layoutToolbarProfileBinding.tanggalMasehi.setText(setTanggalMasehi());
-        //Set Tanggal Hijriyah
-        layoutToolbarProfileBinding.tanggalHijriyah.setText(setTanggalMasehi());
+
 
         String[] tanggalHijri = setTanggalHijriyah();
         Log.d("Bulan ", tanggalHijri[0]);
         Log.d("Tanggal ", tanggalHijri[1]);
         Log.d("Tahun ", tanggalHijri[2]);
+        //Set Tanggal Hijriyah
+        layoutToolbarProfileBinding.tanggalHijriyah.setText(tanggalHijri[1] + " " + tanggalHijri[0] + " " + tanggalHijri[2]);
     }
 
     private String[] setTanggalHijriyah() {

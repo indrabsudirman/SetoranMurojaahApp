@@ -14,7 +14,13 @@ import android.view.View;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import org.joda.time.Chronology;
+import org.joda.time.LocalDate;
+import org.joda.time.chrono.ISOChronology;
+import org.joda.time.chrono.IslamicChronology;
+
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -48,10 +54,13 @@ public class MainMenu extends AppCompatActivity {
         //Set Tanggal Hijriyah
         layoutToolbarProfileBinding.tanggalHijriyah.setText(setTanggalMasehi());
 
-        setTanggalHijriyah();
+        String[] tanggalHijri = setTanggalHijriyah();
+        Log.d("Bulan ", tanggalHijri[0]);
+        Log.d("Tanggal ", tanggalHijri[1]);
+        Log.d("Tahun ", tanggalHijri[2]);
     }
 
-    private String setTanggalHijriyah() {
+    private String[] setTanggalHijriyah() {
         // List of Hijriyah months https://ocmic.org.uk/12-islamic-months/
         String[] months = {
                 "ٱلْمُحَرَّم", "صَفَر", "رَبِيع ٱلْأَوَّل", "رَبِيع ٱلْآخِر",
@@ -59,11 +68,20 @@ public class MainMenu extends AppCompatActivity {
                 "رَمَضَان", "شَوَّال", "ذُو ٱلْقَعْدَة", "ذُو ٱلْحِجَّة"};
 //        IslamicCalendar islamicCalendar = new IslamicCalendar(); //API 24
 
-        Date date = Calendar.getInstance().getTime();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-        String todayDateMasehi = df.format(date);
-        Log.d("TAG", todayDateMasehi);
-        return todayDateMasehi;
+        Chronology hijri = IslamicChronology.getInstance();
+
+        LocalDate localDate = LocalDate.now();
+        GregorianCalendar calendar = new GregorianCalendar();
+        LocalDate todayHijri = new LocalDate(localDate.toDateTimeAtStartOfDay(), hijri);
+        Log.d("hijri", String.valueOf(todayHijri));
+        int numberMonth = todayHijri.getMonthOfYear() - 1;
+        Log.d("hijri month", String.valueOf(numberMonth));
+        String monthName = months[numberMonth];
+        Log.d("hijri month", monthName);
+        String dateHijri = monthName + " " + todayHijri.getYear();
+        Log.d("hijri date cool", dateHijri);
+
+        return new String[] {monthName, String.valueOf(todayHijri.getDayOfMonth()), String.valueOf(todayHijri.getYear())};
     }
 
     private String setTanggalMasehi() {

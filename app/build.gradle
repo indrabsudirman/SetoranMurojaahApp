@@ -42,4 +42,6 @@ dependencies {
 
     // circular imageview
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
+    // joda-time
+    implementation 'joda-time:joda-time:2.10.10'
 }

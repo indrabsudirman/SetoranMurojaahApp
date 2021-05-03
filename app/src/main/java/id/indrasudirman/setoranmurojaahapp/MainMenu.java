@@ -51,7 +51,7 @@ public class MainMenu extends AppCompatActivity {
 
 
         //Set Tanggal Masehi
-        layoutToolbarProfileBinding.tanggalMasehi.setText(setTanggalMasehi());
+        layoutToolbarProfileBinding.tanggalMasehi.setText(setTanggalMasehi() + " M");
 
 
         String[] tanggalHijri = setTanggalHijriyah();
@@ -59,7 +59,9 @@ public class MainMenu extends AppCompatActivity {
         Log.d("Tanggal ", tanggalHijri[1]);
         Log.d("Tahun ", tanggalHijri[2]);
         //Set Tanggal Hijriyah
-        layoutToolbarProfileBinding.tanggalHijriyah.setText(tanggalHijri[1] + " " + tanggalHijri[0] + " " + tanggalHijri[2]);
+        layoutToolbarProfileBinding.tanggalHijriyah.setText(tanggalHijri[1]);
+        layoutToolbarProfileBinding.bulanHijriyah.setText(tanggalHijri[0]);
+        layoutToolbarProfileBinding.tahunHijriyah.setText(tanggalHijri[2] + " H");
     }
 
     private String[] setTanggalHijriyah() {

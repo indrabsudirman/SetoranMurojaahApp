@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="Indra"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/profile_title" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -51,13 +51,13 @@
         android:paddingLeft="@dimen/dimen_20dp"
         android:paddingRight="@dimen/dimen_20dp"
         android:text="indra.indrabayu@gmail.com"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="@dimen/profile_desc" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_200"
+        android:background="@color/teal_700"
         android:orientation="horizontal"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
@@ -78,18 +78,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="Score"
+                android:text="1 Januari 2021 M"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/tanggal_masehi" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tanggalHijriyah"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="123"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/tanggal_hijriyah" />
+                android:orientation="horizontal"
+                android:gravity="right">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tanggalHijriyah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/tanggal_hijriyah"
+                    android:paddingRight="2dp"
+                    android:paddingEnd="2dp"
+                    tools:ignore="RtlSymmetry" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/bulanHijriyah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ٱلْمُحَرَّم"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/tanggal_hijriyah"
+                    android:paddingRight="4dp"
+                    android:paddingEnd="4dp"
+                    tools:ignore="RtlSymmetry" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tahunHijriyah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1442 H"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/tanggal_hijriyah" />
+
+            </LinearLayout>
+
+
 
 
         </LinearLayout>

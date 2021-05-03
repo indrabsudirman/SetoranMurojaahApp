@@ -442,7 +442,8 @@
                         android:fontFamily="sans-serif-light"
                         android:text="Past Perfect Continuous Tense"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:drawableRight="@drawable/ic_round_check_dark" />
 
                     <View
                         android:layout_width="match_parent"

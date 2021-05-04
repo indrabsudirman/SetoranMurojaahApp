@@ -25,46 +25,31 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/editAccount"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_setting"
-                    android:layout_gravity="right"
-                    android:focusable="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp" />
-
-                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/logOutAccount"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="10dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_logout_icon"
-                    android:rotation="180"
-                    android:layout_gravity="left"
-                    android:focusable="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_gravity="left"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:adjustViewBounds="true"
+                    android:focusable="true"
+                    android:rotation="180"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_logout_icon" />
 
                 <include
-                    layout="@layout/layout_toolbar_profile"
-                    android:id="@+id/layout_toolbar_profile"/>
+                    android:id="@+id/layout_toolbar_profile"
+                    layout="@layout/layout_toolbar_profile" />
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -75,8 +60,41 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:backgroundTint="@color/teal_700"
+        app:menu="@menu/app_bar_menu"
+        app:navigationIcon="@drawable/ic_menu" />
 
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/floatingActionButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/ic_add_white"-->
+<!--        app:backgroundTint="@color/purple_200"-->
+<!--        app:layout_anchor="@id/bottomAppBar"-->
+<!--        app:maxImageSize="35dp"-->
+<!--        app:tint="@color/white" />-->
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extendedFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="Add Murojaah"
+        app:icon="@android:drawable/ic_input_add"
+        app:layout_anchor="@id/bottomAppBar"
+        app:maxImageSize="35dp"
+        android:textColor="@color/white"
+        app:iconTint="@color/white"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/white"
+        android:layout_gravity="center"
+        app:backgroundTint="@color/purple_200"
+        android:textAllCaps="false"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

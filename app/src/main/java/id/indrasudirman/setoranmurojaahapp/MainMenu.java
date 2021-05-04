@@ -1,48 +1,39 @@
 package id.indrasudirman.setoranmurojaahapp;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.TextViewCompat;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.util.IslamicCalendar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import org.joda.time.Chronology;
 import org.joda.time.LocalDate;
-import org.joda.time.chrono.ISOChronology;
 import org.joda.time.chrono.IslamicChronology;
 
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 
 import id.indrasudirman.setoranmurojaahapp.databinding.ActivityMainMenuBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutToolbarProfileBinding;
 
 
-
 public class MainMenu extends AppCompatActivity {
 
+    private static final String SHARED_PREF_NAME = "sharedPrefLogin";
+    private static final String KEY_EMAIL = "email";
     ActivityMainMenuBinding mainMenuBinding;
     LayoutToolbarProfileBinding layoutToolbarProfileBinding;
     private SQLiteHelper sqLiteHelper;
     private SharedPreferences sharedPreferences;
-    private static final String SHARED_PREF_NAME = "sharedPrefLogin";
-    private static final String KEY_EMAIL = "email";
     private String userEmail;
 
 
@@ -79,7 +70,7 @@ public class MainMenu extends AppCompatActivity {
         mainMenuBinding.extendedFab.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), PilihSuratMurojaah.class);
             startActivity(intent);
-            overridePendingTransition(0,0);
+            overridePendingTransition(0, 0);
         });
 
         mainMenuBinding.logOutAccount.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +102,7 @@ public class MainMenu extends AppCompatActivity {
         String dateHijri = monthName + " " + todayHijri.getYear();
         Log.d("hijri date cool", dateHijri);
 
-        return new String[] {monthName, String.valueOf(todayHijri.getDayOfMonth()), String.valueOf(todayHijri.getYear())};
+        return new String[]{monthName, String.valueOf(todayHijri.getDayOfMonth()), String.valueOf(todayHijri.getYear())};
     }
 
     private String setTanggalMasehi() {
@@ -130,7 +121,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void setToolbar(@Nullable String title) {
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        setSupportActionBar(findViewById(R.id.toolbar));
         CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbar.setTitle(title);
     }

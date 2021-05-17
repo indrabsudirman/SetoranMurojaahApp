@@ -9,7 +9,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.List;
 
@@ -80,7 +83,16 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
         public void onClick(View v) {
             int itemPosition = recyclerViewSurat.getChildLayoutPosition(v);
             String namaSurat = suratList.get(itemPosition).getNamaSurat();
-            Toast.makeText(context, namaSurat, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, namaSurat, Toast.LENGTH_SHORT).show();
+//            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(
+//                    context, R.style.BottomSheetDialogTheme
+//            );
+//            bottomSheetDialog.show();
+//            View bottomSheetView = LayoutInflater.from(context).inflate(R.layout.layout_bottom_sheet_ayat,
+//                    (LinearLayoutCompat))
+            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
+            bottomSheetDialog.setContentView(R.layout.layout_bottom_sheet_ayat);
+            bottomSheetDialog.show();
 
         }
     }

@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -24,6 +26,7 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
     private List<Surat> suratList;
     private RecyclerView recyclerViewSurat;
     private final View.OnClickListener onClickListener = new MyOnClickListener();
+    private ConstraintLayout constraintLayout;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         AppCompatTextView suratKe;
@@ -47,10 +50,11 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
         }
     }
 
-    public SuratAdapter (Context context, List<Surat> suratList, RecyclerView recyclerViewSurat) {
+    public SuratAdapter (Context context, List<Surat> suratList, RecyclerView recyclerViewSurat, ConstraintLayout constraintLayout) {
         this.context = context;
         this.suratList = suratList;
         this.recyclerViewSurat = recyclerViewSurat;
+        this.constraintLayout = constraintLayout;
     }
 
     @NonNull
@@ -90,8 +94,15 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
 //            bottomSheetDialog.show();
 //            View bottomSheetView = LayoutInflater.from(context).inflate(R.layout.layout_bottom_sheet_ayat,
 //                    (LinearLayoutCompat))
+//            ConstraintLayout constraintLayoutCheckBox = v.findViewById(R.id.constraintLayoutCheckBox);
+
+            AppCompatCheckBox checkBox = new AppCompatCheckBox(context);
+            checkBox.setText("Ayat 99");
+            checkBox.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
             bottomSheetDialog.setContentView(R.layout.layout_bottom_sheet_ayat);
+            constraintLayout.addView(checkBox);
             bottomSheetDialog.show();
 
         }

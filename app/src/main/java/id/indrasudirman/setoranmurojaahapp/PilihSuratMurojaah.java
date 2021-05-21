@@ -41,7 +41,7 @@ public class PilihSuratMurojaah extends AppCompatActivity {
 //        recyclerViewSurat.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         pilihSuratMurojaahBinding.recyclerViewSurat.setLayoutManager(layoutManager);
-        suratAdapter = new SuratAdapter(this, suratList, pilihSuratMurojaahBinding.recyclerViewSurat, layoutBottomSheetAyatBinding.constraintLayoutCheckBox);
+        suratAdapter = new SuratAdapter(this, suratList, pilihSuratMurojaahBinding.recyclerViewSurat);
         pilihSuratMurojaahBinding.recyclerViewSurat.setAdapter(suratAdapter);
     }
 

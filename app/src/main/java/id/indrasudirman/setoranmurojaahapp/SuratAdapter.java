@@ -2,6 +2,7 @@ package id.indrasudirman.setoranmurojaahapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,13 +89,6 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
             int itemPosition = recyclerViewSurat.getChildLayoutPosition(v);
             String namaSurat = suratList.get(itemPosition).getNamaSurat();
 //            Toast.makeText(context, namaSurat, Toast.LENGTH_SHORT).show();
-//            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(
-//                    context, R.style.BottomSheetDialogTheme
-//            );
-//            bottomSheetDialog.show();
-//            View bottomSheetView = LayoutInflater.from(context).inflate(R.layout.layout_bottom_sheet_ayat,
-//                    (LinearLayoutCompat))
-//            ConstraintLayout constraintLayoutCheckBox = v.findViewById(R.id.constraintLayoutCheckBox);
 
 
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
@@ -102,20 +96,47 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
 
             ConstraintLayout constraintLayout = bottomSheetDialog.findViewById(R.id.constraintLayoutCheckBox);
             ConstraintSet constraintSet = new ConstraintSet();
-            constraintSet.clone(constraintLayout);
+            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                    ConstraintLayout.LayoutParams.MATCH_PARENT,
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT
+            );
 
-//            int [] id = {1,2,3}
+            int margin = (int) convertDpToPixel(30F, context);
+            params.setMargins(margin,0,0,0);
 
-            AppCompatCheckBox checkbox3 = bottomSheetDialog.findViewById(R.id.checkbox3);
+//            for (int i = 0; i < 10; i++) {
+//                AppCompatCheckBox compatCheckBox = new AppCompatCheckBox(context);
+//                compatCheckBox.setId(i + 1);
+//                compatCheckBox.setText("Ayat " + i);
+//                compatCheckBox.setPadding(25, 0,0,0);
+//                constraintLayout.addView(compatCheckBox, params);
+//
+//                constraintSet.clone(constraintLayout);
+//                constraintSet.connect(compatCheckBox.getId(), ConstraintSet.TOP, compatCheckBox.getId() + i, ConstraintSet.BOTTOM, 0);
+//                constraintSet.applyTo(constraintLayout);
+//            }
+
             AppCompatCheckBox compatCheckBox = new AppCompatCheckBox(context);
-//            constraintSet.connect(compatCheckBox, ConstraintSet.TOP, R.id.checkbox3, ConstraintSet.BOTTOM  );
-            compatCheckBox.setId(R.id.checkbox4);
-            compatCheckBox.setText("Ayat 99");
-            constraintSet.connect(R.id.checkbox4, ConstraintSet.TOP, R.id.checkbox3, ConstraintSet.BOTTOM  );
-            constraintLayout.addView(compatCheckBox);
+            compatCheckBox.setId(R.id.checkbox2);
+            compatCheckBox.setText("Ayat 1");
+            compatCheckBox.setPadding(25, 0,0,0);
+            constraintLayout.addView(compatCheckBox, params);
+
+            constraintSet.clone(constraintLayout);
+            constraintSet.connect(compatCheckBox.getId(), ConstraintSet.TOP, R.id.checkbox1, ConstraintSet.BOTTOM, 0);
+            constraintSet.applyTo(constraintLayout);
+
+
+
+
 
 //            constraintLayout.addView(checkBox);
             bottomSheetDialog.show();
+
+        }
+
+        private float convertDpToPixel(float dp, Context context) {
+            return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
 
         }
     }

@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -88,43 +89,60 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
         public void onClick(View v) {
             int itemPosition = recyclerViewSurat.getChildLayoutPosition(v);
             String namaSurat = suratList.get(itemPosition).getNamaSurat();
-//            Toast.makeText(context, namaSurat, Toast.LENGTH_SHORT).show();
+            String jumlahAyat = suratList.get(itemPosition).getJumlahAyat();
+//            Toast.makeText(context, namaSurat + "Jumlah ayat : " + jumlahAyat, Toast.LENGTH_SHORT).show();
 
 
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
             bottomSheetDialog.setContentView(R.layout.layout_bottom_sheet_ayat);
 
-            ConstraintLayout constraintLayout = bottomSheetDialog.findViewById(R.id.constraintLayoutCheckBox);
-            ConstraintSet constraintSet = new ConstraintSet();
-            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
-                    ConstraintLayout.LayoutParams.MATCH_PARENT,
-                    ConstraintLayout.LayoutParams.WRAP_CONTENT
+            LinearLayoutCompat linearLayoutCheckBox = bottomSheetDialog.findViewById(R.id.linearLayoutCheckBox);
+            LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(
+                    LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+                    LinearLayoutCompat.LayoutParams.WRAP_CONTENT
             );
 
             int margin = (int) convertDpToPixel(30F, context);
-            params.setMargins(margin,0,0,0);
+            params.setMargins(margin, 0,0,0);
 
-//            for (int i = 0; i < 10; i++) {
-//                AppCompatCheckBox compatCheckBox = new AppCompatCheckBox(context);
-//                compatCheckBox.setId(i + 1);
-//                compatCheckBox.setText("Ayat " + i);
-//                compatCheckBox.setPadding(25, 0,0,0);
-//                constraintLayout.addView(compatCheckBox, params);
-//
+
+
+            AppCompatCheckBox compatCheckBox;
+            int banyakAyat = Integer.parseInt(jumlahAyat);
+
+            for (int i = 1; i <= banyakAyat; i++) {
+                compatCheckBox = new AppCompatCheckBox(context);
+                compatCheckBox.setId(i);
+                compatCheckBox.setText("Ayat " + i);
+                int margin1 = (int) convertDpToPixel(10F, context);
+                compatCheckBox.setPadding(margin1,0,0,0);
+                linearLayoutCheckBox.addView(compatCheckBox, params);
+
 //                constraintSet.clone(constraintLayout);
 //                constraintSet.connect(compatCheckBox.getId(), ConstraintSet.TOP, compatCheckBox.getId() + i, ConstraintSet.BOTTOM, 0);
 //                constraintSet.applyTo(constraintLayout);
-//            }
+            }
 
-            AppCompatCheckBox compatCheckBox = new AppCompatCheckBox(context);
-            compatCheckBox.setId(R.id.checkbox2);
-            compatCheckBox.setText("Ayat 1");
-            compatCheckBox.setPadding(25, 0,0,0);
-            constraintLayout.addView(compatCheckBox, params);
-
-            constraintSet.clone(constraintLayout);
-            constraintSet.connect(compatCheckBox.getId(), ConstraintSet.TOP, R.id.checkbox1, ConstraintSet.BOTTOM, 0);
-            constraintSet.applyTo(constraintLayout);
+//            AppCompatCheckBox compatCheckBox = new AppCompatCheckBox(context);
+//            compatCheckBox.setId(R.id.checkbox2);
+//            compatCheckBox.setText("Ayat 1");
+//            compatCheckBox.setPadding(25, 0,0,0);
+//            constraintLayout.addView(compatCheckBox, params);
+//
+//            constraintSet.clone(constraintLayout);
+//            constraintSet.connect(compatCheckBox.getId(), ConstraintSet.TOP, R.id.checkbox1, ConstraintSet.BOTTOM, 0);
+//            constraintSet.applyTo(constraintLayout);
+//
+//            compatCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                    if (compatCheckBox.isSelected()) {
+//                        Toast.makeText(context, "Check", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(context, "Uncheck", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            });
 
 
 

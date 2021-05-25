@@ -3,7 +3,7 @@
     android:id="@+id/bottomSheetLinearLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="550dp"
     android:background="@drawable/bottom_sheet_ayat"
     android:orientation="vertical"
     android:layout_marginLeft="10dp"
@@ -21,33 +21,46 @@
         android:textStyle="bold"/>
     
     <View
+        android:id="@+id/viewId"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="5dp"
         android:background="@color/white"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayoutCheckBox"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearLayoutCheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/checkbox1"
+                android:layout_marginTop="24dp"
+                android:padding="10dp"
+                android:checked="false"
+                android:enabled="true"
+                android:text="Semua Ayat"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp" />
+
+
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="Simpan"
+        android:layout_gravity="center"/>
 
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/checkbox1"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="24dp"
-            android:padding="10dp"
-            android:checked="false"
-            android:enabled="true"
-            android:text="Semua Ayat"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="16dp" />
-
-
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

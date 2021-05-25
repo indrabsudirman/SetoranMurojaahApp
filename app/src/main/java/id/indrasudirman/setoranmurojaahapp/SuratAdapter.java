@@ -88,9 +88,7 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
         @Override
         public void onClick(View v) {
             int itemPosition = recyclerViewSurat.getChildLayoutPosition(v);
-            String namaSurat = suratList.get(itemPosition).getNamaSurat();
             String jumlahAyat = suratList.get(itemPosition).getJumlahAyat();
-//            Toast.makeText(context, namaSurat + "Jumlah ayat : " + jumlahAyat, Toast.LENGTH_SHORT).show();
 
 
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
@@ -117,38 +115,8 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
                 int margin1 = (int) convertDpToPixel(10F, context);
                 compatCheckBox.setPadding(margin1,0,0,0);
                 linearLayoutCheckBox.addView(compatCheckBox, params);
-
-//                constraintSet.clone(constraintLayout);
-//                constraintSet.connect(compatCheckBox.getId(), ConstraintSet.TOP, compatCheckBox.getId() + i, ConstraintSet.BOTTOM, 0);
-//                constraintSet.applyTo(constraintLayout);
             }
 
-//            AppCompatCheckBox compatCheckBox = new AppCompatCheckBox(context);
-//            compatCheckBox.setId(R.id.checkbox2);
-//            compatCheckBox.setText("Ayat 1");
-//            compatCheckBox.setPadding(25, 0,0,0);
-//            constraintLayout.addView(compatCheckBox, params);
-//
-//            constraintSet.clone(constraintLayout);
-//            constraintSet.connect(compatCheckBox.getId(), ConstraintSet.TOP, R.id.checkbox1, ConstraintSet.BOTTOM, 0);
-//            constraintSet.applyTo(constraintLayout);
-//
-//            compatCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                    if (compatCheckBox.isSelected()) {
-//                        Toast.makeText(context, "Check", Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        Toast.makeText(context, "Uncheck", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            });
-
-
-
-
-
-//            constraintLayout.addView(checkBox);
             bottomSheetDialog.show();
 
         }

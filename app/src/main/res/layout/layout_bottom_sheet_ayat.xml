@@ -24,8 +24,7 @@
         android:id="@+id/viewId"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/white"/>
+        android:background="@color/colorView"/>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
@@ -42,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/checkbox1"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="15dp"
                 android:padding="10dp"
                 android:checked="false"
                 android:enabled="true"
@@ -64,7 +63,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Simpan"
-            android:layout_marginBottom="3dp"/>
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/rounded_shape"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:clickable="true"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

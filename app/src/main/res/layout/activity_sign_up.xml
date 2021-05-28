@@ -136,7 +136,8 @@
             android:layout_marginTop="40dp"
             android:background="@drawable/rounded_shape"
             android:text="@string/sign_up"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textAllCaps="false"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/appCompatTextViewLoginLink"

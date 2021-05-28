@@ -6,7 +6,9 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.List;
@@ -93,6 +96,11 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
 
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
             bottomSheetDialog.setContentView(R.layout.layout_bottom_sheet_ayat);
+//            sheetBehavior = BottomSheetBehavior.from(bottomSheetDialog);
+//            View bottomSheetView = LayoutInflater.from(context.getApplicationContext())
+//                    .inflate(R.layout.layout_bottom_sheet_ayat, (LinearLayoutCompat)v.findViewById(R.id.bottomSheetLinearLayout));
+//            bottomSheetView.setMinimumHeight(200);
+//            bottomSheetDialog.setContentView(bottomSheetView);
 
             LinearLayoutCompat linearLayoutCheckBox = bottomSheetDialog.findViewById(R.id.linearLayoutCheckBox);
             LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(
@@ -102,6 +110,7 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
 
             int margin = (int) convertDpToPixel(30F, context);
             params.setMargins(margin, 0,0,0);
+
 
 
 
@@ -117,7 +126,16 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
                 linearLayoutCheckBox.addView(compatCheckBox, params);
             }
 
+//            Button button = new Button(context);
+//            button.setText("Simpan");
+//            int margin1 = (int) convertDpToPixel(10F, context);
+////            params.setMargins(margin1, 0,margin1,margin1);
+//            linearLayoutCheckBox.addView(button);
+
+
             bottomSheetDialog.show();
+
+
 
         }
 

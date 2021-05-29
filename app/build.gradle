@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "id.indrasudirman.setoranmurojaahapp"
-        minSdkVersion 16
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -44,7 +44,10 @@ dependencies {
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
     // joda-time
     implementation 'joda-time:joda-time:2.10.10'
+    //3 State Checkbox indeterminate
+    implementation 'it.sephiroth.android.library:tri-state-checkbox:1.0.0'
 
+    implementation 'com.github.sevar83:indeterminate-checkbox:1.0.5@aar'
 
 
 }

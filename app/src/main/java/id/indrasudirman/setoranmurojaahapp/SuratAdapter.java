@@ -3,6 +3,7 @@ package id.indrasudirman.setoranmurojaahapp;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -20,6 +22,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.buildware.widget.indeterm.IndeterminateCheckBox;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -27,6 +30,7 @@ import java.util.List;
 
 import id.indrasudirman.setoranmurojaahapp.databinding.ActivityMainBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.DetailSuratBinding;
+import timber.log.Timber;
 
 public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder> {
     private Context context;
@@ -114,6 +118,8 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
 
 
 
+            IndeterminateCheckBox checkboxAll = new IndeterminateCheckBox(context);
+            checkboxAll.findViewById(R.id.checkboxAll);
             AppCompatCheckBox compatCheckBox;
             int banyakAyat = Integer.parseInt(jumlahAyat);
 
@@ -124,6 +130,31 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
                 int margin1 = (int) convertDpToPixel(10F, context);
                 compatCheckBox.setPadding(margin1,0,0,0);
                 linearLayoutCheckBox.addView(compatCheckBox, params);
+
+
+
+                checkboxAll.setOnStateChangedListener(new IndeterminateCheckBox.OnStateChangedListener() {
+                    @Override
+                    public void onStateChanged(IndeterminateCheckBox check, @Nullable Boolean state) {
+                        if (state == null) {
+                            // The new state is 'indeterminate'
+                        } else if (state) {
+                            Log.e("Surah Adapter", check.getId() + "is Check");
+                        } else {
+                            Log.e("Surah Adapter", check.getId() + "is Uncheck");
+                        }
+                    }
+                });
+                compatCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            Log.e("Surah Adapter", buttonView.getId() + "is Check");
+                        } else {
+                            Log.e("Surah Adapter", buttonView.getId() + "is Uncheck");
+                        }
+                    }
+                });
             }
 
 //            Button button = new Button(context);

@@ -22,4 +22,6 @@ Apa yang saya pelajari pada App ini :
 
 [<img src="https://user-images.githubusercontent.com/36407161/116968445-aa036b00-acde-11eb-8ca8-a63a03f818a4.png" width="50%">]
 
+[<img src="https://user-images.githubusercontent.com/36407161/120062384-31e55680-c08c-11eb-8458-428954798a03.png" width="50%">]
+
 

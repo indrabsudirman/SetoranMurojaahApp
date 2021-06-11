@@ -24,4 +24,9 @@ Apa yang saya pelajari pada App ini :
 
 [<img src="https://user-images.githubusercontent.com/36407161/120062384-31e55680-c08c-11eb-8458-428954798a03.png" width="50%">]
 
+Spesial thanks to :
 
+[nicolas](https://www.facebook.com/fransiskus.sipenggilafps) sudah meminjamkan laptopnya untuk saya.\
+[om Yohanes](https://github.com/yohanes) selalu bantu, bimbing, beri pencerahan untuk saya saat belajar coding.
+
+Semoga Allah SWT, selalu melindungi, memberikan kesehatan, murah rezeki untuk mereka dan keluarga. Aamiin YRB

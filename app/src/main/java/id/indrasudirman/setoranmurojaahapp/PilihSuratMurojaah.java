@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,28 @@ public class PilihSuratMurojaah extends AppCompatActivity {
         pilihSuratMurojaahBinding.recyclerViewSurat.setLayoutManager(layoutManager);
         suratAdapter = new SuratAdapter(this, suratList, pilihSuratMurojaahBinding.recyclerViewSurat);
         pilihSuratMurojaahBinding.recyclerViewSurat.setAdapter(suratAdapter);
+
+        pilihAyat();
     }
+
+    private void pilihAyat() {
+        pilihSuratMurojaahBinding.recyclerViewSurat.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), pilihSuratMurojaahBinding.recyclerViewSurat, new RecyclerItemClickListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                String jumlahAyat = suratList.get(position).getJumlahAyat();
+//                Toast.makeText(getApplicationContext(), "Jumlah ayat : " + jumlahAyat + " Jabriko", Toast.LENGTH_SHORT).show();
+                BottomSheet bottomSheet = new BottomSheet();
+                bottomSheet.show(getSupportFragmentManager(), "TAG");
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+    }
+
+
 
     private void addSuratList() {
         // from http://api.alquran.cloud/v1/surah

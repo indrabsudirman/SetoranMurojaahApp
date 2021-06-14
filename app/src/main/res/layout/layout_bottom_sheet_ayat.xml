@@ -29,7 +29,7 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="450dp">
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/linearLayoutCheckBox"
@@ -37,15 +37,40 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.buildware.widget.indeterm.IndeterminateCheckBox
+            <it.sephiroth.android.library.checkbox3state.CheckBox3
+                android:id="@+id/semuaAyat"
+                style="@style/Sephiroth.Widget.Checkbox3"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/checkboxAll"
-                android:layout_marginTop="15dp"
-                android:padding="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="20dp"
+                android:checked="false"
+                android:enabled="true"
                 android:text="Semua Ayat"
-                android:layout_marginStart="15dp"
-                app:indeterminate="true"/>
+                app:sephiroth_checkbox3_checkableCycle="@array/sephiroth_checkbox3_cycleCheckedUncheckedOnly"
+                app:sephiroth_checkbox3_indeterminate="false" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkBox2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:text="Ayat 1"/>
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkBox3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:text="Ayat 2" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkBox4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:text="Ayat 3" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -3,64 +3,25 @@ package id.indrasudirman.setoranmurojaahapp;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.buildware.widget.indeterm.IndeterminateCheckBox;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.List;
 
-import id.indrasudirman.setoranmurojaahapp.databinding.ActivityMainBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.DetailSuratBinding;
-import timber.log.Timber;
 
-public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder> {
-    private Context context;
-    private List<Surat> suratList;
-    private RecyclerView recyclerViewSurat;
+public class SuratAdapter extends RecyclerView.Adapter<SuratAdapter.ViewHolder> {
     private final View.OnClickListener onClickListener = new MyOnClickListener();
+    private final Context context;
+    private final List<Surat> suratList;
+    private final RecyclerView recyclerViewSurat;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
-        AppCompatTextView suratKe;
-        AppCompatTextView namaSurat;
-        AppCompatTextView jumlahAyat;
-        DetailSuratBinding detailSuratBinding;
-
-
-
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            //View Binding change findViewById
-//            detailSuratBinding = ActivityMainBinding.inflate(getLayoutInflater());
-//            itemView = detailSuratBinding.getRoot();
-//            setContentView(view);
-
-            suratKe = itemView.findViewById(R.id.suratKe);
-            namaSurat = itemView.findViewById(R.id.namaSurat);
-            jumlahAyat = itemView.findViewById(R.id.jumlahAyat);
-        }
-    }
-
-    public SuratAdapter (Context context, List<Surat> suratList, RecyclerView recyclerViewSurat) {
+    public SuratAdapter(Context context, List<Surat> suratList, RecyclerView recyclerViewSurat) {
         this.context = context;
         this.suratList = suratList;
         this.recyclerViewSurat = recyclerViewSurat;
@@ -80,7 +41,7 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull SuratAdapter.ViewHolder holder, int position) {
         Surat surat = suratList.get(position);
-        holder.suratKe.setText(""+surat.getSuratKe());
+        holder.suratKe.setText("" + surat.getSuratKe());
         holder.namaSurat.setText(surat.getNamaSurat());
         holder.jumlahAyat.setText(surat.getJumlahAyat());
 
@@ -91,81 +52,77 @@ public class SuratAdapter extends RecyclerView.Adapter <SuratAdapter.ViewHolder>
         return suratList.size();
     }
 
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        AppCompatTextView suratKe;
+        AppCompatTextView namaSurat;
+        AppCompatTextView jumlahAyat;
+        DetailSuratBinding detailSuratBinding;
+
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            //View Binding change findViewById
+//            detailSuratBinding = ActivityMainBinding.inflate(getLayoutInflater());
+//            itemView = detailSuratBinding.getRoot();
+//            setContentView(view);
+
+            suratKe = itemView.findViewById(R.id.suratKe);
+            namaSurat = itemView.findViewById(R.id.namaSurat);
+            jumlahAyat = itemView.findViewById(R.id.jumlahAyat);
+        }
+    }
+
     private class MyOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             int itemPosition = recyclerViewSurat.getChildLayoutPosition(v);
             String jumlahAyat = suratList.get(itemPosition).getJumlahAyat();
 
-
-            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
-            bottomSheetDialog.setContentView(R.layout.layout_bottom_sheet_ayat);
-//            sheetBehavior = BottomSheetBehavior.from(bottomSheetDialog);
-//            View bottomSheetView = LayoutInflater.from(context.getApplicationContext())
-//                    .inflate(R.layout.layout_bottom_sheet_ayat, (LinearLayoutCompat)v.findViewById(R.id.bottomSheetLinearLayout));
-//            bottomSheetView.setMinimumHeight(200);
-//            bottomSheetDialog.setContentView(bottomSheetView);
-
-            LinearLayoutCompat linearLayoutCheckBox = bottomSheetDialog.findViewById(R.id.linearLayoutCheckBox);
-            LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(
-                    LinearLayoutCompat.LayoutParams.MATCH_PARENT,
-                    LinearLayoutCompat.LayoutParams.WRAP_CONTENT
-            );
-
-            int margin = (int) convertDpToPixel(30F, context);
-            params.setMargins(margin, 0,0,0);
+//            BottomSheet bottomSheet = new BottomSheet();
+//            bottomSheet.show(bottomSheet.getParentFragmentManager(), "TAG");
 
 
-
-
-            IndeterminateCheckBox checkboxAll = new IndeterminateCheckBox(context);
-            checkboxAll.findViewById(R.id.checkboxAll);
-            AppCompatCheckBox compatCheckBox;
-            int banyakAyat = Integer.parseInt(jumlahAyat);
-
-            for (int i = 1; i <= banyakAyat; i++) {
-                compatCheckBox = new AppCompatCheckBox(context);
-                compatCheckBox.setId(i);
-                compatCheckBox.setText("Ayat " + i);
-                int margin1 = (int) convertDpToPixel(10F, context);
-                compatCheckBox.setPadding(margin1,0,0,0);
-                linearLayoutCheckBox.addView(compatCheckBox, params);
-
-
-
-                checkboxAll.setOnStateChangedListener(new IndeterminateCheckBox.OnStateChangedListener() {
-                    @Override
-                    public void onStateChanged(IndeterminateCheckBox check, @Nullable Boolean state) {
-                        if (state == null) {
-                            // The new state is 'indeterminate'
-                        } else if (state) {
-                            Log.e("Surah Adapter", check.getId() + "is Check");
-                        } else {
-                            Log.e("Surah Adapter", check.getId() + "is Uncheck");
-                        }
-                    }
-                });
-                compatCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked) {
-                            Log.e("Surah Adapter", buttonView.getId() + "is Check");
-                        } else {
-                            Log.e("Surah Adapter", buttonView.getId() + "is Uncheck");
-                        }
-                    }
-                });
-            }
-
-//            Button button = new Button(context);
-//            button.setText("Simpan");
-//            int margin1 = (int) convertDpToPixel(10F, context);
-////            params.setMargins(margin1, 0,margin1,margin1);
-//            linearLayoutCheckBox.addView(button);
-
-
-            bottomSheetDialog.show();
-
+//            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
+//            bottomSheetDialog.setContentView(R.layout.layout_bottom_sheet_ayat);
+//
+//            LinearLayoutCompat linearLayoutCheckBox = bottomSheetDialog.findViewById(R.id.linearLayoutCheckBox);
+//            LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(
+//                    LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+//                    LinearLayoutCompat.LayoutParams.WRAP_CONTENT
+//            );
+//
+//            int margin = (int) convertDpToPixel(30F, context);
+//            params.setMargins(margin, 0,0,0);
+//
+//
+//
+//
+//            CheckBox3 checkboxAll = new CheckBox3(context);
+//            checkboxAll.findViewById(R.id.semuaAyat);
+//            AppCompatCheckBox compatCheckBox;
+//            int banyakAyat = Integer.parseInt(jumlahAyat);
+//
+//            for (int i = 1; i <= banyakAyat; i++) {
+//                compatCheckBox = new AppCompatCheckBox(context);
+//                compatCheckBox.setId(i);
+//                compatCheckBox.setText("Ayat " + i);
+//                int margin1 = (int) convertDpToPixel(10F, context);
+//                compatCheckBox.setPadding(margin1,0,0,0);
+//                linearLayoutCheckBox.addView(compatCheckBox, params);
+//
+//
+//
+//
+//            }
+//
+////            Button button = new Button(context);
+////            button.setText("Simpan");
+////            int margin1 = (int) convertDpToPixel(10F, context);
+//////            params.setMargins(margin1, 0,margin1,margin1);
+////            linearLayoutCheckBox.addView(button);
+//
+//
+//            bottomSheetDialog.show();
 
 
         }

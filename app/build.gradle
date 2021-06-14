@@ -47,7 +47,6 @@ dependencies {
     //3 State Checkbox indeterminate
     implementation 'it.sephiroth.android.library:tri-state-checkbox:1.0.0'
 
-    implementation 'com.github.sevar83:indeterminate-checkbox:1.0.5@aar'
 
 
 }

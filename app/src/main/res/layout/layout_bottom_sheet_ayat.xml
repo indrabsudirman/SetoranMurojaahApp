@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="18dp"
                 android:checked="false"
                 android:enabled="true"
                 android:text="Semua Ayat"
@@ -56,6 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
+                android:layout_marginBottom="10dp"
                 android:text="Ayat 1"/>
 
             <androidx.appcompat.widget.AppCompatCheckBox
@@ -63,6 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
+                android:layout_marginBottom="10dp"
                 android:text="Ayat 2" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
@@ -70,7 +72,72 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
+                android:layout_marginBottom="10dp"
                 android:text="Ayat 3" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkBox5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="10dp"
+                android:text="Ayat 4" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkBox6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="10dp"
+                android:text="Ayat 5" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkBox7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="10dp"
+                android:text="Ayat 6" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkBox8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="10dp"
+                android:text="Ayat 7" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkBox9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="10dp"
+                android:text="Ayat 8" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkBox10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="10dp"
+                android:text="Ayat 9" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkBox11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="10dp"
+                android:text="Ayat 10" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkBox12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="10dp"
+                android:text="Ayat 11" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

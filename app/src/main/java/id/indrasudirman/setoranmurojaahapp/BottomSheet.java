@@ -58,7 +58,17 @@ public class BottomSheet extends BottomSheetDialogFragment {
 //                linearLayoutCheckBox.addView(compatCheckBox, params);
 //            }
 
-        checkBoxesArray = new AppCompatCheckBox[] {view.findViewById(R.id.checkBox2), view.findViewById(R.id.checkBox3), view.findViewById(R.id.checkBox4)};
+        checkBoxesArray = new AppCompatCheckBox[] {view.findViewById(R.id.checkBox2),
+                view.findViewById(R.id.checkBox3),
+                view.findViewById(R.id.checkBox4),
+                view.findViewById(R.id.checkBox5),
+                view.findViewById(R.id.checkBox6),
+                view.findViewById(R.id.checkBox7),
+                view.findViewById(R.id.checkBox8),
+                view.findViewById(R.id.checkBox9),
+                view.findViewById(R.id.checkBox10),
+                view.findViewById(R.id.checkBox11),
+                view.findViewById(R.id.checkBox11)};
         semuaAyat = view.findViewById(R.id.semuaAyat);
         semuaAyat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -124,5 +134,8 @@ public class BottomSheet extends BottomSheetDialogFragment {
 
     }
 
-
+    @Override
+    public int getTheme() {
+        return R.style.BottomSheetDialogTheme;
+    }
 }

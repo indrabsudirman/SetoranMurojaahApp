@@ -49,13 +49,17 @@ public class PilihSuratMurojaah extends AppCompatActivity {
     }
 
     private void pilihAyat() {
+        Bundle bundle = new Bundle();
         pilihSuratMurojaahBinding.recyclerViewSurat.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), pilihSuratMurojaahBinding.recyclerViewSurat, new RecyclerItemClickListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 String jumlahAyat = suratList.get(position).getJumlahAyat();
+                bundle.putString("jumlahAyat", jumlahAyat);
 //                Toast.makeText(getApplicationContext(), "Jumlah ayat : " + jumlahAyat + " Jabriko", Toast.LENGTH_SHORT).show();
                 BottomSheet bottomSheet = new BottomSheet();
+                bottomSheet.setArguments(bundle);
                 bottomSheet.show(getSupportFragmentManager(), "TAG");
+
             }
 
             @Override

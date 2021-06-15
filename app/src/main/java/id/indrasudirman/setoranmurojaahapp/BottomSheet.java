@@ -68,7 +68,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 view.findViewById(R.id.checkBox9),
                 view.findViewById(R.id.checkBox10),
                 view.findViewById(R.id.checkBox11),
-                view.findViewById(R.id.checkBox11)};
+                view.findViewById(R.id.checkBox12)};
         semuaAyat = view.findViewById(R.id.semuaAyat);
         semuaAyat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

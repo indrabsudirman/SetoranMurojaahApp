@@ -20,13 +20,15 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 import it.sephiroth.android.library.checkbox3state.CheckBox3;
 
 public class BottomSheet extends BottomSheetDialogFragment {
 
     private CheckBox3 semuaAyat;
     private boolean listenToUpdates = true;
-    private AppCompatCheckBox[] checkBoxesArray;
+    private List<AppCompatCheckBox> checkBoxesArray;
 
 
     public BottomSheet() {

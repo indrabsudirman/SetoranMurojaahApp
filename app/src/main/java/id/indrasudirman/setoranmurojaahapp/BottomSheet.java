@@ -80,17 +80,6 @@ public class BottomSheet extends BottomSheetDialogFragment {
 
 
 
-//        checkBoxesArray = new AppCompatCheckBox[] {view.findViewById(R.id.checkBox2),
-//                view.findViewById(R.id.checkBox3),
-//                view.findViewById(R.id.checkBox4),
-//                view.findViewById(R.id.checkBox5),
-//                view.findViewById(R.id.checkBox6),
-//                view.findViewById(R.id.checkBox7),
-//                view.findViewById(R.id.checkBox8),
-//                view.findViewById(R.id.checkBox9),
-//                view.findViewById(R.id.checkBox10),
-//                view.findViewById(R.id.checkBox11),
-//                view.findViewById(R.id.checkBox12)};
         semuaAyat = view.findViewById(R.id.semuaAyat);
         semuaAyat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -142,28 +131,15 @@ public class BottomSheet extends BottomSheetDialogFragment {
                         }
                         listenToUpdates = true;
                     }
-                }
-            });
-        }
-
-        //Get Tag Checkbox if checked
-        for (CheckBox checkBox : checkBoxesArray) {
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    // Get Tag Checkbox if checked
                     if (isChecked) {
-                        Log.e("BottomSheet.class", "Ayat "+checkBox.getTag().toString());
+                        Log.e("BottomSheet.class", "Ayat "+it.getTag().toString());
                     }
                 }
             });
         }
 
-//        layoutBottomSheetAyatTestBinding.view.tambahMurojaah.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(view.getContext(), "Add Murojaah", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+
 
 
         return view;

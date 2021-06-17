@@ -20,15 +20,19 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomSheetAyatTestBinding;
 import it.sephiroth.android.library.checkbox3state.CheckBox3;
 
 public class BottomSheet extends BottomSheetDialogFragment {
 
     private CheckBox3 semuaAyat;
     private boolean listenToUpdates = true;
-    private List<AppCompatCheckBox> checkBoxesArray;
+    private AppCompatCheckBox compatCheckBox;
+    private List<AppCompatCheckBox> checkBoxesArray = new ArrayList<>();
+    LayoutBottomSheetAyatTestBinding layoutBottomSheetAyatTestBinding;
 
 
     public BottomSheet() {
@@ -42,7 +46,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
 
         LinearLayoutCompat linearLayoutCheckBox = view.findViewById(R.id.linearLayoutCheckBox);
         LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(
-                LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+                LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
                 LinearLayoutCompat.LayoutParams.WRAP_CONTENT
         );
 
@@ -50,11 +54,10 @@ public class BottomSheet extends BottomSheetDialogFragment {
         params.setMargins(margin, 0, 0, 0);
 
 
-        AppCompatCheckBox compatCheckBox;
+
         assert getArguments() != null;
         String jumlahAyat = getArguments().getString("jumlahAyat");
         Log.e("BottomSheet.class", "Jumlah ayat dari RecyclerView :" + jumlahAyat);
-        Toast.makeText(view.getContext(), jumlahAyat, Toast.LENGTH_SHORT).show();
         int banyakAyat = Integer.parseInt(jumlahAyat);
 
 
@@ -62,12 +65,18 @@ public class BottomSheet extends BottomSheetDialogFragment {
             compatCheckBox = new AppCompatCheckBox(view.getContext());
             compatCheckBox.setId(i);
             compatCheckBox.setText("Ayat " + i);
+            compatCheckBox.setTag(i);
+            checkBoxesArray.add(compatCheckBox);
+
+
             int margin1 = (int) convertDpToPixel(10F, view.getContext());
             compatCheckBox.setPadding(margin1, 0, 0, 0);
+
+
             linearLayoutCheckBox.addView(compatCheckBox, params);
+
+
         }
-
-
 
 
 
@@ -83,59 +92,78 @@ public class BottomSheet extends BottomSheetDialogFragment {
 //                view.findViewById(R.id.checkBox11),
 //                view.findViewById(R.id.checkBox12)};
         semuaAyat = view.findViewById(R.id.semuaAyat);
-//        semuaAyat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        semuaAyat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (listenToUpdates) {
+                    listenToUpdates = false;
+                    if (!isChecked) {
+                        for (CheckBox it : checkBoxesArray) {
+                            it.setChecked(false);
+                        }
+                    } else if (isChecked) {
+                        for (CheckBox it : checkBoxesArray) {
+                            it.setChecked(true);
+                        }
+                    }
+                    semuaAyat.setText(isChecked ? "Tidak Semua Ayat" : "Semua Ayat");
+                    semuaAyat.setCycle(R.array.sephiroth_checkbox3_cycleCheckedUncheckedOnly);
+                    listenToUpdates = true;
+                }
+            }
+        });
+
+        for (CheckBox it : checkBoxesArray) {
+            it.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                    if (listenToUpdates) {
+                        listenToUpdates = false;
+                        int checkSize = 0;
+                        for (CheckBox checkBox : checkBoxesArray) {
+                            if (checkBox.isChecked()) {
+                                checkSize++;
+                            }
+                        }
+
+                        if (checkSize == checkBoxesArray.size()) {
+                            semuaAyat.setCycle(R.array.sephiroth_checkbox3_cycleCheckedUncheckedOnly);
+                            semuaAyat.setChecked(true, false);
+                            semuaAyat.setText("Tidak Semua Ayat");
+                        } else if (checkSize == 0) {
+                            semuaAyat.setCycle(R.array.sephiroth_checkbox3_cycleCheckedUncheckedOnly);
+                            semuaAyat.setChecked(false, false);
+                            semuaAyat.setText("Semua Ayat");
+                        } else {
+                            semuaAyat.setCycle(R.array.sephiroth_checkbox3_cycleAll);
+                            semuaAyat.setChecked(false, true);
+                            semuaAyat.setText("Semua Ayat");
+                        }
+                        listenToUpdates = true;
+                    }
+                }
+            });
+        }
+
+        //Get Tag Checkbox if checked
+        for (CheckBox checkBox : checkBoxesArray) {
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        Log.e("BottomSheet.class", "Ayat "+checkBox.getTag().toString());
+                    }
+                }
+            });
+        }
+
+//        layoutBottomSheetAyatTestBinding.view.tambahMurojaah.setOnClickListener(new View.OnClickListener() {
 //            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (listenToUpdates) {
-//                    listenToUpdates = false;
-//                    if (!isChecked) {
-//                        for (CheckBox it : checkBoxesArray) {
-//                            it.setChecked(false);
-//                        }
-//                    } else if (isChecked) {
-//                        for (CheckBox it : checkBoxesArray) {
-//                            it.setChecked(true);
-//                        }
-//                    }
-//                    semuaAyat.setText(isChecked ? "Tidak Semua Ayat" : "Semua Ayat");
-//                    semuaAyat.setCycle(R.array.sephiroth_checkbox3_cycleCheckedUncheckedOnly);
-//                    listenToUpdates = true;
-//                }
+//            public void onClick(View v) {
+//                Toast.makeText(view.getContext(), "Add Murojaah", Toast.LENGTH_SHORT).show();
 //            }
 //        });
-
-//        for (CheckBox it : checkBoxesArray) {
-//            it.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//                    if (listenToUpdates) {
-//                        listenToUpdates = false;
-//                        int checkSize = 0;
-//                        for (CheckBox checkBox : checkBoxesArray) {
-//                            if (checkBox.isChecked()) {
-//                                checkSize++;
-//                            }
-//                        }
-//
-//                        if (checkSize == checkBoxesArray.length) {
-//                            semuaAyat.setCycle(R.array.sephiroth_checkbox3_cycleCheckedUncheckedOnly);
-//                            semuaAyat.setChecked(true, false);
-//                            semuaAyat.setText("Tidak Semua Ayat");
-//                        } else if (checkSize == 0) {
-//                            semuaAyat.setCycle(R.array.sephiroth_checkbox3_cycleCheckedUncheckedOnly);
-//                            semuaAyat.setChecked(false, false);
-//                            semuaAyat.setText("Semua Ayat");
-//                        } else {
-//                            semuaAyat.setCycle(R.array.sephiroth_checkbox3_cycleAll);
-//                            semuaAyat.setChecked(false, true);
-//                            semuaAyat.setText("Semua Ayat");
-//                        }
-//                        listenToUpdates = true;
-//                    }
-//                }
-//            });
-//        }
 
 
         return view;

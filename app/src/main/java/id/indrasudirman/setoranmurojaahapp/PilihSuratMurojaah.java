@@ -14,13 +14,11 @@ import java.util.List;
 import id.indrasudirman.setoranmurojaahapp.databinding.ActivityMainBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.ActivityPilihSuratMurojaahBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.DetailSuratBinding;
-import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomSheetAyatBinding;
 
 public class PilihSuratMurojaah extends AppCompatActivity {
 
     //View Binding Variable
     private ActivityPilihSuratMurojaahBinding pilihSuratMurojaahBinding;
-    private LayoutBottomSheetAyatBinding layoutBottomSheetAyatBinding;
 
     RecyclerView recyclerViewSurat;
     SuratAdapter suratAdapter;

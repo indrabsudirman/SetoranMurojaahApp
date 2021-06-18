@@ -20,10 +20,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomSheetAyatTestBinding;
+import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomsheetAyatCheckboxBinding;
 import it.sephiroth.android.library.checkbox3state.CheckBox3;
 
 public class BottomSheet extends BottomSheetDialogFragment {
@@ -32,7 +35,8 @@ public class BottomSheet extends BottomSheetDialogFragment {
     private boolean listenToUpdates = true;
     private AppCompatCheckBox compatCheckBox;
     private List<AppCompatCheckBox> checkBoxesArray = new ArrayList<>();
-    LayoutBottomSheetAyatTestBinding layoutBottomSheetAyatTestBinding;
+    private List<String> daftarAyatList = new ArrayList<>();
+    LayoutBottomsheetAyatCheckboxBinding layoutBottomSheetAyatTestBinding;
 
 
     public BottomSheet() {
@@ -42,7 +46,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
     @org.jetbrains.annotations.Nullable
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        layoutBottomSheetAyatTestBinding = LayoutBottomSheetAyatTestBinding.inflate(inflater, container, false);
+        layoutBottomSheetAyatTestBinding = LayoutBottomsheetAyatCheckboxBinding.inflate(inflater, container, false);
         View view = layoutBottomSheetAyatTestBinding.getRoot();
 
         LinearLayoutCompat linearLayoutCheckBox = layoutBottomSheetAyatTestBinding.linearLayoutCheckBox;
@@ -135,6 +139,11 @@ public class BottomSheet extends BottomSheetDialogFragment {
                     // Get Tag Checkbox if checked
                     if (isChecked) {
                         Log.e("BottomSheet.class", "Ayat "+it.getTag().toString());
+                        daftarAyatList.add(it.getTag().toString());
+                        Collections.sort(daftarAyatList);
+                    } else {
+                        daftarAyatList.remove(it.getTag().toString());
+                        Collections.sort(daftarAyatList);
                     }
                 }
             });
@@ -143,7 +152,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
         layoutBottomSheetAyatTestBinding.tambahMurojaah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(view.getContext(), "Test", Toast.LENGTH_SHORT).show();
+                Log.e("BottomSheet.class", "Ayat dimurojaah "+daftarAyatList.toString());
             }
         });
 

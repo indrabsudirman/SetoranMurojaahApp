@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,9 +41,10 @@ public class BottomSheet extends BottomSheetDialogFragment {
     @org.jetbrains.annotations.Nullable
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_bottom_sheet_ayat_test, container, false);
+        layoutBottomSheetAyatTestBinding = LayoutBottomSheetAyatTestBinding.inflate(inflater, container, false);
+        View view = layoutBottomSheetAyatTestBinding.getRoot();
 
-        LinearLayoutCompat linearLayoutCheckBox = view.findViewById(R.id.linearLayoutCheckBox);
+        LinearLayoutCompat linearLayoutCheckBox = layoutBottomSheetAyatTestBinding.linearLayoutCheckBox;
         LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(
                 LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
                 LinearLayoutCompat.LayoutParams.WRAP_CONTENT
@@ -80,7 +80,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
 
 
 
-        semuaAyat = view.findViewById(R.id.semuaAyat);
+        semuaAyat = layoutBottomSheetAyatTestBinding.semuaAyat;
         semuaAyat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

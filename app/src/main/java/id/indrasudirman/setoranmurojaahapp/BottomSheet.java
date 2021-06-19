@@ -1,7 +1,10 @@
 package id.indrasudirman.setoranmurojaahapp;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
@@ -35,7 +39,9 @@ public class BottomSheet extends BottomSheetDialogFragment {
     private boolean listenToUpdates = true;
     private AppCompatCheckBox compatCheckBox;
     private List<AppCompatCheckBox> checkBoxesArray = new ArrayList<>();
-    private List<String> daftarAyatList = new ArrayList<>();
+    private List<Integer> daftarAyatList = new ArrayList<>();
+    private String namaSurat;
+    private String jumlahAyat;
     LayoutBottomsheetAyatCheckboxBinding layoutBottomSheetAyatTestBinding;
 
 
@@ -61,8 +67,8 @@ public class BottomSheet extends BottomSheetDialogFragment {
 
 
         assert getArguments() != null;
-        String jumlahAyat = getArguments().getString("jumlahAyat");
-        Log.e("BottomSheet.class", "Jumlah ayat dari RecyclerView :" + jumlahAyat);
+        namaSurat = getArguments().getString("namaSurat");
+        jumlahAyat = getArguments().getString("jumlahAyat");
         int banyakAyat = Integer.parseInt(jumlahAyat);
 
 
@@ -138,21 +144,44 @@ public class BottomSheet extends BottomSheetDialogFragment {
                     }
                     // Get Tag Checkbox if checked
                     if (isChecked) {
-                        Log.e("BottomSheet.class", "Ayat "+it.getTag().toString());
-                        daftarAyatList.add(it.getTag().toString());
-                        Collections.sort(daftarAyatList);
+                        Log.e("BottomSheet.class", "Ayat "+it.getId());
+                        daftarAyatList.add(it.getId());
                     } else {
-                        daftarAyatList.remove(it.getTag().toString());
-                        Collections.sort(daftarAyatList);
+                        daftarAyatList.remove((Integer) it.getId());
                     }
+                    Collections.sort(daftarAyatList);
                 }
             });
         }
+        SpannableString sStringNamaSurat = new SpannableString(namaSurat);
+        SpannableString sStringJumlahAyat = new SpannableString(jumlahAyat);
 
         layoutBottomSheetAyatTestBinding.tambahMurojaah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("BottomSheet.class", "Ayat dimurojaah "+daftarAyatList.toString());
+                String ayatMurojaah = TextUtils.join(", ", daftarAyatList);
+                Log.e("BottomSheet.class", "Surat " + namaSurat +" Ayat "+ayatMurojaah);
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                //Set Title
+                alertDialog.setTitle("Simpan Murojaah");
+                //Set Cancelable false
+                alertDialog.setCancelable(false);
+                alertDialog.setMessage("Yakin ingin menambahkan murojaah Surat " + namaSurat + " dengan ayat " + jumlahAyat + "?");
+                alertDialog.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(), "Murojaah tersimpan", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                alertDialog.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(), "Batal simpan", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                alertDialog.show();
             }
         });
 

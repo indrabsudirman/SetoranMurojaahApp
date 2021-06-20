@@ -2,9 +2,15 @@ package id.indrasudirman.setoranmurojaahapp;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -153,35 +159,53 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 }
             });
         }
-        SpannableString sStringNamaSurat = new SpannableString(namaSurat);
-        SpannableString sStringJumlahAyat = new SpannableString(jumlahAyat);
+
 
         layoutBottomSheetAyatTestBinding.tambahMurojaah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ayatMurojaah = TextUtils.join(", ", daftarAyatList);
+                String ayatMurojaah = null;
+                if (daftarAyatList.size() == 1) {
+                    ayatMurojaah = String.valueOf(daftarAyatList.get(0));
+                } if (daftarAyatList.size() > 1) {
+                    ayatMurojaah = daftarAyatList.get(0) + " - " + daftarAyatList.get(daftarAyatList.size() - 1);
+                } if (daftarAyatList.size() == 0)  {
+                    Toast.makeText(getContext(), "Ayat murojaah belum dipilih", Toast.LENGTH_SHORT).show();
+                }
+
+                if (ayatMurojaah == null) {
+                    Toast.makeText(getContext(), "Ayat murojaah belum dipilih", Toast.LENGTH_SHORT).show();
+                } else {
+                    SpannableStringBuilder sStringTitle = new SpannableStringBuilder("Simpan Murojaah");
+                    sStringTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, 15, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    //Set Title
+                    alertDialog.setTitle(sStringTitle);
+                    //Set Cancelable false
+                    alertDialog.setCancelable(false);
+                    String [] strings = new String[] {"Yakin ingin menambahkan murojaah Surat ", " dengan ayat ", "?"};
+                    alertDialog.setMessage(strings[0] + namaSurat + strings[1] + ayatMurojaah + strings[2]);
+                    alertDialog.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getContext(), "Murojaah tersimpan", Toast.LENGTH_SHORT).show();
+                            BottomSheet bottomSheet = new BottomSheet();
+                            bottomSheet.dismiss();
+                        }
+                    });
+                    alertDialog.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getContext(), "Batal simpan", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    alertDialog.show();
+                }
                 Log.e("BottomSheet.class", "Surat " + namaSurat +" Ayat "+ayatMurojaah);
 
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                //Set Title
-                alertDialog.setTitle("Simpan Murojaah");
-                //Set Cancelable false
-                alertDialog.setCancelable(false);
-                alertDialog.setMessage("Yakin ingin menambahkan murojaah Surat " + namaSurat + " dengan ayat " + jumlahAyat + "?");
-                alertDialog.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getContext(), "Murojaah tersimpan", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                alertDialog.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getContext(), "Batal simpan", Toast.LENGTH_SHORT).show();
-                    }
-                });
 
-                alertDialog.show();
             }
         });
 

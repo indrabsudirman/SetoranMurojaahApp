@@ -68,6 +68,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
         params.setMargins(margin, 0, 0, 0);
 
 
+        //Get value from activity before
         assert getArguments() != null;
         namaSurat = getArguments().getString("namaSurat");
         jumlahAyat = getArguments().getString("jumlahAyat");
@@ -149,11 +150,51 @@ public class BottomSheet extends BottomSheetDialogFragment {
             });
         }
 
-
+        // Button click listener, when click simpan murojaah
         layoutBottomSheetAyatTestBinding.tambahMurojaah.setOnClickListener(v -> {
-            String ayatMurojaah = null;
-            if (daftarAyatList.size() == 1) {
-                ayatMurojaah = String.valueOf(daftarAyatList.get(0));
+            checkAyatCheckBox();
+        });
+
+
+        return view;
+    }
+
+    private float convertDpToPixel(float dp, Context context) {
+        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+
+    }
+
+    private void checkAyatCheckBox() {
+        String ayatMurojaah = null;
+        if (daftarAyatList.size() == 1) {
+            ayatMurojaah = String.valueOf(daftarAyatList.get(0));
+            SpannableStringBuilder sStringTitle = new SpannableStringBuilder("Simpan Murojaah");
+            sStringTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, 15, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            //Set Title
+            alertDialog.setTitle(sStringTitle);
+            //Set Cancelable false
+            alertDialog.setCancelable(false);
+            String[] strings = new String[]{"Yakin ingin menambahkan murojaah Surat ", " dengan ayat ", "?"};
+            alertDialog.setMessage(strings[0] + namaSurat + strings[1] + ayatMurojaah + strings[2]);
+            alertDialog.setPositiveButton("Ya", (dialog, which) -> {
+                new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500);
+                Toast.makeText(getContext(), "Murojaah tersimpan", Toast.LENGTH_SHORT).show();
+
+            });
+            alertDialog.setNegativeButton("Tidak", (dialog, which) -> {
+                new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500);
+                Toast.makeText(getContext(), "Batal simpan", Toast.LENGTH_SHORT).show();
+            });
+
+            alertDialog.show();
+        } if (daftarAyatList.size() > 1) {
+            Log.e("BottomSheet.class", "Anda pilih ayat lebih dari 1");
+            if (getMissingInt((ArrayList<Integer>) daftarAyatList)) {
+                Log.e("BottomSheet.class", "Anda pilih ayat berurutan");
+                ayatMurojaah = daftarAyatList.get(0) + " - " + daftarAyatList.get(daftarAyatList.size() - 1);
+
                 SpannableStringBuilder sStringTitle = new SpannableStringBuilder("Simpan Murojaah");
                 sStringTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, 15, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -175,62 +216,24 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 });
 
                 alertDialog.show();
-            } if (daftarAyatList.size() > 1) {
-                Log.e("BottomSheet.class", "Anda pilih ayat lebih dari 1");
-                if (getMissingInt((ArrayList<Integer>) daftarAyatList)) {
-                    Log.e("BottomSheet.class", "Anda pilih ayat berurutan");
-                    ayatMurojaah = daftarAyatList.get(0) + " - " + daftarAyatList.get(daftarAyatList.size() - 1);
-
-                    SpannableStringBuilder sStringTitle = new SpannableStringBuilder("Simpan Murojaah");
-                    sStringTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, 15, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                    //Set Title
-                    alertDialog.setTitle(sStringTitle);
-                    //Set Cancelable false
-                    alertDialog.setCancelable(false);
-                    String[] strings = new String[]{"Yakin ingin menambahkan murojaah Surat ", " dengan ayat ", "?"};
-                    alertDialog.setMessage(strings[0] + namaSurat + strings[1] + ayatMurojaah + strings[2]);
-                    alertDialog.setPositiveButton("Ya", (dialog, which) -> {
-                        new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500);
-                        Toast.makeText(getContext(), "Murojaah tersimpan", Toast.LENGTH_SHORT).show();
-
-                    });
-                    alertDialog.setNegativeButton("Tidak", (dialog, which) -> {
-                        new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500);
-                        Toast.makeText(getContext(), "Batal simpan", Toast.LENGTH_SHORT).show();
-                    });
-
-                    alertDialog.show();
-                } else {
-                    SpannableStringBuilder sStringTitle = new SpannableStringBuilder("Error");
-                    sStringTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    Log.e("BottomSheet.class", "Anda pilih ayat tidak berurutan");
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                    //Set Title
-                    alertDialog.setTitle(sStringTitle);
-                    //Set Cancelable false
-                    alertDialog.setCancelable(false);
-                    alertDialog.setMessage("Anda tidak bisa memilih ayat acak/harus berurutan!");
-                    alertDialog.setPositiveButton("Oke", (dialog, which) -> Toast.makeText(getContext(), "Batal simpan", Toast.LENGTH_SHORT).show());
-                    alertDialog.show();
-                }
+            } else {
+                SpannableStringBuilder sStringTitle = new SpannableStringBuilder("Error");
+                sStringTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                Log.e("BottomSheet.class", "Anda pilih ayat tidak berurutan");
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                //Set Title
+                alertDialog.setTitle(sStringTitle);
+                //Set Cancelable false
+                alertDialog.setCancelable(false);
+                alertDialog.setMessage("Anda tidak bisa memilih ayat acak/harus berurutan!");
+                alertDialog.setPositiveButton("Oke", (dialog, which) -> Toast.makeText(getContext(), "Batal simpan", Toast.LENGTH_SHORT).show());
+                alertDialog.show();
             }
-            if (daftarAyatList.size() == 0) {
-                Toast.makeText(getContext(), "Ayat murojaah belum dipilih", Toast.LENGTH_SHORT).show();
-            }
-            Log.e("BottomSheet.class", "Surat " + namaSurat + " Ayat " + ayatMurojaah);
-
-
-        });
-
-
-        return view;
-    }
-
-    private float convertDpToPixel(float dp, Context context) {
-        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-
+        }
+        if (daftarAyatList.size() == 0) {
+            Toast.makeText(getContext(), "Ayat murojaah belum dipilih", Toast.LENGTH_SHORT).show();
+        }
+        Log.e("BottomSheet.class", "Surat " + namaSurat + " Ayat " + ayatMurojaah);
     }
 
     private boolean getMissingInt(ArrayList<Integer> a) {

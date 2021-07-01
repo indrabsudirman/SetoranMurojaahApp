@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 
@@ -19,24 +18,31 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     //User Table Name
     private static final String TABLE_USER = "Users";
+    //Murojaah Table
+    private static final String TABLE_MUROJAAH = "Murojaah";
 
+    //Common Columns id
+    private static final String ID = "id";
     //User Table Columns Name
-    private static final String COLUMN_ID = "user_id";
     private static final String COLUMN_USER_NAME = "user_name";
     private static final String COLUMN_USER_MAIL = "user_email";
     private static final String COLUMN_PASSWORD_SALT = "salt";
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_PHOTO_PATH = "photo_path";
 
+    //Murojaah Table Columns Name
+    private static final String COLUMN_ID_USER = "user_id";
 
     //Create Table SQL Query
-    private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "(" + COLUMN_ID
+    private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "(" + ID
             + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME
             + " TEXT," + COLUMN_USER_MAIL + " TEXT," + COLUMN_PASSWORD_SALT
             + " TEXT," + COLUMN_PASSWORD + " TEXT, " + COLUMN_PHOTO_PATH +" TEXT "+  ")" ;
 
-    //Drop Table SQL Query
+    //Drop Table Users SQL Query
     private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
+    //Drop Table Murojaah SQL Query
+    private String DROP_MUROJAAH_TABLE = "DROP TABLE IF EXISTS " + TABLE_MUROJAAH;
 
     public SQLiteHelper (Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -52,6 +58,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         //Drop User Table if exist
         sqLiteDatabase.execSQL(DROP_USER_TABLE);
+        //Drop Murojaah Table if exist
+        sqLiteDatabase.execSQL(DROP_MUROJAAH_TABLE);
         //Create New Table
         onCreate(sqLiteDatabase);
 
@@ -81,7 +89,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
      */
     public boolean checkUser (String email) {
         //array of columns to fetch
-        String[] columns = {COLUMN_ID};
+        String[] columns = {ID};
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
         //Selection criteria

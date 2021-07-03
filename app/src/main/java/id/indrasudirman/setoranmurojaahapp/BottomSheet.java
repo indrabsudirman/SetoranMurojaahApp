@@ -3,6 +3,7 @@ package id.indrasudirman.setoranmurojaahapp;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,6 +37,8 @@ import java.util.List;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomsheetAyatCheckboxBinding;
 import it.sephiroth.android.library.checkbox3state.CheckBox3;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class BottomSheet extends BottomSheetDialogFragment {
 
     LayoutBottomsheetAyatCheckboxBinding layoutBottomSheetAyatTestBinding;
@@ -48,8 +51,17 @@ public class BottomSheet extends BottomSheetDialogFragment {
     private String jumlahAyat;
     private Murojaah murojaah;
     private SQLiteHelper sqLiteHelper;
+    private String userEmail;
+
+    private SharedPreferences sharedPreferences;
+    private static final String SHARED_PREF_NAME = "sharedPrefLogin";
+    private static final String KEY_EMAIL = "email";
+    private String switchText = "Murojaah";
+
+    private MainMenu mainMenu;
 
 
+    //Default constructor
     public BottomSheet() {
     }
 
@@ -68,6 +80,22 @@ public class BottomSheet extends BottomSheetDialogFragment {
 
         sqLiteHelper = new SQLiteHelper(getContext());
         murojaah = new Murojaah();
+        mainMenu = new MainMenu();
+
+        //Set text value to switch
+        layoutBottomSheetAyatTestBinding.switchZiyadah.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    switchText = "Ziyadah";
+                }
+            }
+        });
+
+
+
+        sharedPreferences = getContext().getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        userEmail = (sharedPreferences.getString(KEY_EMAIL, "").trim());
 
         int margin = (int) convertDpToPixel(30F, view.getContext());
         params.setMargins(margin, 0, 0, 0);
@@ -183,9 +211,20 @@ public class BottomSheet extends BottomSheetDialogFragment {
             alertDialog.setCancelable(false);
             String[] strings = new String[]{"Yakin ingin menambahkan murojaah Surat ", " dengan ayat ", "?"};
             alertDialog.setMessage(strings[0] + namaSurat + strings[1] + ayatMurojaah + strings[2]);
+            String finalAyatMurojaah1 = ayatMurojaah;
             alertDialog.setPositiveButton("Ya", (dialog, which) -> {
+                String userID = sqLiteHelper.getUserId(userEmail);
+                Log.e("BottomSheet.class", "UserID is : " + userID);
+                murojaah.setTypeMurojaah(switchText);
+                String tanggalMasehi = mainMenu.setTanggalMasehi() + " M";
+                murojaah.setDateMasehi(tanggalMasehi);
+                String[] tanggalHijriArray = mainMenu.setTanggalHijriyah();
+                murojaah.setDateHijri("H " + tanggalHijriArray[0] +" ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2]);
+                murojaah.setSurat(namaSurat);
+                murojaah.setAyat(finalAyatMurojaah1);
+
                 //Add murojaah to table Murojaah
-                sqLiteHelper.addMurojaah(murojaah, "");
+                sqLiteHelper.addMurojaah(murojaah, userID);
                 new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500);
                 Toast.makeText(getContext(), "Murojaah tersimpan", Toast.LENGTH_SHORT).show();
 
@@ -212,11 +251,22 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 alertDialog.setCancelable(false);
                 String[] strings = new String[]{"Yakin ingin menambahkan murojaah Surat ", " dengan ayat ", "?"};
                 alertDialog.setMessage(strings[0] + namaSurat + strings[1] + ayatMurojaah + strings[2]);
+                String finalAyatMurojaah = ayatMurojaah;
                 alertDialog.setPositiveButton("Ya", (dialog, which) -> {
+                    String userID = sqLiteHelper.getUserId(userEmail);
+                    Log.e("BottomSheet.class", "UserID is : " + userID);
+                    murojaah.setTypeMurojaah(switchText);
+                    String tanggalMasehi = mainMenu.setTanggalMasehi() + " M";
+                    murojaah.setDateMasehi(tanggalMasehi);
+                    String[] tanggalHijriArray = mainMenu.setTanggalHijriyah();
+                    murojaah.setDateHijri("H " + tanggalHijriArray[0] +" ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2]);
+                    murojaah.setSurat(namaSurat);
+                    murojaah.setAyat(finalAyatMurojaah);
+
                     //Add murojaah to table Murojaah
-                    sqLiteHelper.addMurojaah(murojaah, "");
+                    sqLiteHelper.addMurojaah(murojaah, userID);
                     new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500);
-                    Toast.makeText(getContext(), "Murojaah tersimpan", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Murojaah tersimpan ", Toast.LENGTH_SHORT).show();
 
                 });
                 alertDialog.setNegativeButton("Tidak", (dialog, which) -> {

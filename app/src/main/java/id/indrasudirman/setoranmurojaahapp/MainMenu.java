@@ -81,7 +81,7 @@ public class MainMenu extends AppCompatActivity {
         });
     }
 
-    private String[] setTanggalHijriyah() {
+    public String[] setTanggalHijriyah() {
         // List of Hijriyah months https://ocmic.org.uk/12-islamic-months/
         String[] months = {
                 "ٱلْمُحَرَّم", "صَفَر", "رَبِيع ٱلْأَوَّل", "رَبِيع ٱلْآخِر",
@@ -105,7 +105,7 @@ public class MainMenu extends AppCompatActivity {
         return new String[]{monthName, String.valueOf(todayHijri.getDayOfMonth()), String.valueOf(todayHijri.getYear())};
     }
 
-    private String setTanggalMasehi() {
+    public String setTanggalMasehi() {
         String[] months = {
                 "Januari", "Februari", "Maret", "April",
                 "Mei", "Juni", "Juli", "Agustus",

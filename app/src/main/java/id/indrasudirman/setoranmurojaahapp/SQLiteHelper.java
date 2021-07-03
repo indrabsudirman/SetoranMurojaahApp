@@ -160,9 +160,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             salt = cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD_SALT));
-            System.out.println("Salt in cursor is in getSalt " + salt);
+//            System.out.println("Salt in cursor is in getSalt " + salt);
 
         }
+        cursor.close();
+        sqLiteDatabase.close();
         return salt;
 
     }
@@ -195,9 +197,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             salt1 = cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD));
-            System.out.println("Pwd Salt in cursor is in getPwdSalt " + salt1);
+//            System.out.println("Pwd Salt in cursor is in getPwdSalt " + salt1);
 
         }
+        cursor.close();
+        sqLiteDatabase.close();
         return salt1;
 
     }
@@ -205,11 +209,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     /**
      * This method is to create murojaah record
      */
-    public void addMurojaah(Murojaah murojaah, String userId) {
+    public void addMurojaah(Murojaah murojaah, String userID) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(USER_ID, userId);
+        contentValues.put(USER_ID, userID);
         contentValues.put(MUROJAAH_TYPE, murojaah.getTypeMurojaah());
         contentValues.put(DATE_MASEHI, murojaah.getDateMasehi());
         contentValues.put(DATE_HIJRI, murojaah.getDateHijri());
@@ -219,6 +223,43 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         //Inserting row
         sqLiteDatabase.insert(TABLE_MUROJAAH, null, contentValues);
         sqLiteDatabase.close();
+    }
+
+    public String getUserId(String email) {
+        String userID = null;
+
+        String[] columns = {USER_ID};
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        //Selection criteria
+        String selection = COLUMN_USER_MAIL + " = ?";
+
+        //Selection argument
+        String[] selectionArgs = {email};
+
+        //Query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_email = 'indrabsudirman@gmail.com';
+         */
+        Cursor cursor = sqLiteDatabase.query(TABLE_USER, //Table to query
+                columns, // column to return
+                selection, //Select base on
+                selectionArgs, //select argument
+                null, //The values for the WHERE clause
+                null, //group the rows
+                null); //filter by row groups
+
+        if (cursor.moveToFirst()) {
+            userID = cursor.getString(cursor.getColumnIndex(USER_ID));
+//            System.out.println("Pwd Salt in cursor is in getPwdSalt " + userID);
+
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+        return userID;
+
     }
 
 }

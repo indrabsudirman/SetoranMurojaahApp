@@ -11,7 +11,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String TAG = SQLiteHelper.class.getSimpleName();
 
     //Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     //Database Name
     private static final String DATABASE_NAME = "MurojaahSetiapHari.db";
@@ -21,8 +21,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     //Murojaah Table
     private static final String TABLE_MUROJAAH = "Murojaah";
 
-    //Common Columns id
-    private static final String ID = "id";
+    //Common column names for Users table is PK, for Murojaah table is FK
+    private static final String USER_ID = "user_id";
     //User Table Columns Name
     private static final String COLUMN_USER_NAME = "user_name";
     private static final String COLUMN_USER_MAIL = "user_email";
@@ -31,13 +31,24 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PHOTO_PATH = "photo_path";
 
     //Murojaah Table Columns Name
-    private static final String COLUMN_ID_USER = "user_id";
+    private static final String MUROJAAH_ID = "murojaah_id";
+    private static final String MUROJAAH_TYPE = "type_murojaah";
+    private static final String DATE_MASEHI = "date_masehi";
+    private static final String DATE_HIJRI = "date_hijri";
+    private static final String SURAT = "surat";
+    private static final String AYAT = "ayat";
 
-    //Create Table SQL Query
-    private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "(" + ID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME
-            + " TEXT," + COLUMN_USER_MAIL + " TEXT," + COLUMN_PASSWORD_SALT
-            + " TEXT," + COLUMN_PASSWORD + " TEXT, " + COLUMN_PHOTO_PATH +" TEXT "+  ")" ;
+    //Create User Table SQL Query
+    private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "(" + USER_ID
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_USER_NAME
+            + " TEXT, " + COLUMN_USER_MAIL + " TEXT, " + COLUMN_PASSWORD_SALT
+            + " TEXT, " + COLUMN_PASSWORD + " TEXT, " + COLUMN_PHOTO_PATH +" TEXT "+  ")" ;
+
+    //Create Murojaah Table SQL QUery
+    private String CREATE_MUROJAAH_TABLE = "CREATE TABLE " + TABLE_MUROJAAH + "(" + MUROJAAH_ID
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_ID + " INTEGER, "
+            + MUROJAAH_TYPE + " TEXT, " + DATE_MASEHI + " TEXT, " + DATE_HIJRI + " TEXT, "
+            + SURAT + " TEXT, " + AYAT + " TEXT " + ")";
 
     //Drop Table Users SQL Query
     private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
@@ -50,7 +61,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        //Create Users Table
         sqLiteDatabase.execSQL(CREATE_USER_TABLE);
+        //Create Murojaah Table
+        sqLiteDatabase.execSQL(CREATE_MUROJAAH_TABLE);
 
     }
 
@@ -89,7 +103,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
      */
     public boolean checkUser (String email) {
         //array of columns to fetch
-        String[] columns = {ID};
+        String[] columns = {USER_ID};
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
         //Selection criteria

@@ -46,6 +46,8 @@ public class BottomSheet extends BottomSheetDialogFragment {
     private final List<Integer> daftarAyatList = new ArrayList<>();
     private String namaSurat;
     private String jumlahAyat;
+    private Murojaah murojaah;
+    private SQLiteHelper sqLiteHelper;
 
 
     public BottomSheet() {
@@ -63,6 +65,9 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
                 LinearLayoutCompat.LayoutParams.WRAP_CONTENT
         );
+
+        sqLiteHelper = new SQLiteHelper(getContext());
+        murojaah = new Murojaah();
 
         int margin = (int) convertDpToPixel(30F, view.getContext());
         params.setMargins(margin, 0, 0, 0);
@@ -179,6 +184,8 @@ public class BottomSheet extends BottomSheetDialogFragment {
             String[] strings = new String[]{"Yakin ingin menambahkan murojaah Surat ", " dengan ayat ", "?"};
             alertDialog.setMessage(strings[0] + namaSurat + strings[1] + ayatMurojaah + strings[2]);
             alertDialog.setPositiveButton("Ya", (dialog, which) -> {
+                //Add murojaah to table Murojaah
+                sqLiteHelper.addMurojaah(murojaah, "");
                 new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500);
                 Toast.makeText(getContext(), "Murojaah tersimpan", Toast.LENGTH_SHORT).show();
 
@@ -206,6 +213,8 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 String[] strings = new String[]{"Yakin ingin menambahkan murojaah Surat ", " dengan ayat ", "?"};
                 alertDialog.setMessage(strings[0] + namaSurat + strings[1] + ayatMurojaah + strings[2]);
                 alertDialog.setPositiveButton("Ya", (dialog, which) -> {
+                    //Add murojaah to table Murojaah
+                    sqLiteHelper.addMurojaah(murojaah, "");
                     new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500);
                     Toast.makeText(getContext(), "Murojaah tersimpan", Toast.LENGTH_SHORT).show();
 

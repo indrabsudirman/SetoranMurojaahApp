@@ -202,4 +202,21 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * This method is to create murojaah record
+     */
+    public void addMurojaah(User users) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_USER_NAME, users.getName());
+        contentValues.put(COLUMN_USER_MAIL, users.getEmail());
+        contentValues.put(COLUMN_PASSWORD_SALT, users.getSalt());
+        contentValues.put(COLUMN_PASSWORD, users.getPassword());
+
+        //Inserting row
+        sqLiteDatabase.insert(TABLE_USER, null, contentValues);
+        sqLiteDatabase.close();
+    }
+
 }

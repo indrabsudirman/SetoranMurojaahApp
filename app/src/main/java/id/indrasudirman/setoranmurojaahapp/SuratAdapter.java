@@ -31,7 +31,7 @@ public class SuratAdapter extends RecyclerView.Adapter<SuratAdapter.ViewHolder> 
     @Override
     public SuratAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.detail_surat, parent, false);
+        View view = inflater.inflate(R.layout.detail_item_surat, parent, false);
         view.setOnClickListener(onClickListener);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;

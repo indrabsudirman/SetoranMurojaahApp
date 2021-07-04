@@ -1,7 +1,6 @@
 package id.indrasudirman.setoranmurojaahapp;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -41,21 +40,20 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class BottomSheet extends BottomSheetDialogFragment {
 
+    private static final String SHARED_PREF_NAME = "sharedPrefLogin";
+    private static final String KEY_EMAIL = "email";
+    private final List<AppCompatCheckBox> checkBoxesArray = new ArrayList<>();
+    private final List<Integer> daftarAyatList = new ArrayList<>();
     LayoutBottomsheetAyatCheckboxBinding layoutBottomSheetAyatTestBinding;
     private CheckBox3 semuaAyat;
     private boolean listenToUpdates = true;
     private AppCompatCheckBox compatCheckBox;
-    private final List<AppCompatCheckBox> checkBoxesArray = new ArrayList<>();
-    private final List<Integer> daftarAyatList = new ArrayList<>();
     private String namaSurat;
     private String jumlahAyat;
     private Murojaah murojaah;
     private SQLiteHelper sqLiteHelper;
     private String userEmail;
-
     private SharedPreferences sharedPreferences;
-    private static final String SHARED_PREF_NAME = "sharedPrefLogin";
-    private static final String KEY_EMAIL = "email";
     private String switchText = "Murojaah";
 
     private MainMenu mainMenu;
@@ -91,7 +89,6 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 }
             }
         });
-
 
 
         sharedPreferences = getContext().getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
@@ -214,19 +211,35 @@ public class BottomSheet extends BottomSheetDialogFragment {
             String finalAyatMurojaah1 = ayatMurojaah;
             alertDialog.setPositiveButton("Ya", (dialog, which) -> {
                 String userID = sqLiteHelper.getUserId(userEmail);
-                Log.e("BottomSheet.class", "UserID is : " + userID);
+//                Log.e("BottomSheet.class", "UserID is : " + userID);
                 murojaah.setTypeMurojaah(switchText);
                 String tanggalMasehi = mainMenu.setTanggalMasehi() + " M";
                 murojaah.setDateMasehi(tanggalMasehi);
                 String[] tanggalHijriArray = mainMenu.setTanggalHijriyah();
-                murojaah.setDateHijri("H " + tanggalHijriArray[0] +" ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2]);
+                murojaah.setDateHijri("H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2]);
                 murojaah.setSurat(namaSurat);
                 murojaah.setAyat(finalAyatMurojaah1);
 
                 //Add murojaah to table Murojaah
                 sqLiteHelper.addMurojaah(murojaah, userID);
-                new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500);
-                Toast.makeText(getContext(), "Murojaah tersimpan", Toast.LENGTH_SHORT).show();
+
+                SpannableStringBuilder sStringTitleContinue = new SpannableStringBuilder("Murojaah tersimpan");
+                sStringTitleContinue.setSpan(new StyleSpan(Typeface.BOLD), 0, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                //Alert dialog continue murojaah or no
+                AlertDialog.Builder alertContinue = new AlertDialog.Builder(getContext());
+                alertContinue.setTitle(sStringTitleContinue);
+                //Set Cancelable false
+                alertContinue.setCancelable(false);
+                alertContinue.setMessage("Murojaah berhasil disimpan. Lanjut tambah Murojaah/Ziyadah?");
+                alertContinue.setPositiveButton("Ya", (dialogInterface, i) -> new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500));
+
+                alertContinue.setNegativeButton("Tidak", (dialogInterface, i) -> {
+                    Intent intent = new Intent(getContext().getApplicationContext(), MainMenu.class);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(0, 0);
+                });
+                alertContinue.show();
+
 
             });
             alertDialog.setNegativeButton("Tidak", (dialog, which) -> {
@@ -235,7 +248,8 @@ public class BottomSheet extends BottomSheetDialogFragment {
             });
 
             alertDialog.show();
-        } if (daftarAyatList.size() > 1) {
+        }
+        if (daftarAyatList.size() > 1) {
             Log.e("BottomSheet.class", "Anda pilih ayat lebih dari 1");
             if (getMissingInt((ArrayList<Integer>) daftarAyatList)) {
                 Log.e("BottomSheet.class", "Anda pilih ayat berurutan");
@@ -259,14 +273,29 @@ public class BottomSheet extends BottomSheetDialogFragment {
                     String tanggalMasehi = mainMenu.setTanggalMasehi() + " M";
                     murojaah.setDateMasehi(tanggalMasehi);
                     String[] tanggalHijriArray = mainMenu.setTanggalHijriyah();
-                    murojaah.setDateHijri("H " + tanggalHijriArray[0] +" ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2]);
+                    murojaah.setDateHijri("H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2]);
                     murojaah.setSurat(namaSurat);
                     murojaah.setAyat(finalAyatMurojaah);
 
                     //Add murojaah to table Murojaah
                     sqLiteHelper.addMurojaah(murojaah, userID);
-                    new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500);
-                    Toast.makeText(getContext(), "Murojaah tersimpan ", Toast.LENGTH_SHORT).show();
+                    SpannableStringBuilder sStringTitleContinue = new SpannableStringBuilder("Murojaah tersimpan");
+                    sStringTitleContinue.setSpan(new StyleSpan(Typeface.BOLD), 0, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    //Alert dialog continue murojaah or no
+                    AlertDialog.Builder alertContinue = new AlertDialog.Builder(getContext());
+                    alertContinue.setTitle(sStringTitleContinue);
+                    //Set Cancelable false
+                    alertContinue.setCancelable(false);
+                    alertContinue.setMessage("Murojaah berhasil disimpan. Lanjut tambah Murojaah/Ziyadah?");
+                    alertContinue.setPositiveButton("Ya", (dialogInterface, i) -> new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500));
+
+                    alertContinue.setNegativeButton("Tidak", (dialogInterface, i) -> {
+                        Intent intent = new Intent(getContext().getApplicationContext(), MainMenu.class);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(0, 0);
+                    });
+                    alertContinue.show();
+
 
                 });
                 alertDialog.setNegativeButton("Tidak", (dialog, which) -> {
@@ -278,7 +307,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
             } else {
                 SpannableStringBuilder sStringTitle = new SpannableStringBuilder("Error");
                 sStringTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                Log.e("BottomSheet.class", "Anda pilih ayat tidak berurutan");
+//                Log.e("BottomSheet.class", "Anda pilih ayat tidak berurutan");
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                 //Set Title
                 alertDialog.setTitle(sStringTitle);
@@ -292,7 +321,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
         if (daftarAyatList.size() == 0) {
             Toast.makeText(getContext(), "Ayat murojaah belum dipilih", Toast.LENGTH_SHORT).show();
         }
-        Log.e("BottomSheet.class", "Surat " + namaSurat + " Ayat " + ayatMurojaah);
+//        Log.e("BottomSheet.class", "Surat " + namaSurat + " Ayat " + ayatMurojaah);
     }
 
     private boolean getMissingInt(ArrayList<Integer> a) {

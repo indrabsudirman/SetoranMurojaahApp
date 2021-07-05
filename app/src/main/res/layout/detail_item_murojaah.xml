@@ -56,12 +56,22 @@
                 android:layout_marginStart="17dp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/namaSurat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="ٱلْفَاتِحَة"
+                android:layout_marginStart="50dp"
+                android:textSize="24dp"
+                android:textColor="@color/black"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/ayatMurojaah"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:text="Ayat 1-7"
-                android:layout_marginStart="105dp"
+                android:layout_marginStart="50dp"
                 android:textColor="@color/black"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

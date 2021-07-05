@@ -1,29 +1,25 @@
 package id.indrasudirman.setoranmurojaahapp;
 
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import id.indrasudirman.setoranmurojaahapp.databinding.ActivityMainBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.ActivityPilihSuratMurojaahBinding;
-import id.indrasudirman.setoranmurojaahapp.databinding.DetailSuratBinding;
 
 public class PilihSuratMurojaah extends AppCompatActivity {
-
-    //View Binding Variable
-    private ActivityPilihSuratMurojaahBinding pilihSuratMurojaahBinding;
 
     RecyclerView recyclerViewSurat;
     SuratAdapter suratAdapter;
     RecyclerView.LayoutManager layoutManager;
     List<Surat> suratList = new ArrayList<>();
+    //View Binding Variable
+    private ActivityPilihSuratMurojaahBinding pilihSuratMurojaahBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +64,6 @@ public class PilihSuratMurojaah extends AppCompatActivity {
             }
         }));
     }
-
 
 
     private void addSuratList() {

@@ -11,7 +11,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -19,11 +20,15 @@ import org.joda.time.Chronology;
 import org.joda.time.LocalDate;
 import org.joda.time.chrono.IslamicChronology;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import id.indrasudirman.setoranmurojaahapp.adapter.ListMurojaahAdapter;
 import id.indrasudirman.setoranmurojaahapp.databinding.ActivityMainMenuBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutToolbarProfileBinding;
+import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
+import id.indrasudirman.setoranmurojaahapp.model.MurojaahItem;
 
 
 public class MainMenu extends AppCompatActivity {
@@ -35,6 +40,10 @@ public class MainMenu extends AppCompatActivity {
     private SQLiteHelper sqLiteHelper;
     private SharedPreferences sharedPreferences;
     private String userEmail;
+
+    private RecyclerView recyclerViewListMurojaah;
+    private RecyclerView.Adapter adapterListMurojaah;
+    private RecyclerView.LayoutManager layoutManagerListMurojaah;
 
 
     @SuppressLint("SetTextI18n")
@@ -79,6 +88,31 @@ public class MainMenu extends AppCompatActivity {
                 logOutConfirmation();
             }
         });
+
+        ArrayList<MurojaahItem> murojaahItemArrayList = new ArrayList<>();
+        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+
+
+        recyclerViewListMurojaah = findViewById(R.id.recyclerViewListMurojaah);
+        layoutManagerListMurojaah = new LinearLayoutManager(this);
+        adapterListMurojaah = new ListMurojaahAdapter(murojaahItemArrayList);
+
+        recyclerViewListMurojaah.setLayoutManager(layoutManagerListMurojaah);
+        recyclerViewListMurojaah.setAdapter(adapterListMurojaah);
     }
 
     public String[] setTanggalHijriyah() {

@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainMenu"
     tools:showIn="@layout/activity_main_menu">
 
     <androidx.core.widget.NestedScrollView
@@ -18,12 +17,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewListMurojaah"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@android:color/darker_gray"
             android:scrollbars="vertical"/>
-
-
-
 
     </androidx.core.widget.NestedScrollView>
 

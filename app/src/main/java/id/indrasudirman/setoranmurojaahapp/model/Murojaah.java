@@ -1,4 +1,4 @@
-package id.indrasudirman.setoranmurojaahapp;
+package id.indrasudirman.setoranmurojaahapp.model;
 
 public class Murojaah {
 

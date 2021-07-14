@@ -1,10 +1,13 @@
-package id.indrasudirman.setoranmurojaahapp;
+package id.indrasudirman.setoranmurojaahapp.helper;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import id.indrasudirman.setoranmurojaahapp.model.Murojaah;
+import id.indrasudirman.setoranmurojaahapp.model.User;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 

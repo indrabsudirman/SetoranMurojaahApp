@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -23,10 +22,12 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import id.indrasudirman.setoranmurojaahapp.databinding.ActivitySignUpBinding;
+import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
+import id.indrasudirman.setoranmurojaahapp.model.User;
 
-import static id.indrasudirman.setoranmurojaahapp.PasswordMD5WithSalt.byteArrayToHexString;
-import static id.indrasudirman.setoranmurojaahapp.PasswordMD5WithSalt.digest;
-import static id.indrasudirman.setoranmurojaahapp.PasswordMD5WithSalt.getSalt;
+import static id.indrasudirman.setoranmurojaahapp.tools.PasswordMD5WithSalt.byteArrayToHexString;
+import static id.indrasudirman.setoranmurojaahapp.tools.PasswordMD5WithSalt.digest;
+import static id.indrasudirman.setoranmurojaahapp.tools.PasswordMD5WithSalt.getSalt;
 
 
 public class SignUp extends AppCompatActivity {

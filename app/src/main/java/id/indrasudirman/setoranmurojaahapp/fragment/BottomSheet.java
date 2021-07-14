@@ -1,4 +1,4 @@
-package id.indrasudirman.setoranmurojaahapp;
+package id.indrasudirman.setoranmurojaahapp.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +33,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import id.indrasudirman.setoranmurojaahapp.MainMenu;
+import id.indrasudirman.setoranmurojaahapp.R;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomsheetAyatCheckboxBinding;
+import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
+import id.indrasudirman.setoranmurojaahapp.model.Murojaah;
 import it.sephiroth.android.library.checkbox3state.CheckBox3;
 
 import static android.content.Context.MODE_PRIVATE;

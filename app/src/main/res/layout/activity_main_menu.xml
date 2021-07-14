@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainMenu">
+    tools:context=".MainActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -56,9 +56,12 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <include layout="@layout/list_murojaah" />
+        <include
+            android:id="@+id/list_murojaah"
+            layout="@layout/list_murojaah" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -68,16 +71,6 @@
         app:backgroundTint="@color/teal_700"
         app:menu="@menu/app_bar_menu"
         app:navigationIcon="@drawable/ic_menu" />
-
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/floatingActionButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:src="@drawable/ic_add_white"-->
-<!--        app:backgroundTint="@color/purple_200"-->
-<!--        app:layout_anchor="@id/bottomAppBar"-->
-<!--        app:maxImageSize="35dp"-->
-<!--        app:tint="@color/white" />-->
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extendedFab"

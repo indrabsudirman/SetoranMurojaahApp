@@ -1,4 +1,4 @@
-package id.indrasudirman.setoranmurojaahapp;
+package id.indrasudirman.setoranmurojaahapp.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import id.indrasudirman.setoranmurojaahapp.R;
 import id.indrasudirman.setoranmurojaahapp.databinding.DetailItemSuratBinding;
+import id.indrasudirman.setoranmurojaahapp.model.Surat;
 
 
 public class SuratAdapter extends RecyclerView.Adapter<SuratAdapter.ViewHolder> {

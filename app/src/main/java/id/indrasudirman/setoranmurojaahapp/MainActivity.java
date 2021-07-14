@@ -1,9 +1,5 @@
 package id.indrasudirman.setoranmurojaahapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +11,9 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -23,9 +22,10 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import id.indrasudirman.setoranmurojaahapp.databinding.ActivityMainBinding;
+import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
 
-import static id.indrasudirman.setoranmurojaahapp.PasswordMD5WithSalt.digest;
-import static id.indrasudirman.setoranmurojaahapp.PasswordMD5WithSalt.hexStringToByteArray;
+import static id.indrasudirman.setoranmurojaahapp.tools.PasswordMD5WithSalt.digest;
+import static id.indrasudirman.setoranmurojaahapp.tools.PasswordMD5WithSalt.hexStringToByteArray;
 
 public class MainActivity extends AppCompatActivity {
 

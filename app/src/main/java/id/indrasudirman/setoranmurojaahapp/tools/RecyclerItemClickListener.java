@@ -1,4 +1,4 @@
-package id.indrasudirman.setoranmurojaahapp;
+package id.indrasudirman.setoranmurojaahapp.tools;
 
 import android.content.Context;
 import android.view.GestureDetector;

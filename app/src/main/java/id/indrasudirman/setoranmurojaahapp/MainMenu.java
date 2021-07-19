@@ -7,10 +7,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -110,6 +112,7 @@ public class MainMenu extends AppCompatActivity {
         recyclerViewListMurojaah = findViewById(R.id.recyclerViewListMurojaah);
         layoutManagerListMurojaah = new LinearLayoutManager(this);
         adapterListMurojaah = new ListMurojaahAdapter(murojaahItemArrayList);
+        recyclerViewListMurojaah.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
 
         recyclerViewListMurojaah.setLayoutManager(layoutManagerListMurojaah);
         recyclerViewListMurojaah.setAdapter(adapterListMurojaah);

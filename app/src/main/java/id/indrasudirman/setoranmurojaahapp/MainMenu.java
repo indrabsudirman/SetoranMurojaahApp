@@ -47,6 +47,8 @@ public class MainMenu extends AppCompatActivity {
     private RecyclerView.Adapter adapterListMurojaah;
     private RecyclerView.LayoutManager layoutManagerListMurojaah;
 
+    private ArrayList<MurojaahItem> murojaahItemArrayList;
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -91,7 +93,27 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        ArrayList<MurojaahItem> murojaahItemArrayList = new ArrayList<>();
+        createMurojaahArrayList();
+
+        buildRecyclerViewMurojaah();
+
+
+
+
+
+    }
+
+    //method add Murojaah Item in a list
+    public void addMurojaahItem(int position) {}
+    //method remove Murojaah Item in a list
+    public void removeMurojaahItem (int position) {}
+
+    public void createMurojaahArrayList() {
+        murojaahItemArrayList = new ArrayList<>();
+
+
+
+
         murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
         murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
         murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
@@ -108,7 +130,11 @@ public class MainMenu extends AppCompatActivity {
         murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
         murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
 
-
+        if (murojaahItemArrayList.isEmpty()) {
+            recyclerViewListMurojaah.setVisibility(View.GONE);
+        }
+    }
+    public void buildRecyclerViewMurojaah() {
         recyclerViewListMurojaah = findViewById(R.id.recyclerViewListMurojaah);
         layoutManagerListMurojaah = new LinearLayoutManager(this);
         adapterListMurojaah = new ListMurojaahAdapter(murojaahItemArrayList);

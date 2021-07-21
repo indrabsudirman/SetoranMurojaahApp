@@ -29,6 +29,7 @@ import java.util.GregorianCalendar;
 import id.indrasudirman.setoranmurojaahapp.adapter.ListMurojaahAdapter;
 import id.indrasudirman.setoranmurojaahapp.databinding.ActivityMainMenuBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutToolbarProfileBinding;
+import id.indrasudirman.setoranmurojaahapp.databinding.ListMurojaahBinding;
 import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
 import id.indrasudirman.setoranmurojaahapp.model.MurojaahItem;
 
@@ -37,8 +38,9 @@ public class MainMenu extends AppCompatActivity {
 
     private static final String SHARED_PREF_NAME = "sharedPrefLogin";
     private static final String KEY_EMAIL = "email";
-    ActivityMainMenuBinding mainMenuBinding;
-    LayoutToolbarProfileBinding layoutToolbarProfileBinding;
+    private ActivityMainMenuBinding mainMenuBinding;
+    private LayoutToolbarProfileBinding layoutToolbarProfileBinding;
+    private ListMurojaahBinding listMurojaahBinding;
     private SQLiteHelper sqLiteHelper;
     private SharedPreferences sharedPreferences;
     private String userEmail;
@@ -65,6 +67,8 @@ public class MainMenu extends AppCompatActivity {
         userEmail = (sharedPreferences.getString(KEY_EMAIL, "").trim());
 
         layoutToolbarProfileBinding = mainMenuBinding.layoutToolbarProfile;
+        listMurojaahBinding = mainMenuBinding.listMurojaah;
+
 
 
         //Set Tanggal Masehi
@@ -111,12 +115,6 @@ public class MainMenu extends AppCompatActivity {
     public void createMurojaahArrayList() {
         murojaahItemArrayList = new ArrayList<>();
 
-
-
-
-        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
         murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
         murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
         murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
@@ -130,18 +128,28 @@ public class MainMenu extends AppCompatActivity {
         murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
         murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
 
-        if (murojaahItemArrayList.isEmpty()) {
-            recyclerViewListMurojaah.setVisibility(View.GONE);
+        boolean listEmpty = murojaahItemArrayList.isEmpty();
+
+        if (listEmpty) {
+            listMurojaahBinding.recyclerViewListMurojaah.setVisibility(View.GONE);
+            listMurojaahBinding.textViewRecylerEmpty.setVisibility(View.VISIBLE);
+        } else {
+            listMurojaahBinding.recyclerViewListMurojaah.setVisibility(View.VISIBLE);
+            listMurojaahBinding.textViewRecylerEmpty.setVisibility(View.GONE);
         }
+
+
+
+
     }
     public void buildRecyclerViewMurojaah() {
-        recyclerViewListMurojaah = findViewById(R.id.recyclerViewListMurojaah);
+//        recyclerViewListMurojaah = findViewById(R.id.recyclerViewListMurojaah);
         layoutManagerListMurojaah = new LinearLayoutManager(this);
         adapterListMurojaah = new ListMurojaahAdapter(murojaahItemArrayList);
-        recyclerViewListMurojaah.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
+        listMurojaahBinding.recyclerViewListMurojaah.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
 
-        recyclerViewListMurojaah.setLayoutManager(layoutManagerListMurojaah);
-        recyclerViewListMurojaah.setAdapter(adapterListMurojaah);
+        listMurojaahBinding.recyclerViewListMurojaah.setLayoutManager(layoutManagerListMurojaah);
+        listMurojaahBinding.recyclerViewListMurojaah.setAdapter(adapterListMurojaah);
     }
 
     public String[] setTanggalHijriyah() {

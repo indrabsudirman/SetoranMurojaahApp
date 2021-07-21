@@ -8,15 +8,16 @@
     tools:showIn="@layout/activity_main_menu">
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewRecylerEmpty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewRecylerEmpty"
         android:gravity="center"
         android:paddingTop="30dp"
         android:text="List Murojaah kosong"
         android:textColor="@color/black"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
@@ -28,8 +29,8 @@
             android:id="@+id/recyclerViewListMurojaah"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:paddingBottom="82dp"/>
+            android:paddingBottom="82dp"
+            android:scrollbars="vertical" />
 
     </androidx.core.widget.NestedScrollView>
 

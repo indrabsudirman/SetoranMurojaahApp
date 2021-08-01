@@ -26,6 +26,7 @@ import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -360,6 +361,10 @@ public class BottomSheet extends BottomSheetDialogFragment {
     public void saveListMurojaahSharedPref(ArrayList <String> list, String key) {
         SharedPreferences preferences = getContext().getSharedPreferences("ListMurojaah", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        editor.putString(key, json);
+        editor.clear();
 
     }
 }

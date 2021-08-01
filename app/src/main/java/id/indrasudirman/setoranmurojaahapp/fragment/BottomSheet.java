@@ -356,4 +356,10 @@ public class BottomSheet extends BottomSheetDialogFragment {
     public int getTheme() {
         return R.style.BottomSheetDialogTheme;
     }
+
+    public void saveListMurojaahSharedPref(ArrayList <String> list, String key) {
+        SharedPreferences preferences = getContext().getSharedPreferences("ListMurojaah", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+    }
 }

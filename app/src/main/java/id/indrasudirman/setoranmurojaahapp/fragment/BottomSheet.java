@@ -239,6 +239,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
 
                 alertContinue.setNegativeButton("Tidak", (dialogInterface, i) -> {
                     Intent intent = new Intent(getContext().getApplicationContext(), MainMenu.class);
+                    intent.putExtra("murojaah_list", true);
                     startActivity(intent);
                     getActivity().overridePendingTransition(0, 0);
                 });

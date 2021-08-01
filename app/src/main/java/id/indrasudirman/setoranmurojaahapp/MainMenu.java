@@ -22,8 +22,11 @@ import org.joda.time.Chronology;
 import org.joda.time.LocalDate;
 import org.joda.time.chrono.IslamicChronology;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import id.indrasudirman.setoranmurojaahapp.adapter.ListMurojaahAdapter;
@@ -37,13 +40,16 @@ import id.indrasudirman.setoranmurojaahapp.model.MurojaahItem;
 public class MainMenu extends AppCompatActivity {
 
     private static final String SHARED_PREF_NAME = "sharedPrefLogin";
+    private static final String SHARED_PREF_DATE = "sharedPrefDate";
     private static final String KEY_EMAIL = "email";
+    private static final String KEY_DATE = "date";
     private ActivityMainMenuBinding mainMenuBinding;
     private LayoutToolbarProfileBinding layoutToolbarProfileBinding;
     private ListMurojaahBinding listMurojaahBinding;
     private SQLiteHelper sqLiteHelper;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences, sharedPreferencesDate;
     private String userEmail;
+    private String dateString;
 
     private RecyclerView recyclerViewListMurojaah;
     private RecyclerView.Adapter adapterListMurojaah;
@@ -65,9 +71,13 @@ public class MainMenu extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         userEmail = (sharedPreferences.getString(KEY_EMAIL, "").trim());
+        sharedPreferencesDate = getSharedPreferences(SHARED_PREF_DATE, MODE_PRIVATE);
+        dateString = (sharedPreferencesDate.getString(KEY_DATE, "").trim());
+
 
         layoutToolbarProfileBinding = mainMenuBinding.layoutToolbarProfile;
         listMurojaahBinding = mainMenuBinding.listMurojaah;
+        murojaahItemArrayList = new ArrayList<>();
 
 
 
@@ -97,9 +107,23 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
+        Intent intent = getIntent();
+        if (intent.hasExtra("murojaah_list")) {
+            murojaahItemArrayList.add(0, new MurojaahItem("1", "Ziyadah", "Al-Fatihah", "1-7"));
+            murojaahItemArrayList.add(1, new MurojaahItem("2", "Murojaah", "Al-Baqarah", "1-7"));
+        }
+
         createMurojaahArrayList();
 
         buildRecyclerViewMurojaah();
+
+        GregorianCalendar calendar = new GregorianCalendar();
+        LocalDate date = LocalDate.fromDateFields(calendar.getTime());
+        String localDateString = date.toString();
+        SharedPreferences.Editor editor = sharedPreferencesDate.edit();
+        editor.putString(KEY_DATE, localDateString);
+        editor.apply();
+        Log.d("Date  ", localDateString);
 
 
 
@@ -113,20 +137,29 @@ public class MainMenu extends AppCompatActivity {
     public void removeMurojaahItem (int position) {}
 
     public void createMurojaahArrayList() {
-        murojaahItemArrayList = new ArrayList<>();
 
-        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
+
+        LocalDate localDate = LocalDate.now();
+        LocalDate localDateSharedPref = LocalDate.parse(dateString);
+        boolean newDate = localDate.isEqual(localDateSharedPref);
+        if (newDate) {
+            System.out.println("yes, it's same day");
+        } else {
+            System.out.println("no, it's not same day");
+            murojaahItemArrayList.clear();
+        }
 
         boolean listEmpty = murojaahItemArrayList.isEmpty();
 
@@ -183,6 +216,12 @@ public class MainMenu extends AppCompatActivity {
                 "September", "Oktober", "November", "Desember"};
 
         GregorianCalendar calendar = new GregorianCalendar();
+//        LocalDate date = LocalDate.fromDateFields(calendar.getTime());
+//        String dateString = date.toString();
+//        SharedPreferences.Editor editor = sharedPreferencesDate.edit();
+//        editor.putString(KEY_DATE, dateString);
+//        editor.apply();
+//        Log.d("Date  ", dateString);
 
         String i = calendar.get(Calendar.DATE) + " " + months[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.YEAR);
         Log.d("Tanggal ", i);

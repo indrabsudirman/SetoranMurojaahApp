@@ -14,7 +14,7 @@
         android:gravity="center"
         android:paddingTop="30dp"
         android:text="List Murojaah kosong"
-        android:textColor="@color/black"
+        android:textColor="@android:color/darker_gray"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

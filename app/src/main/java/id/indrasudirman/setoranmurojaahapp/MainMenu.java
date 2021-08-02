@@ -109,8 +109,8 @@ public class MainMenu extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent.hasExtra("murojaah_list")) {
-            murojaahItemArrayList.add(0, new MurojaahItem("1", "Ziyadah", "Al-Fatihah", "1-7"));
-            murojaahItemArrayList.add(1, new MurojaahItem("2", "Murojaah", "Al-Baqarah", "1-7"));
+            murojaahItemArrayList.add(0, new MurojaahItem(1, "Ziyadah", "Al-Fatihah", "1-7"));
+            murojaahItemArrayList.add(1, new MurojaahItem(2, "Murojaah", "Al-Baqarah", "1-7"));
         }
 
         createMurojaahArrayList();
@@ -138,28 +138,19 @@ public class MainMenu extends AppCompatActivity {
 
     public void createMurojaahArrayList() {
 
-//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
-//        murojaahItemArrayList.add(new MurojaahItem("1", "Ziyadah","Alfatihah", "Ayat 1-7"));
 
-        LocalDate localDate = LocalDate.now();
-        LocalDate localDateSharedPref = LocalDate.parse(dateString);
-        boolean newDate = localDate.isEqual(localDateSharedPref);
-        if (newDate) {
-            System.out.println("yes, it's same day");
-        } else {
-            System.out.println("no, it's not same day");
-            murojaahItemArrayList.clear();
+        if (!dateString.isEmpty()) {
+            LocalDate localDate = LocalDate.now();
+            LocalDate localDateSharedPref = LocalDate.parse(dateString);
+            boolean newDate = localDate.isEqual(localDateSharedPref);
+            if (newDate) {
+                System.out.println("yes, it's same day");
+            } else {
+                System.out.println("no, it's not same day");
+                murojaahItemArrayList.clear();
+            }
         }
+
 
         boolean listEmpty = murojaahItemArrayList.isEmpty();
 

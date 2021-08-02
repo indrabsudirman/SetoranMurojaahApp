@@ -39,6 +39,7 @@ import id.indrasudirman.setoranmurojaahapp.R;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomsheetAyatCheckboxBinding;
 import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
 import id.indrasudirman.setoranmurojaahapp.model.Murojaah;
+import id.indrasudirman.setoranmurojaahapp.model.MurojaahItem;
 import it.sephiroth.android.library.checkbox3state.CheckBox3;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -63,7 +64,6 @@ public class BottomSheet extends BottomSheetDialogFragment {
 
     private MainMenu mainMenu;
 
-
     //Default constructor
     public BottomSheet() {
     }
@@ -74,6 +74,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         layoutBottomSheetAyatTestBinding = LayoutBottomsheetAyatCheckboxBinding.inflate(inflater, container, false);
         View view = layoutBottomSheetAyatTestBinding.getRoot();
+
 
         LinearLayoutCompat linearLayoutCheckBox = layoutBottomSheetAyatTestBinding.linearLayoutCheckBox;
         LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(
@@ -228,6 +229,16 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 //Add murojaah to table Murojaah
                 sqLiteHelper.addMurojaah(murojaah, userID);
 
+                //Save murojaah list to shared preferences
+                ArrayList<MurojaahItem> listMurojaah = new ArrayList<>();
+                int c = 1;
+                for (int b = 1; b <= listMurojaah.size(); b++){
+                    c++;
+                }
+                listMurojaah.add(new MurojaahItem(c, switchText, namaSurat, finalAyatMurojaah1));
+                saveListMurojaahSharedPref(listMurojaah, "list_murojaah");
+                Log.e("Gson", c + switchText +" "+ namaSurat +" "+ finalAyatMurojaah1);
+
                 SpannableStringBuilder sStringTitleContinue = new SpannableStringBuilder("Murojaah tersimpan");
                 sStringTitleContinue.setSpan(new StyleSpan(Typeface.BOLD), 0, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 //Alert dialog continue murojaah or no
@@ -358,8 +369,8 @@ public class BottomSheet extends BottomSheetDialogFragment {
         return R.style.BottomSheetDialogTheme;
     }
 
-    public void saveListMurojaahSharedPref(ArrayList <String> list, String key) {
-        SharedPreferences preferences = getContext().getSharedPreferences("ListMurojaah", MODE_PRIVATE);
+    public void saveListMurojaahSharedPref(ArrayList <MurojaahItem> list, String key) {
+        SharedPreferences preferences = getActivity().getSharedPreferences("ListMurojaah", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(list);

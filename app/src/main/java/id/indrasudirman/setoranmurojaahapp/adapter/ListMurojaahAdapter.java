@@ -54,7 +54,7 @@ public class ListMurojaahAdapter extends RecyclerView.Adapter<ListMurojaahAdapte
     public void onBindViewHolder(@NonNull ListMurojaahViewHolder holder, int position) {
         MurojaahItem murojaahItem = iMurojaahItemArrayList.get(position);
 
-        holder.iNumberMurojaah.setText(murojaahItem.getNumberMurojaah());
+        holder.iNumberMurojaah.setText(String.valueOf(murojaahItem.getNumberMurojaah()));
         holder.iTypeMurojaah.setText(murojaahItem.getTypeMurojaah());
         holder.iNamaSurat.setText(murojaahItem.getNamaSurat());
         holder.iAyatMurojaah.setText(murojaahItem.getAyatMurojaah());

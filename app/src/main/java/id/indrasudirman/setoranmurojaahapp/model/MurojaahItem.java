@@ -2,23 +2,23 @@ package id.indrasudirman.setoranmurojaahapp.model;
 
 public class MurojaahItem {
 
-    private String numberMurojaah;
+    private int numberMurojaah;
     private String typeMurojaah;
     private String namaSurat;
     private String ayatMurojaah;
 
-    public MurojaahItem(String iNumberMurojaah, String iTypeMurojaah, String iNamaSurat, String iAyatMurojaah) {
+    public MurojaahItem(int iNumberMurojaah, String iTypeMurojaah, String iNamaSurat, String iAyatMurojaah) {
         numberMurojaah = iNumberMurojaah;
         typeMurojaah = iTypeMurojaah;
         namaSurat = iNamaSurat;
         ayatMurojaah = iAyatMurojaah;
     }
 
-    public String getNumberMurojaah() {
+    public int getNumberMurojaah() {
         return numberMurojaah;
     }
 
-    public void setNumberMurojaah(String numberMurojaah) {
+    public void setNumberMurojaah(int numberMurojaah) {
         this.numberMurojaah = numberMurojaah;
     }
 

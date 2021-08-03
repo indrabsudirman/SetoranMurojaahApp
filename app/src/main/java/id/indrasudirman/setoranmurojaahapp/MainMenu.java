@@ -17,11 +17,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.joda.time.Chronology;
 import org.joda.time.LocalDate;
 import org.joda.time.chrono.IslamicChronology;
 
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -109,8 +112,7 @@ public class MainMenu extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent.hasExtra("murojaah_list")) {
-            murojaahItemArrayList.add(0, new MurojaahItem(1, "Ziyadah", "Al-Fatihah", "1-7"));
-            murojaahItemArrayList.add(1, new MurojaahItem(2, "Murojaah", "Al-Baqarah", "1-7"));
+            murojaahItemArrayList = getListMurojaahSharedPref("list_murojaah");
         }
 
         createMurojaahArrayList();
@@ -251,5 +253,13 @@ public class MainMenu extends AppCompatActivity {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    public ArrayList<MurojaahItem> getListMurojaahSharedPref (String key) {
+        SharedPreferences preferences = getSharedPreferences("ListMurojaah", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = preferences.getString(key, null);
+        Type type = new TypeToken<ArrayList<MurojaahItem>>(){}.getType();
+        return gson.fromJson(json, type);
     }
 }

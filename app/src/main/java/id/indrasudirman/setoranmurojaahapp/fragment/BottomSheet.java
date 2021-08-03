@@ -61,6 +61,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
     private String userEmail;
     private SharedPreferences sharedPreferences;
     private String switchText = "Murojaah";
+    private ArrayList<MurojaahItem> listMurojaah;
 
     private MainMenu mainMenu;
 
@@ -85,6 +86,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
         sqLiteHelper = new SQLiteHelper(getContext());
         murojaah = new Murojaah();
         mainMenu = new MainMenu();
+        listMurojaah = new ArrayList<>();
 
         //Set text value to switch
         layoutBottomSheetAyatTestBinding.switchZiyadah.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -230,12 +232,12 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 sqLiteHelper.addMurojaah(murojaah, userID);
 
                 //Save murojaah list to shared preferences
-                ArrayList<MurojaahItem> listMurojaah = new ArrayList<>();
+
                 int c = 1;
                 for (int b = 1; b <= listMurojaah.size(); b++){
                     c++;
                 }
-                listMurojaah.add(new MurojaahItem(c, switchText, namaSurat, finalAyatMurojaah1));
+                listMurojaah.add(new MurojaahItem(c, switchText, namaSurat, "Ayat "+finalAyatMurojaah1));
                 saveListMurojaahSharedPref(listMurojaah, "list_murojaah");
                 Log.e("Gson", c + switchText +" "+ namaSurat +" "+ finalAyatMurojaah1);
 
@@ -375,7 +377,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
         Gson gson = new Gson();
         String json = gson.toJson(list);
         editor.putString(key, json);
-        editor.clear();
+        editor.apply();
 
     }
 }

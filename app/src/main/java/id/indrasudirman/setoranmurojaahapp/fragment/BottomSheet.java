@@ -231,17 +231,6 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 //Add murojaah to table Murojaah
                 sqLiteHelper.addMurojaah(murojaah, userID);
 
-                //Save murojaah list to shared preferences
-
-//                saveMurojaahListPref();
-//                int c = 1;
-//                for (int b = 1; b <= listMurojaah.size(); b++){
-//                    c++;
-//                }
-//                listMurojaah.add(new MurojaahItem(c, switchText, namaSurat, "Ayat "+finalAyatMurojaah1));
-//                saveListMurojaahSharedPref(listMurojaah, "murojaah_list");
-//                Log.e("Gson", c + switchText +" "+ namaSurat +" "+ finalAyatMurojaah1);
-
                 SpannableStringBuilder sStringTitleContinue = new SpannableStringBuilder("Murojaah tersimpan");
                 sStringTitleContinue.setSpan(new StyleSpan(Typeface.BOLD), 0, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 //Alert dialog continue murojaah or no
@@ -344,7 +333,6 @@ public class BottomSheet extends BottomSheetDialogFragment {
         if (daftarAyatList.size() == 0) {
             Toast.makeText(getContext(), "Ayat murojaah belum dipilih", Toast.LENGTH_SHORT).show();
         }
-//        Log.e("BottomSheet.class", "Surat " + namaSurat + " Ayat " + ayatMurojaah);
     }
 
     private boolean getMissingInt(ArrayList<Integer> a) {

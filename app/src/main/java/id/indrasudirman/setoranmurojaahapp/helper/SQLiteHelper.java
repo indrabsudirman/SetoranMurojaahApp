@@ -268,44 +268,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     }
 
-    public String getTypeMurojaahHarianDB (String id) {
-        String typeMurojaah = null;
-
-        String[] columns = {MUROJAAH_TYPE};
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-
-        //Selection criteria
-        String selection = USER_ID + " = ?";
-
-        //Selection argument
-        String[] selectionArgs = {id};
-
-        //Query user table with condition
-        /**
-         * Here query function is used to fetch records from user table this function works like we use sql query
-         * SQL query equivalent to this query function is
-         * SELECT user_id FROM user WHERE user_email = 'indrabsudirman@gmail.com';
-         */
-        Cursor cursor = sqLiteDatabase.query(TABLE_MUROJAAH, //Table to query
-                columns, // column to return
-                selection, //Select base on
-                selectionArgs, //select argument
-                null, //The values for the WHERE clause
-                null, //group the rows
-                null); //filter by row groups
-
-        if (cursor.moveToLast()) {
-            typeMurojaah = cursor.getString(cursor.getColumnIndex(MUROJAAH_TYPE));
-            System.out.println("Tipe Murojaah " + typeMurojaah);
-
-        }
-        cursor.close();
-        sqLiteDatabase.close();
-
-
-
-        return typeMurojaah;
-    }
 
     public ArrayList<MurojaahItem> getMurojaahHarianDB (String id, String dateToday) {
         ArrayList<MurojaahItem> murojaahArrayList = new ArrayList<>();
@@ -326,7 +288,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         /**
          * Here query function is used to fetch records from user table this function works like we use sql query
          * SQL query equivalent to this query function is
-         * SELECT user_id FROM user WHERE user_email = 'indrabsudirman@gmail.com';
+         * SELECT type_murojaah, surat, ayat FROM Murojaah WHERE user_id = ? AND date_masehi = ? ORDER BY type_murojaah DESC;
          */
         Cursor cursor = sqLiteDatabase.query(TABLE_MUROJAAH, //Table to query
                 columns, // column to return
@@ -336,20 +298,16 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 null, //group the rows
                 orderBy); //filter by row groups
 
-//        cursor.moveToNext();
         while (cursor.moveToNext()){
             String columnTypeMurojaah = cursor.getString(cursor.getColumnIndex(MUROJAAH_TYPE));
             String columnSuratMurojaah = cursor.getString(cursor.getColumnIndex(SURAT));
             String columnAyatMurojaah = cursor.getString(cursor.getColumnIndex(AYAT));
             MurojaahItem murojaahItem = new MurojaahItem(columnTypeMurojaah, columnSuratMurojaah, "Ayat "+columnAyatMurojaah);
             murojaahArrayList.add(murojaahItem);
-//            System.out.println("Tipe Murojaah " + typeMurojaah);
 
         }
         cursor.close();
         sqLiteDatabase.close();
-
-
 
         return murojaahArrayList;
     }

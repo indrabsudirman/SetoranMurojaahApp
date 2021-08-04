@@ -233,13 +233,14 @@ public class BottomSheet extends BottomSheetDialogFragment {
 
                 //Save murojaah list to shared preferences
 
-                int c = 1;
-                for (int b = 1; b <= listMurojaah.size(); b++){
-                    c++;
-                }
-                listMurojaah.add(new MurojaahItem(c, switchText, namaSurat, "Ayat "+finalAyatMurojaah1));
-                saveListMurojaahSharedPref(listMurojaah, "list_murojaah");
-                Log.e("Gson", c + switchText +" "+ namaSurat +" "+ finalAyatMurojaah1);
+//                saveMurojaahListPref();
+//                int c = 1;
+//                for (int b = 1; b <= listMurojaah.size(); b++){
+//                    c++;
+//                }
+//                listMurojaah.add(new MurojaahItem(c, switchText, namaSurat, "Ayat "+finalAyatMurojaah1));
+//                saveListMurojaahSharedPref(listMurojaah, "murojaah_list");
+//                Log.e("Gson", c + switchText +" "+ namaSurat +" "+ finalAyatMurojaah1);
 
                 SpannableStringBuilder sStringTitleContinue = new SpannableStringBuilder("Murojaah tersimpan");
                 sStringTitleContinue.setSpan(new StyleSpan(Typeface.BOLD), 0, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -252,6 +253,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 alertContinue.setPositiveButton("Ya", (dialogInterface, i) -> new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500));
 
                 alertContinue.setNegativeButton("Tidak", (dialogInterface, i) -> {
+                    //Move to Main Menu Activity and send value murojaah_list true
                     Intent intent = new Intent(getContext().getApplicationContext(), MainMenu.class);
                     intent.putExtra("murojaah_list", true);
                     startActivity(intent);
@@ -309,7 +311,9 @@ public class BottomSheet extends BottomSheetDialogFragment {
                     alertContinue.setPositiveButton("Ya", (dialogInterface, i) -> new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500));
 
                     alertContinue.setNegativeButton("Tidak", (dialogInterface, i) -> {
+                        //Move to Main Menu Activity and send value murojaah_list true
                         Intent intent = new Intent(getContext().getApplicationContext(), MainMenu.class);
+                        intent.putExtra("murojaah_list", true);
                         startActivity(intent);
                         getActivity().overridePendingTransition(0, 0);
                     });
@@ -379,5 +383,14 @@ public class BottomSheet extends BottomSheetDialogFragment {
         editor.putString(key, json);
         editor.apply();
 
+    }
+
+    public void saveMurojaahListPref() {
+        SharedPreferences preferences = getActivity().getSharedPreferences("ListMurojaah", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(listMurojaah);
+        editor.putString("murojaah_list", json);
+        editor.apply();
     }
 }

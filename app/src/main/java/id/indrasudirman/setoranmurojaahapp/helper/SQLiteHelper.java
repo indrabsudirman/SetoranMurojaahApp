@@ -6,7 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 import id.indrasudirman.setoranmurojaahapp.model.Murojaah;
+import id.indrasudirman.setoranmurojaahapp.model.MurojaahItem;
 import id.indrasudirman.setoranmurojaahapp.model.User;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
@@ -265,17 +268,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     }
 
-    public String getTypeMurojaahHarianDB (String email) {
+    public String getTypeMurojaahHarianDB (String id) {
         String typeMurojaah = null;
 
         String[] columns = {MUROJAAH_TYPE};
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
         //Selection criteria
-        String selection = COLUMN_USER_MAIL + " = ?";
+        String selection = USER_ID + " = ?";
 
         //Selection argument
-        String[] selectionArgs = {email};
+        String[] selectionArgs = {id};
 
         //Query user table with condition
         /**
@@ -291,9 +294,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 null, //group the rows
                 null); //filter by row groups
 
-        if (cursor.moveToFirst()) {
+        if (cursor.moveToLast()) {
             typeMurojaah = cursor.getString(cursor.getColumnIndex(MUROJAAH_TYPE));
-//            System.out.println("Pwd Salt in cursor is in getPwdSalt " + userID);
+            System.out.println("Tipe Murojaah " + typeMurojaah);
 
         }
         cursor.close();
@@ -302,6 +305,53 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
 
         return typeMurojaah;
+    }
+
+    public ArrayList<MurojaahItem> getMurojaahHarianDB (String id, String dateToday) {
+        ArrayList<MurojaahItem> murojaahArrayList = new ArrayList<>();
+
+        String[] columns = {MUROJAAH_TYPE, SURAT, AYAT};
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        //Selection criteria
+        String selection = USER_ID + " = ? AND " + DATE_MASEHI + " = ?";
+
+        //Selection argument
+        String[] selectionArgs = {id, dateToday};
+
+        //Order by String
+        String orderBy = MUROJAAH_TYPE + " DESC";
+
+        //Query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_email = 'indrabsudirman@gmail.com';
+         */
+        Cursor cursor = sqLiteDatabase.query(TABLE_MUROJAAH, //Table to query
+                columns, // column to return
+                selection, //Select base on
+                selectionArgs, //select argument
+                null, //The values for the WHERE clause
+                null, //group the rows
+                orderBy); //filter by row groups
+
+//        cursor.moveToNext();
+        while (cursor.moveToNext()){
+            String columnTypeMurojaah = cursor.getString(cursor.getColumnIndex(MUROJAAH_TYPE));
+            String columnSuratMurojaah = cursor.getString(cursor.getColumnIndex(SURAT));
+            String columnAyatMurojaah = cursor.getString(cursor.getColumnIndex(AYAT));
+            MurojaahItem murojaahItem = new MurojaahItem(columnTypeMurojaah, columnSuratMurojaah, "Ayat "+columnAyatMurojaah);
+            murojaahArrayList.add(murojaahItem);
+//            System.out.println("Tipe Murojaah " + typeMurojaah);
+
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+
+
+
+        return murojaahArrayList;
     }
 
 }

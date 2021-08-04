@@ -77,10 +77,11 @@ public class MainMenu extends AppCompatActivity {
         sharedPreferencesDate = getSharedPreferences(SHARED_PREF_DATE, MODE_PRIVATE);
         dateString = (sharedPreferencesDate.getString(KEY_DATE, "").trim());
 
+        sqLiteHelper = new SQLiteHelper(this);
 
         layoutToolbarProfileBinding = mainMenuBinding.layoutToolbarProfile;
         listMurojaahBinding = mainMenuBinding.listMurojaah;
-        murojaahItemArrayList = new ArrayList<>();
+
 
 
 
@@ -89,9 +90,9 @@ public class MainMenu extends AppCompatActivity {
 
 
         String[] tanggalHijri = setTanggalHijriyah();
-        Log.d("Bulan ", tanggalHijri[0]);
-        Log.d("Tanggal ", tanggalHijri[1]);
-        Log.d("Tahun ", tanggalHijri[2]);
+//        Log.d("Bulan ", tanggalHijri[0]);
+//        Log.d("Tanggal ", tanggalHijri[1]);
+//        Log.d("Tahun ", tanggalHijri[2]);
         //Set Tanggal Hijriyah
         layoutToolbarProfileBinding.tanggalHijriyah.setText(tanggalHijri[1]);
         layoutToolbarProfileBinding.bulanHijriyah.setText(tanggalHijri[0]);
@@ -112,7 +113,12 @@ public class MainMenu extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent.hasExtra("murojaah_list")) {
-            murojaahItemArrayList = getListMurojaahSharedPref("list_murojaah");
+            if (murojaahItemArrayList == null){
+                murojaahItemArrayList = new ArrayList<>();
+            }
+            murojaahItemArrayList.clear();
+            murojaahItemArrayList = sqLiteHelper.getMurojaahHarianDB(sqLiteHelper.getUserId(userEmail), setTanggalMasehi() + " M");
+
         }
 
         createMurojaahArrayList();
@@ -139,7 +145,11 @@ public class MainMenu extends AppCompatActivity {
     public void removeMurojaahItem (int position) {}
 
     public void createMurojaahArrayList() {
+        if (murojaahItemArrayList == null){
+            murojaahItemArrayList = new ArrayList<>();
+        }
 
+        murojaahItemArrayList = sqLiteHelper.getMurojaahHarianDB(sqLiteHelper.getUserId(userEmail), setTanggalMasehi() + " M");
 
         if (!dateString.isEmpty()) {
             LocalDate localDate = LocalDate.now();
@@ -261,5 +271,17 @@ public class MainMenu extends AppCompatActivity {
         String json = preferences.getString(key, null);
         Type type = new TypeToken<ArrayList<MurojaahItem>>(){}.getType();
         return gson.fromJson(json, type);
+    }
+
+    public void loadListMurojaahSharedPref() {
+        SharedPreferences sharedPreferences = getSharedPreferences("ListMurojaah", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("murojaah_list", null);
+        Type type = new TypeToken<ArrayList<MurojaahItem>>(){}.getType();
+        murojaahItemArrayList = gson.fromJson(json, type);
+
+        if (murojaahItemArrayList == null){
+            murojaahItemArrayList = new ArrayList<>();
+        }
     }
 }

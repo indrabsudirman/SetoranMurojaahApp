@@ -30,10 +30,10 @@ public class ListMurojaahAdapter extends RecyclerView.Adapter<ListMurojaahAdapte
             super(itemView);
             //ga yakin working, nanti coba di cek dan Google dulu
 //            iNumberMurojaah = detailItemMurojaahBinding.numberMurojaah;
-            iNumberMurojaah = itemView.findViewById(R.id.numberMurojaah);
-            iTypeMurojaah = itemView.findViewById(R.id.typeMurojaah);
-            iNamaSurat = itemView.findViewById(R.id.namaSurat);
-            iAyatMurojaah = itemView.findViewById(R.id.ayatMurojaah);
+            iNumberMurojaah = itemView.findViewById(R.id.numberTextView);
+            iTypeMurojaah = itemView.findViewById(R.id.murojaahTextView);
+            iNamaSurat = itemView.findViewById(R.id.suratNameTextView);
+            iAyatMurojaah = itemView.findViewById(R.id.ayatTextView);
 
         }
     }
@@ -45,7 +45,7 @@ public class ListMurojaahAdapter extends RecyclerView.Adapter<ListMurojaahAdapte
     @NonNull
     @Override
     public ListMurojaahViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detail_item_murojaah, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detail_item_murojaah_test, parent, false);
         ListMurojaahViewHolder murojaahViewHolder = new ListMurojaahViewHolder(view);
         return murojaahViewHolder;
     }

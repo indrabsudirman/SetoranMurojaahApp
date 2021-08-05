@@ -10,7 +10,7 @@
     android:padding="12dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center">
@@ -45,37 +45,58 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/suratMurojaah"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:text="Surat"
-                android:textColor="@color/black"
-                android:layout_marginStart="17dp"/>
+                android:layout_weight="1">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/namaSurat"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/suratMurojaah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:text="Surat"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="17dp"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_marginStart="30dp"
+                android:layout_gravity="center">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/namaSurat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="ٱلْفَاتِحَة"
+                    android:textSize="24dp"
+                    android:textColor="@color/black"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="ٱلْفَاتِحَة"
-                android:layout_marginStart="50dp"
-                android:textSize="24dp"
-                android:textColor="@color/black"/>
+                android:layout_marginStart="30dp">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/ayatMurojaah"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:text="Ayat 1-7"
-                android:layout_marginStart="50dp"
-                android:textColor="@color/black"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/ayatMurojaah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="Ayat 1-7"
+                    android:textColor="@color/black"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -10,26 +10,27 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.jetbrains.annotations.NotNull;
 import org.joda.time.Chronology;
 import org.joda.time.LocalDate;
 import org.joda.time.chrono.IslamicChronology;
 
 import java.lang.reflect.Type;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import id.indrasudirman.setoranmurojaahapp.adapter.ListMurojaahAdapter;
@@ -46,6 +47,8 @@ public class MainMenu extends AppCompatActivity {
     private static final String SHARED_PREF_DATE = "sharedPrefDate";
     private static final String KEY_EMAIL = "email";
     private static final String KEY_DATE = "date";
+    //Method implement swipe left to remove murojaah array list.
+    private String murojaahHarianDelete = null;
     private ActivityMainMenuBinding mainMenuBinding;
     private LayoutToolbarProfileBinding layoutToolbarProfileBinding;
     private ListMurojaahBinding listMurojaahBinding;
@@ -53,13 +56,39 @@ public class MainMenu extends AppCompatActivity {
     private SharedPreferences sharedPreferences, sharedPreferencesDate;
     private String userEmail;
     private String dateString;
-
     private RecyclerView recyclerViewListMurojaah;
     private RecyclerView.Adapter adapterListMurojaah;
     private RecyclerView.LayoutManager layoutManagerListMurojaah;
-
     private ArrayList<MurojaahItem> murojaahItemArrayList;
+    private MurojaahItem murojaahItem;
 
+    public ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+        @Override
+        public boolean onMove(@NonNull @NotNull RecyclerView recyclerView, @NonNull @NotNull RecyclerView.ViewHolder viewHolder, @NonNull @NotNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull @NotNull RecyclerView.ViewHolder viewHolder, int direction) {
+            final int position = viewHolder.getAdapterPosition();
+            murojaahItem = new MurojaahItem();
+            murojaahHarianDelete = murojaahItem.getNamaSurat();
+
+            if (direction == ItemTouchHelper.LEFT) {
+                murojaahItemArrayList.remove(position);
+                adapterListMurojaah.notifyItemRemoved(position);
+                Snackbar.make(listMurojaahBinding.recyclerViewListMurojaah, murojaahHarianDelete, Snackbar.LENGTH_LONG)
+                        .setAction("Batal", v -> {
+//                                murojaahItemArrayList.add(position, new MurojaahItem());
+                            Toast.makeText(getApplicationContext(), murojaahHarianDelete + " Batal Hapus", Toast.LENGTH_SHORT)
+                                    .show();
+                        })
+                        .show();
+            }
+
+        }
+    };
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -81,9 +110,6 @@ public class MainMenu extends AppCompatActivity {
 
         layoutToolbarProfileBinding = mainMenuBinding.layoutToolbarProfile;
         listMurojaahBinding = mainMenuBinding.listMurojaah;
-
-
-
 
         //Set Tanggal Masehi
         layoutToolbarProfileBinding.tanggalMasehi.setText(setTanggalMasehi() + " M");
@@ -113,7 +139,7 @@ public class MainMenu extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent.hasExtra("murojaah_list")) {
-            if (murojaahItemArrayList == null){
+            if (murojaahItemArrayList == null) {
                 murojaahItemArrayList = new ArrayList<>();
             }
             murojaahItemArrayList.clear();
@@ -133,19 +159,18 @@ public class MainMenu extends AppCompatActivity {
         editor.apply();
         Log.d("Date  ", localDateString);
 
-
-
-
-
     }
 
     //method add Murojaah Item in a list
-    public void addMurojaahItem(int position) {}
+    public void addMurojaahItem(int position) {
+    }
+
     //method remove Murojaah Item in a list
-    public void removeMurojaahItem (int position) {}
+    public void removeMurojaahItem(int position) {
+    }
 
     public void createMurojaahArrayList() {
-        if (murojaahItemArrayList == null){
+        if (murojaahItemArrayList == null) {
             murojaahItemArrayList = new ArrayList<>();
         }
 
@@ -175,11 +200,14 @@ public class MainMenu extends AppCompatActivity {
         }
 
 
+        //Implement swipe left to remove murojaah array list.
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(listMurojaahBinding.recyclerViewListMurojaah);
 
 
     }
+
     public void buildRecyclerViewMurojaah() {
-//        recyclerViewListMurojaah = findViewById(R.id.recyclerViewListMurojaah);
         layoutManagerListMurojaah = new LinearLayoutManager(this);
         adapterListMurojaah = new ListMurojaahAdapter(murojaahItemArrayList);
         listMurojaahBinding.recyclerViewListMurojaah.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
@@ -194,7 +222,6 @@ public class MainMenu extends AppCompatActivity {
                 "ٱلْمُحَرَّم", "صَفَر", "رَبِيع ٱلْأَوَّل", "رَبِيع ٱلْآخِر",
                 "جُمَادَىٰ ٱلْأُولَىٰ", "جُمَادَىٰ ٱلْآخِرَة", "رَجَب", "شَعْبَان",
                 "رَمَضَان", "شَوَّال", "ذُو ٱلْقَعْدَة", "ذُو ٱلْحِجَّة"};
-//        IslamicCalendar islamicCalendar = new IslamicCalendar(); //API 24
 
         Chronology hijri = IslamicChronology.getInstance();
 
@@ -219,12 +246,6 @@ public class MainMenu extends AppCompatActivity {
                 "September", "Oktober", "November", "Desember"};
 
         GregorianCalendar calendar = new GregorianCalendar();
-//        LocalDate date = LocalDate.fromDateFields(calendar.getTime());
-//        String dateString = date.toString();
-//        SharedPreferences.Editor editor = sharedPreferencesDate.edit();
-//        editor.putString(KEY_DATE, dateString);
-//        editor.apply();
-//        Log.d("Date  ", dateString);
 
         String i = calendar.get(Calendar.DATE) + " " + months[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.YEAR);
         Log.d("Tanggal ", i);
@@ -265,11 +286,12 @@ public class MainMenu extends AppCompatActivity {
         alertDialog.show();
     }
 
-    public ArrayList<MurojaahItem> getListMurojaahSharedPref (String key) {
+    public ArrayList<MurojaahItem> getListMurojaahSharedPref(String key) {
         SharedPreferences preferences = getSharedPreferences("ListMurojaah", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = preferences.getString(key, null);
-        Type type = new TypeToken<ArrayList<MurojaahItem>>(){}.getType();
+        Type type = new TypeToken<ArrayList<MurojaahItem>>() {
+        }.getType();
         return gson.fromJson(json, type);
     }
 
@@ -277,10 +299,11 @@ public class MainMenu extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("ListMurojaah", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("murojaah_list", null);
-        Type type = new TypeToken<ArrayList<MurojaahItem>>(){}.getType();
+        Type type = new TypeToken<ArrayList<MurojaahItem>>() {
+        }.getType();
         murojaahItemArrayList = gson.fromJson(json, type);
 
-        if (murojaahItemArrayList == null){
+        if (murojaahItemArrayList == null) {
             murojaahItemArrayList = new ArrayList<>();
         }
     }

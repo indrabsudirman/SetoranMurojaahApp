@@ -7,6 +7,10 @@ public class MurojaahItem {
     private String namaSurat;
     private String ayatMurojaah;
 
+    //Default constructor
+    public MurojaahItem() {
+    }
+
     public MurojaahItem(String iTypeMurojaah, String iNamaSurat, String iAyatMurojaah) {
         typeMurojaah = iTypeMurojaah;
         namaSurat = iNamaSurat;

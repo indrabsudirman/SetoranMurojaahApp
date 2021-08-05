@@ -47,8 +47,6 @@ public class MainMenu extends AppCompatActivity {
     private static final String SHARED_PREF_DATE = "sharedPrefDate";
     private static final String KEY_EMAIL = "email";
     private static final String KEY_DATE = "date";
-    //Method implement swipe left to remove murojaah array list.
-    private String murojaahHarianDelete = null;
     private ActivityMainMenuBinding mainMenuBinding;
     private LayoutToolbarProfileBinding layoutToolbarProfileBinding;
     private ListMurojaahBinding listMurojaahBinding;
@@ -56,13 +54,12 @@ public class MainMenu extends AppCompatActivity {
     private SharedPreferences sharedPreferences, sharedPreferencesDate;
     private String userEmail;
     private String dateString;
-    private RecyclerView recyclerViewListMurojaah;
     private RecyclerView.Adapter adapterListMurojaah;
     private RecyclerView.LayoutManager layoutManagerListMurojaah;
     private ArrayList<MurojaahItem> murojaahItemArrayList;
     private MurojaahItem murojaahItem;
 
-    public ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    public ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
 
         @Override
         public boolean onMove(@NonNull @NotNull RecyclerView recyclerView, @NonNull @NotNull RecyclerView.ViewHolder viewHolder, @NonNull @NotNull RecyclerView.ViewHolder target) {
@@ -71,17 +68,20 @@ public class MainMenu extends AppCompatActivity {
 
         @Override
         public void onSwiped(@NonNull @NotNull RecyclerView.ViewHolder viewHolder, int direction) {
+            String murojaahSuratHarianDelete = murojaahItemArrayList.get(viewHolder.getAdapterPosition()).getNamaSurat();
+            String typeMurojaahHarianDelete = murojaahItemArrayList.get(viewHolder.getAdapterPosition()).getTypeMurojaah();
             final int position = viewHolder.getAdapterPosition();
-            murojaahItem = new MurojaahItem();
-            murojaahHarianDelete = murojaahItem.getNamaSurat();
+            //backup
+            final MurojaahItem deleteMurojaah = murojaahItemArrayList.get(viewHolder.getAdapterPosition());
+            final int deleteIndexMurojaah = viewHolder.getAdapterPosition();
 
-            if (direction == ItemTouchHelper.LEFT) {
+            if (direction == ItemTouchHelper.LEFT | direction == ItemTouchHelper.RIGHT) {
                 murojaahItemArrayList.remove(position);
                 adapterListMurojaah.notifyItemRemoved(position);
-                Snackbar.make(listMurojaahBinding.recyclerViewListMurojaah, murojaahHarianDelete, Snackbar.LENGTH_LONG)
+                Snackbar.make(listMurojaahBinding.recyclerViewListMurojaah, typeMurojaahHarianDelete + " "+ murojaahSuratHarianDelete + " dihapus", Snackbar.LENGTH_LONG)
                         .setAction("Batal", v -> {
 //                                murojaahItemArrayList.add(position, new MurojaahItem());
-                            Toast.makeText(getApplicationContext(), murojaahHarianDelete + " Batal Hapus", Toast.LENGTH_SHORT)
+                            Toast.makeText(getApplicationContext(), murojaahSuratHarianDelete + " Batal hapus", Toast.LENGTH_SHORT)
                                     .show();
                         })
                         .show();
@@ -267,10 +267,7 @@ public class MainMenu extends AppCompatActivity {
                 .setIcon(R.drawable.ic_questions)
                 .setMessage("Anda yakin akan keluar akun ?")
                 .setCancelable(false)
-                .setPositiveButton("Batal keluar",
-                        (dialogInterface, i) -> Toast.makeText(getApplicationContext(), "Anda batal keluar", Toast.LENGTH_SHORT).show())
-
-                .setNegativeButton("Keluar",
+                .setPositiveButton("Keluar",
                         (dialogInterface, i) -> {
                             // Delete SharedPreferences save
                             sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
@@ -280,7 +277,10 @@ public class MainMenu extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext()
                                     , MainActivity.class));
                             overridePendingTransition(0, 0);
-                        });
+                        })
+
+                .setNegativeButton("Batal keluar",
+                        (dialogInterface, i) -> Toast.makeText(getApplicationContext(), "Anda batal keluar", Toast.LENGTH_SHORT).show());
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
@@ -303,8 +303,5 @@ public class MainMenu extends AppCompatActivity {
         }.getType();
         murojaahItemArrayList = gson.fromJson(json, type);
 
-        if (murojaahItemArrayList == null) {
-            murojaahItemArrayList = new ArrayList<>();
-        }
     }
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,15 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.Chronology;
 import org.joda.time.LocalDate;
 import org.joda.time.chrono.IslamicChronology;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -39,6 +37,7 @@ import id.indrasudirman.setoranmurojaahapp.databinding.LayoutToolbarProfileBindi
 import id.indrasudirman.setoranmurojaahapp.databinding.ListMurojaahBinding;
 import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
 import id.indrasudirman.setoranmurojaahapp.model.MurojaahItem;
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 
 public class MainMenu extends AppCompatActivity {
@@ -87,6 +86,15 @@ public class MainMenu extends AppCompatActivity {
                         .show();
             }
 
+        }
+
+        @Override
+        public void onChildDraw(@NonNull @NotNull Canvas c, @NonNull @NotNull RecyclerView recyclerView, @NonNull @NotNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+            new RecyclerViewSwipeDecorator.Builder(MainMenu.this, c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    .addSwipeLeftBackgroundColor(R.color.design_default_color_background);
+
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     };
 
@@ -286,22 +294,5 @@ public class MainMenu extends AppCompatActivity {
         alertDialog.show();
     }
 
-    public ArrayList<MurojaahItem> getListMurojaahSharedPref(String key) {
-        SharedPreferences preferences = getSharedPreferences("ListMurojaah", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = preferences.getString(key, null);
-        Type type = new TypeToken<ArrayList<MurojaahItem>>() {
-        }.getType();
-        return gson.fromJson(json, type);
-    }
 
-    public void loadListMurojaahSharedPref() {
-        SharedPreferences sharedPreferences = getSharedPreferences("ListMurojaah", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("murojaah_list", null);
-        Type type = new TypeToken<ArrayList<MurojaahItem>>() {
-        }.getType();
-        murojaahItemArrayList = gson.fromJson(json, type);
-
-    }
 }

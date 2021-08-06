@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import id.indrasudirman.setoranmurojaahapp.R;
 import id.indrasudirman.setoranmurojaahapp.databinding.DetailItemMurojaahBinding;
-import id.indrasudirman.setoranmurojaahapp.model.MurojaahItem;
+import id.indrasudirman.setoranmurojaahapp.MurojaahItem;
 
 public class ListMurojaahAdapter extends RecyclerView.Adapter<ListMurojaahAdapter.ListMurojaahViewHolder> {
 

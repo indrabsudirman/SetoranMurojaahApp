@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,7 +37,6 @@ import id.indrasudirman.setoranmurojaahapp.databinding.ActivityMainMenuBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutToolbarProfileBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.ListMurojaahBinding;
 import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
-import id.indrasudirman.setoranmurojaahapp.model.MurojaahItem;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 
@@ -67,12 +67,12 @@ public class MainMenu extends AppCompatActivity {
 
         @Override
         public void onSwiped(@NonNull @NotNull RecyclerView.ViewHolder viewHolder, int direction) {
-            String murojaahSuratHarianDelete = murojaahItemArrayList.get(viewHolder.getAdapterPosition()).getNamaSurat();
-            String typeMurojaahHarianDelete = murojaahItemArrayList.get(viewHolder.getAdapterPosition()).getTypeMurojaah();
-            final int position = viewHolder.getAdapterPosition();
+            String murojaahSuratHarianDelete = murojaahItemArrayList.get(viewHolder.getBindingAdapterPosition()).getNamaSurat();
+            String typeMurojaahHarianDelete = murojaahItemArrayList.get(viewHolder.getBindingAdapterPosition()).getTypeMurojaah();
+            final int position = viewHolder.getBindingAdapterPosition();
             //backup
-            final MurojaahItem deleteMurojaah = murojaahItemArrayList.get(viewHolder.getAdapterPosition());
-            final int deleteIndexMurojaah = viewHolder.getAdapterPosition();
+            final MurojaahItem deleteMurojaah = murojaahItemArrayList.get(viewHolder.getBindingAdapterPosition());
+            final int deleteIndexMurojaah = viewHolder.getBindingAdapterPosition();
 
             if (direction == ItemTouchHelper.LEFT | direction == ItemTouchHelper.RIGHT) {
                 murojaahItemArrayList.remove(position);
@@ -91,8 +91,15 @@ public class MainMenu extends AppCompatActivity {
         @Override
         public void onChildDraw(@NonNull @NotNull Canvas c, @NonNull @NotNull RecyclerView recyclerView, @NonNull @NotNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 
-            new RecyclerViewSwipeDecorator.Builder(MainMenu.this, c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                    .addSwipeLeftBackgroundColor(R.color.design_default_color_background);
+            new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    .addSwipeLeftLabel("Hapus")
+                    .addSwipeRightLabel("Hapus")
+                    .setSwipeRightLabelColor(ContextCompat.getColor(MainMenu.this, R.color.white))
+                    .setSwipeLeftLabelColor(ContextCompat.getColor(MainMenu.this, R.color.white))
+                    .addBackgroundColor(ContextCompat.getColor(MainMenu.this, R.color.colorRed))
+                    .addActionIcon(R.drawable.ic_delete)
+                    .create()
+                    .decorate();
 
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }

@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 
 import id.indrasudirman.setoranmurojaahapp.model.Murojaah;
-import id.indrasudirman.setoranmurojaahapp.model.MurojaahItem;
+import id.indrasudirman.setoranmurojaahapp.MurojaahItem;
 import id.indrasudirman.setoranmurojaahapp.model.User;
 
 public class SQLiteHelper extends SQLiteOpenHelper {

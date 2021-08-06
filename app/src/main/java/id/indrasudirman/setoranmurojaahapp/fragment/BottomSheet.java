@@ -38,7 +38,7 @@ import id.indrasudirman.setoranmurojaahapp.R;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomsheetAyatCheckboxBinding;
 import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
 import id.indrasudirman.setoranmurojaahapp.model.Murojaah;
-import id.indrasudirman.setoranmurojaahapp.model.MurojaahItem;
+import id.indrasudirman.setoranmurojaahapp.MurojaahItem;
 import it.sephiroth.android.library.checkbox3state.CheckBox3;
 
 import static android.content.Context.MODE_PRIVATE;

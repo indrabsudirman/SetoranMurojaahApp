@@ -77,11 +77,17 @@ public class MainMenu extends AppCompatActivity {
                 //Delete murojaah list
                 murojaahItemArrayList.remove(position);
                 adapterListMurojaah.notifyItemRemoved(position);
+                //Update list number RecyclerView while item was deleted
+                adapterListMurojaah.notifyItemRangeChanged(position, murojaahItemArrayList.size());
+                adapterListMurojaah.notifyDataSetChanged();
                 Snackbar.make(listMurojaahBinding.recyclerViewListMurojaah, typeMurojaahHarianDelete + " "+ murojaahSuratHarianDelete + " dihapus", Snackbar.LENGTH_LONG)
                         .setAction("Batal", v -> {
                             //Restore murojaah list
                             murojaahItemArrayList.add(deleteIndexMurojaah, deleteMurojaah);
                             adapterListMurojaah.notifyItemInserted(deleteIndexMurojaah);
+                            //Update list number RecyclerView while item was restore
+                            adapterListMurojaah.notifyItemRangeChanged(deleteIndexMurojaah, murojaahItemArrayList.size());
+                            adapterListMurojaah.notifyDataSetChanged();
                         })
                         .show();
             }

@@ -56,7 +56,6 @@ public class MainMenu extends AppCompatActivity {
     private RecyclerView.Adapter adapterListMurojaah;
     private RecyclerView.LayoutManager layoutManagerListMurojaah;
     private ArrayList<MurojaahItem> murojaahItemArrayList;
-    private MurojaahItem murojaahItem;
 
     public ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
 
@@ -67,21 +66,22 @@ public class MainMenu extends AppCompatActivity {
 
         @Override
         public void onSwiped(@NonNull @NotNull RecyclerView.ViewHolder viewHolder, int direction) {
-            String murojaahSuratHarianDelete = murojaahItemArrayList.get(viewHolder.getBindingAdapterPosition()).getNamaSurat();
-            String typeMurojaahHarianDelete = murojaahItemArrayList.get(viewHolder.getBindingAdapterPosition()).getTypeMurojaah();
-            final int position = viewHolder.getBindingAdapterPosition();
+            String murojaahSuratHarianDelete = murojaahItemArrayList.get(viewHolder.getAdapterPosition()).getNamaSurat();
+            String typeMurojaahHarianDelete = murojaahItemArrayList.get(viewHolder.getAdapterPosition()).getTypeMurojaah();
+            final int position = viewHolder.getAdapterPosition();
             //backup
-            final MurojaahItem deleteMurojaah = murojaahItemArrayList.get(viewHolder.getBindingAdapterPosition());
-            final int deleteIndexMurojaah = viewHolder.getBindingAdapterPosition();
+            final MurojaahItem deleteMurojaah = murojaahItemArrayList.get(viewHolder.getAdapterPosition());
+            final int deleteIndexMurojaah = viewHolder.getAdapterPosition();
 
             if (direction == ItemTouchHelper.LEFT | direction == ItemTouchHelper.RIGHT) {
+                //Delete murojaah list
                 murojaahItemArrayList.remove(position);
                 adapterListMurojaah.notifyItemRemoved(position);
                 Snackbar.make(listMurojaahBinding.recyclerViewListMurojaah, typeMurojaahHarianDelete + " "+ murojaahSuratHarianDelete + " dihapus", Snackbar.LENGTH_LONG)
                         .setAction("Batal", v -> {
-//                                murojaahItemArrayList.add(position, new MurojaahItem());
-                            Toast.makeText(getApplicationContext(), murojaahSuratHarianDelete + " Batal hapus", Toast.LENGTH_SHORT)
-                                    .show();
+                            //Restore murojaah list
+                            murojaahItemArrayList.add(deleteIndexMurojaah, deleteMurojaah);
+                            adapterListMurojaah.notifyItemInserted(deleteIndexMurojaah);
                         })
                         .show();
             }
@@ -177,7 +177,8 @@ public class MainMenu extends AppCompatActivity {
     }
 
     //method add Murojaah Item in a list
-    public void addMurojaahItem(int position) {
+    public void addMurojaahItem(int position, MurojaahItem murojaahItemArrayList) {
+//        murojaahItemArrayList.add(position, murojaahItemArrayList.get(position));
     }
 
     //method remove Murojaah Item in a list

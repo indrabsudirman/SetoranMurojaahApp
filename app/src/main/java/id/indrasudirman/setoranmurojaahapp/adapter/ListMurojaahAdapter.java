@@ -66,17 +66,4 @@ public class ListMurojaahAdapter extends RecyclerView.Adapter<ListMurojaahAdapte
         return iMurojaahItemArrayList.size();
     }
 
-    //This method to remove, murojaah list from RecyclerView
-    public void removeMurojaahList(int position) {
-        iMurojaahItemArrayList.remove(position);
-        //Notify the murojaah list item removed with animation
-        notifyItemRemoved(position);
-    }
-
-    //This method to restore or undo, murojaah list was deleted from RecyclerView
-    public void restoreMurojaahList(MurojaahItem murojaahItem, int position) {
-        iMurojaahItemArrayList.add(position, murojaahItem);
-        //Notify the murojaah list added by position with animation
-        notifyItemInserted(position);
-    }
 }

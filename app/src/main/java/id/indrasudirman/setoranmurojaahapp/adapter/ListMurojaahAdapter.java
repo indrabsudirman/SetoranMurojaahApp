@@ -45,7 +45,7 @@ public class ListMurojaahAdapter extends RecyclerView.Adapter<ListMurojaahAdapte
     @NonNull
     @Override
     public ListMurojaahViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detail_item_murojaah_test, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detail_item_murojaah, parent, false);
         ListMurojaahViewHolder murojaahViewHolder = new ListMurojaahViewHolder(view);
         return murojaahViewHolder;
     }

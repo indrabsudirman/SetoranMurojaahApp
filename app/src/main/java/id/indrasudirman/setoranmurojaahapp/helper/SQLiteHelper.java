@@ -269,7 +269,56 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
 
+    /**
+     * This method is to get murojaahlist daily record
+     */
     public ArrayList<MurojaahItem> getMurojaahHarianDB (String id, String dateToday) {
+        ArrayList<MurojaahItem> murojaahArrayList = new ArrayList<>();
+
+        String[] columns = {MUROJAAH_TYPE, SURAT, AYAT};
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        //Selection criteria
+        String selection = USER_ID + " = ? AND " + DATE_MASEHI + " = ?";
+
+        //Selection argument
+        String[] selectionArgs = {id, dateToday};
+
+        //Order by String
+        String orderBy = MUROJAAH_TYPE + " DESC";
+
+        //Query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query
+         * SQL query equivalent to this query function is
+         * SELECT type_murojaah, surat, ayat FROM Murojaah WHERE user_id = ? AND date_masehi = ? ORDER BY type_murojaah DESC;
+         */
+        Cursor cursor = sqLiteDatabase.query(TABLE_MUROJAAH, //Table to query
+                columns, // column to return
+                selection, //Select base on
+                selectionArgs, //select argument
+                null, //The values for the WHERE clause
+                null, //group the rows
+                orderBy); //filter by row groups
+
+        while (cursor.moveToNext()){
+            String columnTypeMurojaah = cursor.getString(cursor.getColumnIndex(MUROJAAH_TYPE));
+            String columnSuratMurojaah = cursor.getString(cursor.getColumnIndex(SURAT));
+            String columnAyatMurojaah = cursor.getString(cursor.getColumnIndex(AYAT));
+            MurojaahItem murojaahItem = new MurojaahItem(columnTypeMurojaah, columnSuratMurojaah, "Ayat "+columnAyatMurojaah);
+            murojaahArrayList.add(murojaahItem);
+
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+
+        return murojaahArrayList;
+    }
+
+    /**
+     * This method is to update murojaahlist daily record
+     */
+    public ArrayList<MurojaahItem> updateMurojaahHarianDB (String id, String dateToday) {
         ArrayList<MurojaahItem> murojaahArrayList = new ArrayList<>();
 
         String[] columns = {MUROJAAH_TYPE, SURAT, AYAT};

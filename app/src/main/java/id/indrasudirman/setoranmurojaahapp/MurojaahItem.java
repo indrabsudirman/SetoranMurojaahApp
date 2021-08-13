@@ -1,5 +1,9 @@
 package id.indrasudirman.setoranmurojaahapp;
 
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
 public class MurojaahItem {
 
 
@@ -40,5 +44,14 @@ public class MurojaahItem {
 
     public void setAyatMurojaah(String ayatMurojaah) {
         this.ayatMurojaah = ayatMurojaah;
+    }
+
+    @NonNull
+    @NotNull
+    @Override
+    public String toString() {
+        return ("Murojaah Item. Tipe Murojaah : " + this.getTypeMurojaah() +
+                " Nama surat : " + this.getNamaSurat() +
+                " Ayat murojaah : " + this.getAyatMurojaah());
     }
 }

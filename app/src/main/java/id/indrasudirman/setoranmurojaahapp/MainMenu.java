@@ -72,6 +72,7 @@ public class MainMenu extends AppCompatActivity {
             //backup
             final MurojaahItem deleteMurojaah = murojaahItemArrayList.get(viewHolder.getAdapterPosition());
             final int deleteIndexMurojaah = viewHolder.getAdapterPosition();
+            MurojaahItem murojaahItem = new MurojaahItem();
 
             if (direction == ItemTouchHelper.LEFT | direction == ItemTouchHelper.RIGHT) {
                 //Delete murojaah list
@@ -80,6 +81,17 @@ public class MainMenu extends AppCompatActivity {
                 //Update list number RecyclerView while item was deleted
                 adapterListMurojaah.notifyItemRangeChanged(position, murojaahItemArrayList.size());
                 adapterListMurojaah.notifyDataSetChanged();
+                //Test print ArrayList<MurojaahItem>
+                printArrayList(murojaahItemArrayList);
+                //Delete database by row today
+                sqLiteHelper.deleteMurojaahHarianDB(setTanggalMasehi() + " M");
+                //Insert New Murojaah harian record from arraylist
+//                String userID = sqLiteHelper.getUserId(userEmail);
+//                String[] tanggalHijriArray = setTanggalHijriyah();
+//                String tglHijri = "H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2];
+////                murojaah.setDateHijri("H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2]);
+//                sqLiteHelper.addMurojaahHarianDB(murojaahItem, userID, setTanggalMasehi() + " M", tglHijri);
+
                 Snackbar.make(listMurojaahBinding.recyclerViewListMurojaah, typeMurojaahHarianDelete + " "+ murojaahSuratHarianDelete + " dihapus", Snackbar.LENGTH_LONG)
                         .setAction("Batal", v -> {
                             //Restore murojaah list
@@ -88,6 +100,10 @@ public class MainMenu extends AppCompatActivity {
                             //Update list number RecyclerView while item was restore
                             adapterListMurojaah.notifyItemRangeChanged(deleteIndexMurojaah, murojaahItemArrayList.size());
                             adapterListMurojaah.notifyDataSetChanged();
+                            //Test print ArrayList<MurojaahItem>
+                            printArrayList(murojaahItemArrayList);
+                            //Delete database by row today
+                            sqLiteHelper.deleteMurojaahHarianDB(setTanggalMasehi() + " M");
                         })
                         .show();
             }
@@ -110,6 +126,12 @@ public class MainMenu extends AppCompatActivity {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     };
+
+    private void printArrayList(ArrayList<MurojaahItem> murojaahItemArrayList) {
+        for (MurojaahItem murojaahItem : murojaahItemArrayList){
+            System.out.println(murojaahItem);
+        }
+    }
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -307,6 +329,8 @@ public class MainMenu extends AppCompatActivity {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
+
+
 
 
 }

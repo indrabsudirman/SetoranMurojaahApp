@@ -316,49 +316,47 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * This method is to update murojaahlist daily record
+     * This method is to delete murojaahlist daily record
      */
-    public ArrayList<MurojaahItem> updateMurojaahHarianDB (String id, String dateToday) {
-        ArrayList<MurojaahItem> murojaahArrayList = new ArrayList<>();
+    public void deleteMurojaahHarianDB (String date) {
 
-        String[] columns = {MUROJAAH_TYPE, SURAT, AYAT};
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
-        //Selection criteria
-        String selection = USER_ID + " = ? AND " + DATE_MASEHI + " = ?";
+        String table = TABLE_MUROJAAH;
 
-        //Selection argument
-        String[] selectionArgs = {id, dateToday};
+        String whereClause = DATE_MASEHI +" = ?";
 
-        //Order by String
-        String orderBy = MUROJAAH_TYPE + " DESC";
+        String [] whereArgs = {date};
 
-        //Query user table with condition
-        /**
-         * Here query function is used to fetch records from user table this function works like we use sql query
-         * SQL query equivalent to this query function is
-         * SELECT type_murojaah, surat, ayat FROM Murojaah WHERE user_id = ? AND date_masehi = ? ORDER BY type_murojaah DESC;
-         */
-        Cursor cursor = sqLiteDatabase.query(TABLE_MUROJAAH, //Table to query
-                columns, // column to return
-                selection, //Select base on
-                selectionArgs, //select argument
-                null, //The values for the WHERE clause
-                null, //group the rows
-                orderBy); //filter by row groups
+        sqLiteDatabase.delete(table, whereClause, whereArgs);
 
-        while (cursor.moveToNext()){
-            String columnTypeMurojaah = cursor.getString(cursor.getColumnIndex(MUROJAAH_TYPE));
-            String columnSuratMurojaah = cursor.getString(cursor.getColumnIndex(SURAT));
-            String columnAyatMurojaah = cursor.getString(cursor.getColumnIndex(AYAT));
-            MurojaahItem murojaahItem = new MurojaahItem(columnTypeMurojaah, columnSuratMurojaah, "Ayat "+columnAyatMurojaah);
-            murojaahArrayList.add(murojaahItem);
-
-        }
-        cursor.close();
         sqLiteDatabase.close();
 
-        return murojaahArrayList;
+    }
+
+    /**
+     * This method is to delete murojaahlist daily record
+     */
+    public void addMurojaahHarianDB (MurojaahItem murojaahItem, String userID, String dateMasehi, String dateHijri) {
+//        MurojaahItem murojaahItem = new MurojaahItem();
+
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(USER_ID, userID);
+        contentValues.put(DATE_MASEHI, dateMasehi);
+        contentValues.put(DATE_HIJRI, dateHijri);
+        contentValues.put(MUROJAAH_TYPE, murojaahItem.getTypeMurojaah());
+        contentValues.put(SURAT, murojaahItem.getNamaSurat());
+        contentValues.put(AYAT, murojaahItem.getAyatMurojaah());
+
+
+
+
+        //Inserting row
+        sqLiteDatabase.insert(TABLE_MUROJAAH, null, contentValues);
+        sqLiteDatabase.close();
+
     }
 
 }

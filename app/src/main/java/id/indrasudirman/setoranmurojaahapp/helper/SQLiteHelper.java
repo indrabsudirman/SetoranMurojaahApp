@@ -343,7 +343,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * This method is to delete murojaahlist daily record
+     * This method is to insert new murojaahlist daily record, while swipe recyclerview
      */
     public void addMurojaahHarianDB (ArrayList<MurojaahItem> murojaahItemArrayList, String userID, String dateMasehi, String dateHijri) {
 

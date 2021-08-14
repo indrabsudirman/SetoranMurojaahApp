@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.Chronology;
@@ -81,16 +82,18 @@ public class MainMenu extends AppCompatActivity {
                 //Update list number RecyclerView while item was deleted
                 adapterListMurojaah.notifyItemRangeChanged(position, murojaahItemArrayList.size());
                 adapterListMurojaah.notifyDataSetChanged();
-                //Test print ArrayList<MurojaahItem>
-                printArrayList(murojaahItemArrayList);
-                //Delete database by row today
+
+                //Delete murojaah harian database by row today
                 sqLiteHelper.deleteMurojaahHarianDB(setTanggalMasehi() + " M");
-                //Insert New Murojaah harian record from arraylist
-//                String userID = sqLiteHelper.getUserId(userEmail);
-//                String[] tanggalHijriArray = setTanggalHijriyah();
-//                String tglHijri = "H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2];
-////                murojaah.setDateHijri("H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2]);
-//                sqLiteHelper.addMurojaahHarianDB(murojaahItem, userID, setTanggalMasehi() + " M", tglHijri);
+
+                //Insert new murojaah harian database by row today from recyclerview
+                if (!murojaahItemArrayList.isEmpty()) {
+                    String userID = sqLiteHelper.getUserId(userEmail);
+                    String[] tanggalHijriArray = setTanggalHijriyah();
+                    String tglHijri = "H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2];
+                    sqLiteHelper.addMurojaahHarianDB(murojaahItemArrayList, userID, setTanggalMasehi() + " M", tglHijri);
+                    ArraylistToJson(murojaahItemArrayList);
+                }
 
                 Snackbar.make(listMurojaahBinding.recyclerViewListMurojaah, typeMurojaahHarianDelete + " "+ murojaahSuratHarianDelete + " dihapus", Snackbar.LENGTH_LONG)
                         .setAction("Batal", v -> {
@@ -100,10 +103,17 @@ public class MainMenu extends AppCompatActivity {
                             //Update list number RecyclerView while item was restore
                             adapterListMurojaah.notifyItemRangeChanged(deleteIndexMurojaah, murojaahItemArrayList.size());
                             adapterListMurojaah.notifyDataSetChanged();
-                            //Test print ArrayList<MurojaahItem>
-                            printArrayList(murojaahItemArrayList);
-                            //Delete database by row today
+                            //Delete murojaah harian database by row today
                             sqLiteHelper.deleteMurojaahHarianDB(setTanggalMasehi() + " M");
+
+                            //Insert new murojaah harian database by row today from recyclerview
+                            if (!murojaahItemArrayList.isEmpty()) {
+                                String userID = sqLiteHelper.getUserId(userEmail);
+                                String[] tanggalHijriArray = setTanggalHijriyah();
+                                String tglHijri = "H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2];
+                                sqLiteHelper.addMurojaahHarianDB(murojaahItemArrayList, userID, setTanggalMasehi() + " M", tglHijri);
+                                ArraylistToJson(murojaahItemArrayList);
+                            }
                         })
                         .show();
             }
@@ -328,6 +338,12 @@ public class MainMenu extends AppCompatActivity {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    public void ArraylistToJson (ArrayList<MurojaahItem> murojaahItemArrayList) {
+        Gson gson = new Gson();
+        String json = gson.toJson(murojaahItemArrayList);
+        System.out.println("jsonnya : " + json);
     }
 
 

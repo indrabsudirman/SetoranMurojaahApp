@@ -5,6 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -337,24 +345,34 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     /**
      * This method is to delete murojaahlist daily record
      */
-    public void addMurojaahHarianDB (MurojaahItem murojaahItem, String userID, String dateMasehi, String dateHijri) {
-//        MurojaahItem murojaahItem = new MurojaahItem();
+    public void addMurojaahHarianDB (ArrayList<MurojaahItem> murojaahItemArrayList, String userID, String dateMasehi, String dateHijri) {
 
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(USER_ID, userID);
-        contentValues.put(DATE_MASEHI, dateMasehi);
-        contentValues.put(DATE_HIJRI, dateHijri);
-        contentValues.put(MUROJAAH_TYPE, murojaahItem.getTypeMurojaah());
-        contentValues.put(SURAT, murojaahItem.getNamaSurat());
-        contentValues.put(AYAT, murojaahItem.getAyatMurojaah());
+        Gson gson = new Gson();
+        String json = gson.toJson(murojaahItemArrayList);
+        JSONArray jsonArray;
+        try {
+            jsonArray = new JSONArray(json);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                contentValues.put(USER_ID, userID);
+                contentValues.put(DATE_MASEHI, dateMasehi);
+                contentValues.put(DATE_HIJRI, dateHijri);
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Log.e("Output", jsonObject.getString("namaSurat"));
+                contentValues.put(MUROJAAH_TYPE, jsonObject.getString("typeMurojaah"));
+                contentValues.put(SURAT, jsonObject.getString("namaSurat"));
+                contentValues.put(AYAT, jsonObject.getString("ayatMurojaah"));
+                //Inserting row
+                sqLiteDatabase.insert(TABLE_MUROJAAH, null, contentValues);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
 
-
-        //Inserting row
-        sqLiteDatabase.insert(TABLE_MUROJAAH, null, contentValues);
         sqLiteDatabase.close();
 
     }

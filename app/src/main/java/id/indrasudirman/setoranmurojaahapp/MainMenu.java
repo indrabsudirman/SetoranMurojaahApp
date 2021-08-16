@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -17,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -24,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
@@ -45,7 +48,7 @@ import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String SHARED_PREF_NAME = "sharedPrefLogin";
     private static final String SHARED_PREF_DATE = "sharedPrefDate";
@@ -150,7 +153,7 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "WrongConstant"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -223,17 +226,23 @@ public class MainMenu extends AppCompatActivity {
         // to make the Navigation drawer icon always appear on the action bar
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        mainMenuNavigationDrawerBinding.mainMenuNavDrawer.bottomAppBar.setNavigationOnClickListener(view1 -> {
+//            Toast.makeText(getApplicationContext(),"your icon was clicked",Toast.LENGTH_SHORT).show();
+            if (!drawerLayout.isDrawerOpen(Gravity.START)) {
+                drawerLayout.openDrawer(Gravity.START);
+            } else {
+                drawerLayout.closeDrawer(Gravity.END);
+            }
+        });
+
+        mainMenuNavigationDrawerBinding.navView.setNavigationItemSelectedListener(this);
+
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
+
 
     //method add Murojaah Item in a list
     public void addMurojaahItem(int position, MurojaahItem murojaahItemArrayList) {
@@ -368,6 +377,26 @@ public class MainMenu extends AppCompatActivity {
     }
 
 
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        //Handle navigation view item click here
+        switch (item.getItemId()) {
+            case R.id.backButton :
+                Toast.makeText(getApplicationContext(),"Back was click",Toast.LENGTH_SHORT).show();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.myAccount :
+                Toast.makeText(getApplicationContext(),"My Account was click",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.navSetting :
+                Toast.makeText(getApplicationContext(),"Settings was click",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.navLogout :
+                Toast.makeText(getApplicationContext(),"Logout was click",Toast.LENGTH_SHORT).show();
+                break;
+        }
 
-
+        return false;
+    }
 }

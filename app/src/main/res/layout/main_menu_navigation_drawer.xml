@@ -24,6 +24,7 @@
         android:fitsSystemWindows="true"
         app:menu="@menu/navigation_menu"
         app:itemTextColor="@color/white"
+        app:itemIconTint="@color/white"
         android:background="@color/teal_700"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

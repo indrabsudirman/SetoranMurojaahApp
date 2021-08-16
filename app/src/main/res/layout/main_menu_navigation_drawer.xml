@@ -22,6 +22,8 @@
         android:id="@+id/navView"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:menu="@menu/navigation_menu"/>
+        app:menu="@menu/navigation_menu"
+        app:itemTextColor="@color/white"
+        android:background="@color/teal_700"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

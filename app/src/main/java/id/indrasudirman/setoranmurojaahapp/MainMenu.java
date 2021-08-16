@@ -7,14 +7,17 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,6 +40,7 @@ import id.indrasudirman.setoranmurojaahapp.adapter.ListMurojaahAdapter;
 import id.indrasudirman.setoranmurojaahapp.databinding.ActivityMainMenuBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutToolbarProfileBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.ListMurojaahBinding;
+import id.indrasudirman.setoranmurojaahapp.databinding.MainMenuNavigationDrawerBinding;
 import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -57,6 +61,9 @@ public class MainMenu extends AppCompatActivity {
     private RecyclerView.Adapter adapterListMurojaah;
     private RecyclerView.LayoutManager layoutManagerListMurojaah;
     private ArrayList<MurojaahItem> murojaahItemArrayList;
+    private MainMenuNavigationDrawerBinding mainMenuNavigationDrawerBinding;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     public ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
 
@@ -67,12 +74,12 @@ public class MainMenu extends AppCompatActivity {
 
         @Override
         public void onSwiped(@NonNull @NotNull RecyclerView.ViewHolder viewHolder, int direction) {
-            String murojaahSuratHarianDelete = murojaahItemArrayList.get(viewHolder.getAdapterPosition()).getNamaSurat();
-            String typeMurojaahHarianDelete = murojaahItemArrayList.get(viewHolder.getAdapterPosition()).getTypeMurojaah();
-            final int position = viewHolder.getAdapterPosition();
+            String murojaahSuratHarianDelete = murojaahItemArrayList.get(viewHolder.getAbsoluteAdapterPosition()).getNamaSurat();
+            String typeMurojaahHarianDelete = murojaahItemArrayList.get(viewHolder.getAbsoluteAdapterPosition()).getTypeMurojaah();
+            final int position = viewHolder.getAbsoluteAdapterPosition();
             //backup
-            final MurojaahItem deleteMurojaah = murojaahItemArrayList.get(viewHolder.getAdapterPosition());
-            final int deleteIndexMurojaah = viewHolder.getAdapterPosition();
+            final MurojaahItem deleteMurojaah = murojaahItemArrayList.get(viewHolder.getAbsoluteAdapterPosition());
+            final int deleteIndexMurojaah = viewHolder.getAbsoluteAdapterPosition();
             MurojaahItem murojaahItem = new MurojaahItem();
 
             if (direction == ItemTouchHelper.LEFT | direction == ItemTouchHelper.RIGHT) {
@@ -150,8 +157,8 @@ public class MainMenu extends AppCompatActivity {
 //        setContentView(R.layout.activity_main_menu);
 
         //View Binding change findViewById
-        mainMenuBinding = ActivityMainMenuBinding.inflate(getLayoutInflater());
-        View view = mainMenuBinding.getRoot();
+        mainMenuNavigationDrawerBinding = MainMenuNavigationDrawerBinding.inflate(getLayoutInflater());
+        View view = mainMenuNavigationDrawerBinding.getRoot();
         setContentView(view);
 
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
@@ -161,8 +168,8 @@ public class MainMenu extends AppCompatActivity {
 
         sqLiteHelper = new SQLiteHelper(this);
 
-        layoutToolbarProfileBinding = mainMenuBinding.layoutToolbarProfile;
-        listMurojaahBinding = mainMenuBinding.listMurojaah;
+        layoutToolbarProfileBinding = mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile;
+        listMurojaahBinding = mainMenuNavigationDrawerBinding.mainMenuNavDrawer.listMurojaah;
 
         //Set Tanggal Masehi
         layoutToolbarProfileBinding.tanggalMasehi.setText(setTanggalMasehi() + " M");
@@ -177,18 +184,13 @@ public class MainMenu extends AppCompatActivity {
         layoutToolbarProfileBinding.bulanHijriyah.setText(tanggalHijri[0]);
         layoutToolbarProfileBinding.tahunHijriyah.setText(tanggalHijri[2] + " H");
 
-        mainMenuBinding.extendedFab.setOnClickListener(v -> {
+        mainMenuNavigationDrawerBinding.mainMenuNavDrawer.extendedFab.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), PilihSuratMurojaah.class);
             startActivity(intent);
             overridePendingTransition(0, 0);
         });
 
-        mainMenuBinding.logOutAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logOutConfirmation();
-            }
-        });
+        mainMenuNavigationDrawerBinding.mainMenuNavDrawer.logOutAccount.setOnClickListener(v -> logOutConfirmation());
 
         Intent intent = getIntent();
         if (intent.hasExtra("murojaah_list")) {
@@ -212,6 +214,25 @@ public class MainMenu extends AppCompatActivity {
         editor.apply();
         Log.d("Date  ", localDateString);
 
+        drawerLayout = mainMenuNavigationDrawerBinding.drawerLayout;
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, mainMenuNavigationDrawerBinding.drawerLayout, R.string.nav_open, R.string.nav_close);
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        // to make the Navigation drawer icon always appear on the action bar
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //method add Murojaah Item in a list

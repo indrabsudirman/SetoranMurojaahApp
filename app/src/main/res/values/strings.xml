@@ -16,4 +16,7 @@
     <string name="al_fatihah_arab">ٱلْفَاتِحَةِ</string>
     <string name="al_fatihah_ayat">7</string>
     <string name="ayat">Ayat</string>
+<!--    To toggle the open, close button of the navigation drawer -->
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
 </resources>

@@ -35,20 +35,7 @@
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/logOutAccount"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="left"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="20dp"
-                    android:adjustViewBounds="true"
-                    android:rotation="180"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_logout_icon"
-                    android:clickable="true"
-                    android:focusable="true" />
+
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

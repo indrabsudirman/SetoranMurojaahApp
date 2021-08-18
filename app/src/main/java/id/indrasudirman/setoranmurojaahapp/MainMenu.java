@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -153,7 +154,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         }
     }
 
-    @SuppressLint({"SetTextI18n", "WrongConstant"})
+    @SuppressLint({"SetTextI18n", "WrongConstant", "NonConstantResourceId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -193,7 +194,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             overridePendingTransition(0, 0);
         });
 
-        mainMenuNavigationDrawerBinding.mainMenuNavDrawer.logOutAccount.setOnClickListener(v -> logOutConfirmation());
 
         Intent intent = getIntent();
         if (intent.hasExtra("murojaah_list")) {
@@ -223,8 +223,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
-        // to make the Navigation drawer icon always appear on the action bar
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mainMenuNavigationDrawerBinding.mainMenuNavDrawer.bottomAppBar.setNavigationOnClickListener(view1 -> {
 //            Toast.makeText(getApplicationContext(),"your icon was clicked",Toast.LENGTH_SHORT).show();
@@ -235,13 +233,40 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
 
+        //Set event ClickListener on Navigation Drawer
         mainMenuNavigationDrawerBinding.navView.setNavigationItemSelectedListener(this);
+        //Set event ClickListener on Bottom App Bar
+        bottomAppBarMenuClickListener();
+
 
 
     }
 
+    @SuppressLint("NonConstantResourceId")
+    private void bottomAppBarMenuClickListener() {
+        mainMenuNavigationDrawerBinding.mainMenuNavDrawer.bottomAppBar.setOnMenuItemClickListener(item -> {
+            Intent shareIntent;
+            String shareMessage = "Setoran Murojaah App";
+            //Handle Bottom App Bar view item click here
+            switch (item.getItemId()) {
+                case R.id.shareMurojaah :
+                    shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Setoran Murojaah");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                    startActivity(Intent.createChooser(shareIntent,"Share via"));
+                    overridePendingTransition(0,0);
+//                    Toast.makeText(getApplicationContext(),"Share was click",Toast.LENGTH_SHORT).show();
 
+                    break;
+                case R.id.setting :
+                    Toast.makeText(getApplicationContext(),"Setting was click",Toast.LENGTH_SHORT).show();
+                    break;
+            }
 
+            return false;
+        });
+    }
 
 
     //method add Murojaah Item in a list
@@ -393,7 +418,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 Toast.makeText(getApplicationContext(),"Settings was click",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.navLogout :
-                Toast.makeText(getApplicationContext(),"Logout was click",Toast.LENGTH_SHORT).show();
+                logOutConfirmation();
                 break;
         }
 

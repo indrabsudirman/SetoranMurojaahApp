@@ -11,11 +11,13 @@
 
     <item
         android:id="@+id/myAccount"
-        android:title="My Account"/>
+        android:title="My Account"
+        android:icon="@drawable/ic_account_circle"/>
 
     <item
         android:id="@+id/navSetting"
-        android:title="Settings"/>
+        android:title="Settings"
+        android:icon="@drawable/ic_setting"/>
 
     <item
         android:id="@+id/navLogout"

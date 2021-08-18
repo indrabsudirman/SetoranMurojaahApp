@@ -2,10 +2,18 @@ package id.indrasudirman.setoranmurojaahapp;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -17,7 +25,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -30,14 +37,23 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.Chronology;
 import org.joda.time.LocalDate;
 import org.joda.time.chrono.IslamicChronology;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import id.indrasudirman.setoranmurojaahapp.adapter.ListMurojaahAdapter;
@@ -69,6 +85,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private View view;
+    private String fileUri;
+    private String pathImage;
 
     public ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
 
@@ -250,12 +268,13 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             String shareMessage = "Setoran Murojaah App";
             //Handle Bottom App Bar view item click here
             if (item.getItemId() == R.id.shareMurojaah) {
-                shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Setoran Murojaah");
-                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                startActivity(Intent.createChooser(shareIntent, "Share via"));
-                overridePendingTransition(0, 0);
+                createImageMurojaahHarian();
+//                shareIntent = new Intent(Intent.ACTION_SEND);
+//                shareIntent.setType("text/plain");
+//                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Setoran Murojaah");
+//                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+//                startActivity(Intent.createChooser(shareIntent, "Share via"));
+//                overridePendingTransition(0, 0);
 //                    Toast.makeText(getApplicationContext(),"Share was click",Toast.LENGTH_SHORT).show();
             }
 
@@ -418,5 +437,119 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         }
 
         return false;
+    }
+
+    //Method to create Bitmap and save it into local
+    public void createImageMurojaahHarian() {
+//        View view = mainMenuBinding.cordinatorLayoutMainMenu;
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        saveImageMurojaahToGallery(bitmap);
+    }
+
+    //Save Bitmap Murojaah Harian to Gallery
+    private void saveImageMurojaahToGallery(Bitmap bitmap) {
+
+        if (Build.VERSION.SDK_INT >= 29) {
+            String title = "murojaah" + new SimpleDateFormat("yyyyMMddHHmmss'.png'").format(new Date());
+            ContentValues values = contentValues();
+            values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + getString(R.string.app_name));
+            values.put(MediaStore.Images.Media.IS_PENDING, true);
+            values.put(MediaStore.Images.Media.DISPLAY_NAME, title); //set Image Murojaah
+            this.pathImage = title;
+
+            Uri uri = this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            if (uri != null) {
+                try {
+                    saveImageToStream(bitmap, this.getContentResolver().openOutputStream(uri));
+                    values.put(MediaStore.Images.Media.IS_PENDING, false);
+                    this.getContentResolver().update(uri, values, null, null);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            File directory = new File(Environment.getDataDirectory().toString() + '/' + getString(R.string.app_name));
+            if (!directory.exists()) {
+                directory.mkdir();
+            }
+            String fileName = "murojaah" + new SimpleDateFormat("yyyyMMddHHmmss'.png'").format(new Date());
+            File file = new File(directory, fileName);
+
+            try {
+                saveImageToStream(bitmap, new FileOutputStream(file));
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATA, file.getAbsolutePath());
+                this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            this.pathImage = fileName;
+        }
+
+    }
+
+    private void saveImageToStream(Bitmap bitmap, OutputStream outputStream) {
+        if (outputStream != null) {
+            try {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                outputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private ContentValues contentValues() {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+        values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+        }
+        return values;
+    }
+
+    //Method to share image setoran murojaah App
+    public void shareMurojaahHarian(String url) {
+        Picasso.with(getApplicationContext()).load(url).into(new Target() {
+
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                try {
+                    File myDir = new File(Environment.getExternalStorageDirectory() + "/setoran murojaah");
+                    if (!myDir.exists()) {
+                        myDir.mkdirs();
+                    }
+                    fileUri = myDir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
+                    FileOutputStream outputStream = new FileOutputStream(fileUri);
+
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                    outputStream.flush();
+                    outputStream.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), BitmapFactory.decodeFile(fileUri), null, null));
+                //Use Intent to share image
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_STREAM, uri);
+                startActivity(Intent.createChooser(intent, "Share Image"));
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        });
     }
 }

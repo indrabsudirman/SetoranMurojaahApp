@@ -68,6 +68,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     private MainMenuNavigationDrawerBinding mainMenuNavigationDrawerBinding;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private View view;
 
     public ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
 
@@ -162,7 +163,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
         //View Binding change findViewById
         mainMenuNavigationDrawerBinding = MainMenuNavigationDrawerBinding.inflate(getLayoutInflater());
-        View view = mainMenuNavigationDrawerBinding.getRoot();
+        view = mainMenuNavigationDrawerBinding.getRoot();
         setContentView(view);
 
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
@@ -248,20 +249,14 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             Intent shareIntent;
             String shareMessage = "Setoran Murojaah App";
             //Handle Bottom App Bar view item click here
-            switch (item.getItemId()) {
-                case R.id.shareMurojaah :
-                    shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Setoran Murojaah");
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                    startActivity(Intent.createChooser(shareIntent,"Share via"));
-                    overridePendingTransition(0,0);
+            if (item.getItemId() == R.id.shareMurojaah) {
+                shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Setoran Murojaah");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                startActivity(Intent.createChooser(shareIntent, "Share via"));
+                overridePendingTransition(0, 0);
 //                    Toast.makeText(getApplicationContext(),"Share was click",Toast.LENGTH_SHORT).show();
-
-                    break;
-                case R.id.setting :
-                    Toast.makeText(getApplicationContext(),"Setting was click",Toast.LENGTH_SHORT).show();
-                    break;
             }
 
             return false;

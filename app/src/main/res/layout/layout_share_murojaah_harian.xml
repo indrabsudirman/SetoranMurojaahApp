@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainLayout">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/teal_700"
+        android:id="@+id/constraintLayoutHeader">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewSetoranMurojaah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Setoran harian"
+            android:fontFamily="@font/french_script"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="30sp"
+            android:textColor="@color/white"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/murojaah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ae_cortoba"
+            android:text="مراجعة"
+            android:textColor="@color/purple_200"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewSetoranMurojaah"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/imageViewSiswa"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/gl_pro"
+            app:civ_border_color="@android:color/darker_gray"
+            app:civ_border_width="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/murojaah"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewNamaSiswa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Siti Nurlubna indra Sudirman"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageViewSiswa"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/teal_700"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:weightSum="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewNamaSiswa"
+            app:layout_constraintEnd_toEndOf="parent">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tanggalMasehi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="1 Januari 2021 M"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/tanggal_masehi" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="right">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tanggalHijriyah"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/tanggal_hijriyah"
+                        android:paddingRight="2dp"
+                        android:paddingEnd="2dp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/bulanHijriyah"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ٱلْمُحَرَّم"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/tanggal_hijriyah"
+                        android:paddingRight="4dp"
+                        android:paddingEnd="4dp"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tahunHijriyah"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1442 H"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/tanggal_hijriyah" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="248dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/constraintLayoutHeader"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

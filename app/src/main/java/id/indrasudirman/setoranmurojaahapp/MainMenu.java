@@ -1,5 +1,6 @@
 package id.indrasudirman.setoranmurojaahapp;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -14,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -37,6 +39,12 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.DexterBuilder;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -55,9 +63,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import id.indrasudirman.setoranmurojaahapp.adapter.ListMurojaahAdapter;
 import id.indrasudirman.setoranmurojaahapp.databinding.ActivityMainMenuBinding;
+import id.indrasudirman.setoranmurojaahapp.databinding.LayoutShareMurojaahHarianBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutToolbarProfileBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.ListMurojaahBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.MainMenuNavigationDrawerBinding;
@@ -87,6 +97,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     private View view;
     private String fileUri;
     private String pathImage;
+    private LayoutShareMurojaahHarianBinding layoutShareMurojaahHarianBinding;
 
     public ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
 
@@ -269,6 +280,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             //Handle Bottom App Bar view item click here
             if (item.getItemId() == R.id.shareMurojaah) {
                 createImageMurojaahHarian();
+//                createImageMurojaahHarian();
 //                shareIntent = new Intent(Intent.ACTION_SEND);
 //                shareIntent.setType("text/plain");
 //                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Setoran Murojaah");
@@ -280,6 +292,48 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
             return false;
         });
+    }
+
+    private void showPermission() {
+        Dexter.withActivity(this)
+                .withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {
+//                            createImageMurojaahHarian();
+                        }
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            showSettingDialog();
+                        }
+
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
+    }
+
+    private void showSettingDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
+        builder.setTitle(getString(R.string.dialog_permission_title));
+        builder.setMessage(getString(R.string.dialog_permission_message));
+        builder.setPositiveButton(getString(R.string.go_to_settings), ((dialog, which) -> {
+            dialog.cancel();
+            openSetting();
+        }));
+        builder.setNegativeButton(getString(android.R.string.cancel), (dialog, which) -> dialog.cancel());
+        builder.show();
+    }
+
+    //navigation user to app settings
+    private void openSetting() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, 101);
     }
 
 
@@ -441,17 +495,19 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     //Method to create Bitmap and save it into local
     public void createImageMurojaahHarian() {
-//        View view = mainMenuBinding.cordinatorLayoutMainMenu;
+//        View view = layoutShareMurojaahHarianBinding.mainLayout;
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
-        saveImageMurojaahToGallery(bitmap);
+//        saveImageMurojaahToGallery(bitmap);
+        mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser.setImageBitmap(bitmap);
     }
 
     //Save Bitmap Murojaah Harian to Gallery
     private void saveImageMurojaahToGallery(Bitmap bitmap) {
 
         if (Build.VERSION.SDK_INT >= 29) {
+            Log.d(MainMenu.class.getName(), "OS Android adalah " + Build.VERSION.SDK_INT);
             String title = "murojaah" + new SimpleDateFormat("yyyyMMddHHmmss'.png'").format(new Date());
             ContentValues values = contentValues();
             values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + getString(R.string.app_name));
@@ -470,9 +526,10 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 }
             }
         } else {
-            File directory = new File(Environment.getDataDirectory().toString() + '/' + getString(R.string.app_name));
+            Log.d(MainMenu.class.getName(), "OS Android adalah " + Build.VERSION.SDK_INT);
+            File directory = new File(Environment.getExternalStorageDirectory().toString() + '/' + getString(R.string.app_name));
             if (!directory.exists()) {
-                directory.mkdir();
+                directory.mkdirs();
             }
             String fileName = "murojaah" + new SimpleDateFormat("yyyyMMddHHmmss'.png'").format(new Date());
             File file = new File(directory, fileName);

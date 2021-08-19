@@ -52,6 +52,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     //Picasso Library to Share Murojaah harian
     implementation 'com.squareup.picasso:picasso:2.3.2'
+    //dexter permissions
+    implementation "com.karumi:dexter:5.0.0"
 
 
 

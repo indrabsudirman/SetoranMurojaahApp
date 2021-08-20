@@ -274,6 +274,14 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
 
+        //Load image from database if exist, or load image default is not exist in database
+        loadProfileDefault();
+
+        // Clearing older images from cache directory
+        // don't call this line if you want to choose multiple images in the same activity
+        // call this once the bitmap(s) usage is over
+        ChangeImageProfileActivity.clearCache(this);
+
     }
 
     @SuppressLint("NonConstantResourceId")

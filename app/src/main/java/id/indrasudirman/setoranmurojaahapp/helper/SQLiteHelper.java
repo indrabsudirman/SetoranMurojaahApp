@@ -146,6 +146,67 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return cursorCount > 0;
     }
 
+    /**
+     * This method to update user photo record
+     *
+     * @ param userEmail, photoPath
+     */
+    public void updateUserImage(String email, String photoPath) {
+
+        int count = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PHOTO_PATH, photoPath);
+        // update Row
+        count = db.update(TABLE_USER,values,COLUMN_USER_MAIL + "= '" + email + "'",null);
+        if (count > 0) {
+            Log.d(TAG, "Image database updated");
+            Log.d(TAG, "Count is " + count);
+        }
+
+        db.close(); // Closing database connection
+
+    }
+
+    public String imagePathAlready (String email) {
+        String imagePath = null;
+
+        String [] column = {COLUMN_PHOTO_PATH};
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        //Selection criteria
+        String selection = COLUMN_USER_MAIL + " = ?";
+
+        //Selection argument
+        String [] selectionArgs = {email};
+
+        /**
+         * Query users table with condition
+         * This query function is used to fetch records from user table this function work like we use sql query
+         * SQL query equivalent to this query function is
+         * SELECT photo_path FROM Users WHERE user_email = 'indrabsudirman@gmail.com';
+         */
+
+        Cursor cursor = sqLiteDatabase.query(TABLE_USER, //Table name
+                column, //Column to return
+                selection, //Select base on
+                selectionArgs, //Select argument
+                null, //The value for the WHERE clause
+                null, //group the row
+                null //filter by row groups
+        );
+        if (cursor.moveToFirst()) {
+            User user = new User();
+            imagePath = cursor.getString(cursor.getColumnIndex(COLUMN_PHOTO_PATH));
+            user.setImageName(imagePath);
+            Log.d(TAG, "ImagePath ada di database, user.getImageName() adalah : " + user.getImageName());
+
+
+        }
+        return imagePath;
+
+    }
+
     public String getSalt(String email) {
         String salt = null;
 

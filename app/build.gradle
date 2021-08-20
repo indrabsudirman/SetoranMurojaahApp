@@ -56,6 +56,14 @@ dependencies {
     implementation "com.karumi:dexter:5.0.0"
     //Crop Image Camera/Gallery
     implementation 'com.github.yalantis:ucrop:2.2.2'
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.github.bumptech.glide:annotations:4.12.0'
+    implementation('com.github.bumptech.glide:glide:4.12.0') {
+        exclude group: 'glide-parent'
+        exclude group: 'androidx.annotation'
+    }
+    annotationProcessor 'androidx.annotation:annotation:1.2.0'
 
 
 

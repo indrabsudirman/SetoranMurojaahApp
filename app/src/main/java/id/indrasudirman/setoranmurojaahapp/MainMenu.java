@@ -2,6 +2,7 @@ package id.indrasudirman.setoranmurojaahapp;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -35,6 +36,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -200,6 +202,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
         layoutToolbarProfileBinding = mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile;
         listMurojaahBinding = mainMenuNavigationDrawerBinding.mainMenuNavDrawer.listMurojaah;
+//        layoutShareMurojaahHarianBinding
 
         //Set Tanggal Masehi
         layoutToolbarProfileBinding.tanggalMasehi.setText(setTanggalMasehi() + " M");
@@ -445,12 +448,12 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     //Method to create Bitmap and save it into local
     public void createImageMurojaahHarian() {
-//        View view = layoutShareMurojaahHarianBinding.mainLayout;
+        View view = layoutShareMurojaahHarianBinding.mainLayout;
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
         saveImageToGallery(bitmap);
-        mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser.setImageBitmap(bitmap);
+//        mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser.setImageBitmap(bitmap);
     }
 
     //Save Bitmap Murojaah Harian to Gallery
@@ -459,7 +462,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
         if (Build.VERSION.SDK_INT >= 29) {
             Log.d(MainMenu.class.getName(), "OS Android adalah " + Build.VERSION.SDK_INT);
-            @SuppressLint("SimpleDateFormat") String title = "profile" + new SimpleDateFormat("yyyyMMddHHmmss'.png'").format(new Date());
+            @SuppressLint("SimpleDateFormat") String title = "murojaah" + new SimpleDateFormat("yyyyMMddHHmmss'.png'").format(new Date());
             ContentValues values = contentValues();
             values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + getString(R.string.app_name));
             values.put(MediaStore.Images.Media.IS_PENDING, true);
@@ -488,7 +491,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             }
 
             @SuppressLint("SimpleDateFormat")
-            String fileName = "profile" + new SimpleDateFormat("yyyyMMddHHmmss'.png'").format(new Date());
+            String fileName = "murojaah" + new SimpleDateFormat("yyyyMMddHHmmss'.png'").format(new Date());
             File file = new File(directory, fileName);
 
             try {
@@ -661,5 +664,77 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_IMAGE) {
+
+            if (resultCode == Activity.RESULT_OK) {
+                Uri uri = data.getParcelableExtra("path");
+                try {
+                    //you can update this bitmap to your server
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                    //save image to local Gallery
+                    saveImageToGallery(bitmap);
+
+                    //loading profile image from local cache
+                    loadProfile(uri.toString());
+                    //save image path to database
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            String s = this.pathImage;
+            Log.d("TAG", "User photo path in onActivityResult " + s); //null
+            String profileEmailS = (String) mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.profileEmail.getText();
+//            user.setEmail(profileEmailS);
+//            Log.d("TAG", "Email user in onActivityResult " + user.getEmail());
+            //Update image path to database
+            sqLiteHelper.updateUserImage(profileEmailS, s);
+        }
+    }
+
+    private void loadProfile(String url) {
+        Log.d("TAG", " image cache path :" + url);
+
+        Glide.with(this).load(url)
+                .into(mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser);
+        mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser.setColorFilter(ContextCompat.getColor(this, android.R.color.transparent));
+    }
+
+    private void loadProfileDefault() {
+        String profileEmailS = (String) mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.profileEmail.getText();
+
+
+        if (sqLiteHelper.imagePathAlready(profileEmailS) != null) {
+            String filename = sqLiteHelper.imagePathAlready(profileEmailS);
+            Log.d("TAG", "Image name dari database, adalah : " + filename);
+
+//            File file = new File(Environment.getExternalStorageDirectory().toString() + '/' + getString(R.string.app_name) + '/' + filename);
+            if (Build.VERSION.SDK_INT >= 29) {
+                File file = new File("/storage/emulated/0/" + Environment.DIRECTORY_PICTURES + File.separator + getString(R.string.app_name) + File.separator + filename);
+                Uri imageUri = Uri.fromFile(file);
+
+                Glide.with(this).load(imageUri)
+                        .into(mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser);
+            } else {
+                File file = new File("/storage/emulated/0/" + getString(R.string.app_name) + File.separator + filename);
+                Uri imageUri = Uri.fromFile(file);
+
+                Glide.with(this).load(imageUri)
+                        .into(mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser);
+            }
+
+        } else {
+            Glide.with(this).load(R.drawable.ic_account_circle)
+                    .into(mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser);
+        }
+        mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser.setColorFilter(ContextCompat.getColor(this, android.R.color.transparent));
+
     }
 }

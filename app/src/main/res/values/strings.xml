@@ -10,6 +10,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="register_here">Don\'t have account! Register here!</string>
     <string name="already_a_member_login">Already a member? Login</string>
+    <string name="skip_register">Don\'t want to register, skip here!</string>
 <!--    Detail Surat -->
     <string name="surat_ke">Surat ke </string>
     <string name="satu">1</string>

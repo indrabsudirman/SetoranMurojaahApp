@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         registerHere();
+        skipRegister();
 
         mainBinding.appCompatButtonLogin.setOnClickListener(v -> loginClick());
 
@@ -184,5 +185,20 @@ public class MainActivity extends AppCompatActivity {
         spannableString.setSpan(clickableSpan, 20, 34, 0);
         mainBinding.appCompatTextViewRegisterLink.setMovementMethod(LinkMovementMethod.getInstance());
         mainBinding.appCompatTextViewRegisterLink.setText(spannableString);
+    }
+
+    private void skipRegister() {
+        SpannableString spannableString = new SpannableString("Don't want to register, skip here!");
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+                Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                startActivity(intent);
+                overridePendingTransition(0,0);
+            }
+        };
+        spannableString.setSpan(clickableSpan, 24, 34, 0);
+        mainBinding.appCompatTextViewSkipRegister.setMovementMethod(LinkMovementMethod.getInstance());
+        mainBinding.appCompatTextViewSkipRegister.setText(spannableString);
     }
 }

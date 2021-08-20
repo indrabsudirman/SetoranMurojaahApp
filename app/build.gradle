@@ -54,6 +54,8 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.3.2'
     //dexter permissions
     implementation "com.karumi:dexter:5.0.0"
+    //Crop Image Camera/Gallery
+    implementation 'com.github.yalantis:ucrop:2.2.2'
 
 
 

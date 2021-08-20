@@ -77,6 +77,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 public class MainMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final int REQUEST_IMAGE = 100;
     private static final String SHARED_PREF_NAME = "sharedPrefLogin";
     private static final String SHARED_PREF_DATE = "sharedPrefDate";
     private static final String KEY_EMAIL = "email";
@@ -178,11 +179,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         }
     };
 
-    private void printArrayList(ArrayList<MurojaahItem> murojaahItemArrayList) {
-        for (MurojaahItem murojaahItem : murojaahItemArrayList){
-            System.out.println(murojaahItem);
-        }
-    }
 
     @SuppressLint({"SetTextI18n", "WrongConstant", "NonConstantResourceId"})
     @Override
@@ -268,7 +264,12 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         //Set event ClickListener on Bottom App Bar
         bottomAppBarMenuClickListener();
 
-
+        mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeImageClicked();
+            }
+        });
 
     }
 
@@ -279,8 +280,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             String shareMessage = "Setoran Murojaah App";
             //Handle Bottom App Bar view item click here
             if (item.getItemId() == R.id.shareMurojaah) {
+//                changeImageClicked();
                 createImageMurojaahHarian();
-//                createImageMurojaahHarian();
 //                shareIntent = new Intent(Intent.ACTION_SEND);
 //                shareIntent.setType("text/plain");
 //                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Setoran Murojaah");
@@ -294,57 +295,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         });
     }
 
-    private void showPermission() {
-        Dexter.withActivity(this)
-                .withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        if (report.areAllPermissionsGranted()) {
-//                            createImageMurojaahHarian();
-                        }
-                        if (report.isAnyPermissionPermanentlyDenied()) {
-                            showSettingDialog();
-                        }
-
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).check();
-    }
-
-    private void showSettingDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
-        builder.setTitle(getString(R.string.dialog_permission_title));
-        builder.setMessage(getString(R.string.dialog_permission_message));
-        builder.setPositiveButton(getString(R.string.go_to_settings), ((dialog, which) -> {
-            dialog.cancel();
-            openSetting();
-        }));
-        builder.setNegativeButton(getString(android.R.string.cancel), (dialog, which) -> dialog.cancel());
-        builder.show();
-    }
-
-    //navigation user to app settings
-    private void openSetting() {
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.fromParts("package", getPackageName(), null);
-        intent.setData(uri);
-        startActivityForResult(intent, 101);
-    }
-
-
-    //method add Murojaah Item in a list
-    public void addMurojaahItem(int position, MurojaahItem murojaahItemArrayList) {
-//        murojaahItemArrayList.add(position, murojaahItemArrayList.get(position));
-    }
-
-    //method remove Murojaah Item in a list
-    public void removeMurojaahItem(int position) {
-    }
 
     public void createMurojaahArrayList() {
         if (murojaahItemArrayList == null) {
@@ -499,21 +449,25 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
-//        saveImageMurojaahToGallery(bitmap);
+        saveImageToGallery(bitmap);
         mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser.setImageBitmap(bitmap);
     }
 
     //Save Bitmap Murojaah Harian to Gallery
-    private void saveImageMurojaahToGallery(Bitmap bitmap) {
+    private void saveImageToGallery(Bitmap bitmap) {
+
 
         if (Build.VERSION.SDK_INT >= 29) {
             Log.d(MainMenu.class.getName(), "OS Android adalah " + Build.VERSION.SDK_INT);
-            String title = "murojaah" + new SimpleDateFormat("yyyyMMddHHmmss'.png'").format(new Date());
+            @SuppressLint("SimpleDateFormat") String title = "profile" + new SimpleDateFormat("yyyyMMddHHmmss'.png'").format(new Date());
             ContentValues values = contentValues();
             values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + getString(R.string.app_name));
             values.put(MediaStore.Images.Media.IS_PENDING, true);
-            values.put(MediaStore.Images.Media.DISPLAY_NAME, title); //set Image Murojaah
+            values.put(MediaStore.Images.Media.DISPLAY_NAME, title); //set name image
             this.pathImage = title;
+//            user.setImageName(title);
+//            Log.d(MainMenu.class.getName(), "Image profile name from getImageName is " + user.getImageName());
+            Log.d(MainMenu.class.getName(), "Image profile name from title is " + title);
 
             Uri uri = this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             if (uri != null) {
@@ -528,10 +482,13 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         } else {
             Log.d(MainMenu.class.getName(), "OS Android adalah " + Build.VERSION.SDK_INT);
             File directory = new File(Environment.getExternalStorageDirectory().toString() + '/' + getString(R.string.app_name));
+//            File directory = new File(getBaseContext().getExternalFilesDir(n) + '/' + getString(R.string.app_name));
             if (!directory.exists()) {
                 directory.mkdirs();
             }
-            String fileName = "murojaah" + new SimpleDateFormat("yyyyMMddHHmmss'.png'").format(new Date());
+
+            @SuppressLint("SimpleDateFormat")
+            String fileName = "profile" + new SimpleDateFormat("yyyyMMddHHmmss'.png'").format(new Date());
             File file = new File(directory, fileName);
 
             try {
@@ -539,10 +496,21 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 ContentValues values = new ContentValues();
                 values.put(MediaStore.Images.Media.DATA, file.getAbsolutePath());
                 this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
             this.pathImage = fileName;
+            Log.d("TAG", "Image name now at : " + fileName);
+
+//            user.setImageName(fileName);
+//            String photo = user.getImageName();
+//            Log.d(TAG, "Image name now at setImageName : " + photo);
+//
+//            String name = user.getName(); //Null
+//            Log.d(TAG, "name now at getName : " + name);
+
         }
 
     }
@@ -566,6 +534,91 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
         }
         return values;
+    }
+
+
+    private void changeImageClicked() {
+        Dexter.withActivity(this)
+                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {
+                            showImagePickerOption();
+                        }
+
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            showSettingDialog();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
+    }
+    private void showImagePickerOption() {
+        ChangeImageProfileActivity.showImagePickerOption(this, new ChangeImageProfileActivity.PickerOptionListener() {
+            @Override
+            public void onTakeCameraSelected() {
+                launchCameraIntent();
+            }
+
+            @Override
+            public void onChooseGallerySelected() {
+                launchGalleryIntent();
+            }
+        });
+
+    }
+
+    private void launchCameraIntent() {
+        Intent intent = new Intent(MainMenu.this, ChangeImageProfileActivity.class);
+        intent.putExtra(ChangeImageProfileActivity.INTENT_IMAGE_PICKER_OPTION, ChangeImageProfileActivity.REQUEST_IMAGE_CAPTURE);
+
+        //Setting aspect ratio
+        intent.putExtra(ChangeImageProfileActivity.INTENT_LOCK_ASPECT_RATIO, true);
+        intent.putExtra(ChangeImageProfileActivity.INTENT_ASPECT_RATIO_X, 1); //16x9, 1x1,3:4, 3:2
+        intent.putExtra(ChangeImageProfileActivity.INTENT_ASPECT_RATIO_Y, 1);
+
+        //setting maximum bitmap width and height
+        intent.putExtra(ChangeImageProfileActivity.INTENT_SET_BITMAP_MAX_WIDTH_HEIGHT, true);
+        intent.putExtra(ChangeImageProfileActivity.INTENT_BITMAP_MAX_WIDTH, 1000);
+        intent.putExtra(ChangeImageProfileActivity.INTENT_BITMAP_MAX_HEIGHT, 1000);
+
+        startActivityForResult(intent, REQUEST_IMAGE);
+    }
+
+    private void launchGalleryIntent() {
+        Intent intent = new Intent(MainMenu.this, ChangeImageProfileActivity.class);
+        intent.putExtra(ChangeImageProfileActivity.INTENT_IMAGE_PICKER_OPTION, ChangeImageProfileActivity.REQUEST_GALLERY_IMAGE);
+
+        //setting aspect ratio
+        intent.putExtra(ChangeImageProfileActivity.INTENT_LOCK_ASPECT_RATIO, true);
+        intent.putExtra(ChangeImageProfileActivity.INTENT_ASPECT_RATIO_X, 1); //16x9, 1x1, 3:4, 3:2
+        intent.putExtra(ChangeImageProfileActivity.INTENT_ASPECT_RATIO_Y, 1);
+        startActivityForResult(intent, REQUEST_IMAGE);
+    }
+
+    private void showSettingDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
+        builder.setTitle(getString(R.string.dialog_permission_title));
+        builder.setMessage(getString(R.string.dialog_permission_message));
+        builder.setPositiveButton(getString(R.string.go_to_settings), ((dialog, which) -> {
+            dialog.cancel();
+            openSetting();
+        }));
+        builder.setNegativeButton(getString(android.R.string.cancel), (dialog, which) -> dialog.cancel());
+        builder.show();
+    }
+
+    //navigation user to app settings
+    private void openSetting() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, 101);
     }
 
     //Method to share image setoran murojaah App

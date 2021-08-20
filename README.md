@@ -11,6 +11,7 @@ Semoga dapat selesai. Aamiin YRB.
 Apa yang saya pelajari pada App ini :
 
 1. ViewBinding menggantikan findViewById
+2. ConstraintLayout
 
 [<img src="https://user-images.githubusercontent.com/36407161/116968393-91935080-acde-11eb-876a-e71402ecc668.png" width="50%">]
 

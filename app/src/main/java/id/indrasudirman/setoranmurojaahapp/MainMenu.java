@@ -42,11 +42,13 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.karumi.dexter.Dexter;
-import com.karumi.dexter.DexterBuilder;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.karumi.dexter.listener.single.PermissionListener;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -277,7 +279,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeImageClicked();
+                checkPermissionToChangeImageProfile();
             }
         });
 
@@ -299,7 +301,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             //Handle Bottom App Bar view item click here
             if (item.getItemId() == R.id.shareMurojaah) {
 //                changeImageClicked();
-                createImageMurojaahHarian();
+                checkPermissionToSaveImageMurojaahHarian();
 //                shareIntent = new Intent(Intent.ACTION_SEND);
 //                shareIntent.setType("text/plain");
 //                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Setoran Murojaah");
@@ -463,7 +465,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     //Method to create Bitmap and save it into local
     public void createImageMurojaahHarian() {
-        View view = layoutShareMurojaahHarianBinding.mainLayout;
+//        View view = layoutShareMurojaahHarianBinding.mainLayout;
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
@@ -555,7 +557,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     }
 
 
-    private void changeImageClicked() {
+    private void checkPermissionToChangeImageProfile() {
         Dexter.withActivity(this)
                 .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(new MultiplePermissionsListener() {
@@ -566,6 +568,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                         }
 
                         if (report.isAnyPermissionPermanentlyDenied()) {
+                            Toast.makeText(getApplicationContext()
+                                    , "Gagal mengganti foto profil, permission ditolak!", Toast.LENGTH_SHORT).show();
                             showSettingDialog();
                         }
                     }
@@ -574,6 +578,30 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                     public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
                         token.continuePermissionRequest();
                     }
+                }).check();
+    }
+
+    private void checkPermissionToSaveImageMurojaahHarian() {
+        Dexter.withActivity(this)
+                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        createImageMurojaahHarian();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+                        Toast.makeText(getApplicationContext()
+                        , "Gagal share Murojaah harian, permission ditolak!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+
+
                 }).check();
     }
     private void showImagePickerOption() {
@@ -746,7 +774,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             }
 
         } else {
-            Glide.with(this).load(R.drawable.ic_account_circle)
+            Glide.with(this).load(R.mipmap.account)
                     .into(mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser);
         }
         mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser.setColorFilter(ContextCompat.getColor(this, android.R.color.transparent));

@@ -204,6 +204,13 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         listMurojaahBinding = mainMenuNavigationDrawerBinding.mainMenuNavDrawer.listMurojaah;
 //        layoutShareMurojaahHarianBinding
 
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        userEmail = (sharedPreferences.getString(KEY_EMAIL, "").trim());
+
+        String userName = sqLiteHelper.getUserName(userEmail);
+        layoutToolbarProfileBinding.profileUserName.setText(userName);
+        layoutToolbarProfileBinding.profileEmail.setText(userEmail);
+
         //Set Tanggal Masehi
         layoutToolbarProfileBinding.tanggalMasehi.setText(setTanggalMasehi() + " M");
 

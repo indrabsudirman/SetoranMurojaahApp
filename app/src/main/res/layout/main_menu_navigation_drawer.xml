@@ -27,4 +27,11 @@
         app:itemIconTint="@color/white"
         android:background="@color/teal_700"/>
 
+    <include
+        layout="@layout/layout_share_murojaah_harian"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        android:id="@+id/layout_share_murojaah_harian"/>
+
 </androidx.drawerlayout.widget.DrawerLayout>

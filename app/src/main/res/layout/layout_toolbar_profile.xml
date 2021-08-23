@@ -18,8 +18,7 @@
             android:layout_marginTop="@dimen/activity_padding"
             android:layout_marginBottom="@dimen/activity_padding"
             android:scaleType="centerInside"
-            android:src="@drawable/gl_pro"
-            app:civ_border_color="@android:color/white"
+            android:src="@mipmap/account_blue"
             app:civ_border_width="2dp" />
 
 

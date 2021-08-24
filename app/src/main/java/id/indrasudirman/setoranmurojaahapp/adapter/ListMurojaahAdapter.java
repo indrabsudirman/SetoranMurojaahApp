@@ -55,7 +55,7 @@ public class ListMurojaahAdapter extends RecyclerView.Adapter<ListMurojaahAdapte
         MurojaahItem murojaahItem = iMurojaahItemArrayList.get(position);
 
 
-        holder.iNumberMurojaah.setText((String.valueOf(position + 1 +".")));
+        holder.iNumberMurojaah.setText((String.valueOf(position + 1 +". ")));
         holder.iTypeMurojaah.setText(murojaahItem.getTypeMurojaah());
         holder.iNamaSurat.setText(murojaahItem.getNamaSurat());
         holder.iAyatMurojaah.setText(murojaahItem.getAyatMurojaah());

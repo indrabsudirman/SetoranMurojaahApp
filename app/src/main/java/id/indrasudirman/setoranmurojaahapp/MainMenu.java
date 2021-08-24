@@ -487,6 +487,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
         Bitmap bm = Bitmap.createBitmap(recyclerView.getWidth(), recyclerView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bm);
+        canvas.drawColor(getColor(R.color.white)); //Lama ini mikirin disini, kenapa pas take screenshot selalu blackscreen. Ternyata harus set warna dasar dulu.. Alhamdulillah :)
         recyclerView.draw(canvas);
 
         saveImageToGallery(bm);

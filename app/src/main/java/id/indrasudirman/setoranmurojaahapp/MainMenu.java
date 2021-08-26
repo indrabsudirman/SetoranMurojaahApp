@@ -481,17 +481,33 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 //        Bitmap b = Bitmap.createBitmap(u.getWidth(), u.getHeight(), Bitmap.Config.ARGB_8888);
 //        Canvas canvas = new Canvas(b);
 //        u.draw(canvas);
-        recyclerView.measure(
-                View.MeasureSpec.makeMeasureSpec(recyclerView.getWidth(), View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        if (recyclerView.getWidth() > 0 | recyclerView.getMeasuredHeight() > 0) {
+            recyclerView.measure(
+                    View.MeasureSpec.makeMeasureSpec(recyclerView.getWidth(), View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
 
-        Bitmap bm = Bitmap.createBitmap(recyclerView.getWidth(), recyclerView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bm);
-        canvas.drawColor(getColor(R.color.white)); //Lama ini mikirin disini, kenapa pas take screenshot selalu blackscreen. Ternyata harus set warna dasar dulu.. Alhamdulillah :)
-        recyclerView.draw(canvas);
+            Bitmap bm = Bitmap.createBitmap(recyclerView.getWidth(), recyclerView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bm);
+            canvas.drawColor(getColor(R.color.white)); //Lama ini mikirin disini, kenapa pas take screenshot selalu blackscreen. Ternyata harus set warna dasar dulu.. Alhamdulillah :)
+            recyclerView.draw(canvas);
+            saveImageToGallery(bm);
+        } else {
+            View v1 = getWindow().getDecorView().getRootView();
+            Bitmap bm = Bitmap.createBitmap(v1.getWidth(), v1.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bm);
+            v1.draw(canvas);
+            saveImageToGallery(bm);
 
-        saveImageToGallery(bm);
+            Toast.makeText(getApplicationContext(), "List Murojaah kosong", Toast.LENGTH_SHORT).show();
+        }
+
+
+
 //        saveImageToGallery(getRecyclerViewScreenShot(listMurojaahBinding.recyclerViewListMurojaah));
+    }
+
+    private void getBitmapAllLayout (RecyclerView recyclerView, View view, int height, int width) {
+//        Bitmap bitmap = Bitmap.createBitmap(view.)
     }
 
     public static Bitmap getRecyclerViewScreenShot(RecyclerView view) {

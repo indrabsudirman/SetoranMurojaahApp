@@ -1,5 +1,6 @@
 package id.indrasudirman.setoranmurojaahapp.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,13 +51,14 @@ public class ListMurojaahAdapter extends RecyclerView.Adapter<ListMurojaahAdapte
         return murojaahViewHolder;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ListMurojaahViewHolder holder, int position) {
         MurojaahItem murojaahItem = iMurojaahItemArrayList.get(position);
 
 
-        holder.iNumberMurojaah.setText((String.valueOf(position + 1 +". ")));
-        holder.iTypeMurojaah.setText(murojaahItem.getTypeMurojaah());
+        holder.iNumberMurojaah.setText((position + 1 + "."));
+        holder.iTypeMurojaah.setText(" "+murojaahItem.getTypeMurojaah());
         holder.iNamaSurat.setText(murojaahItem.getNamaSurat());
         holder.iAyatMurojaah.setText(murojaahItem.getAyatMurojaah());
     }

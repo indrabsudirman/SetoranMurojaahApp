@@ -545,6 +545,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             holder.itemView.destroyDrawingCache();
         }
 
+
         return bigBitmap;
 
 
@@ -665,6 +666,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
                         takeScreenShot(listMurojaahBinding.recyclerViewListMurojaah);
+//                        saveImageToGallery(getRecyclerViewScreenShot(listMurojaahBinding.recyclerViewListMurojaah));
                     }
 
                     @Override

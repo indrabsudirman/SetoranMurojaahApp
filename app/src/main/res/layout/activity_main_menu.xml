@@ -30,6 +30,15 @@
                     android:id="@+id/layout_toolbar_profile"
                     layout="@layout/layout_toolbar_profile" />
 
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_anchor="@+id/extendedFab"
+                    app:layout_anchorGravity="center"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -71,14 +80,7 @@
         app:backgroundTint="@color/purple_200"
         android:textAllCaps="false"/>
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_anchor="@+id/extendedFab"
-        app:layout_anchorGravity="center"
-        app:layout_collapseMode="pin"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

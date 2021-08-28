@@ -374,7 +374,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             String columnTypeMurojaah = cursor.getString(cursor.getColumnIndex(MUROJAAH_TYPE));
             String columnSuratMurojaah = cursor.getString(cursor.getColumnIndex(SURAT));
             String columnAyatMurojaah = cursor.getString(cursor.getColumnIndex(AYAT));
-            MurojaahItem murojaahItem = new MurojaahItem(columnTypeMurojaah, columnSuratMurojaah, "Ayat "+columnAyatMurojaah);
+            MurojaahItem murojaahItem = new MurojaahItem(columnTypeMurojaah, columnSuratMurojaah, " "+columnAyatMurojaah);
             murojaahArrayList.add(murojaahItem);
 
         }

@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -475,10 +476,10 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 //        mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser.setImageBitmap(bitmap);
     }
 
-    private void takeScreenShot(RecyclerView recyclerView) {
+    private Bitmap takeScreenShot(RecyclerView recyclerView) {
 //        View u = mainMenuNavigationDrawerBinding.layoutShareMurojaahHarian.mainLayout;
 //        RecyclerView z = mainMenuNavigationDrawerBinding.mainMenuNavDrawer.listMurojaah.recyclerViewListMurojaah;
-//        Bitmap b = Bitmap.createBitmap(u.getWidth(), u.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bitmap;
 //        Canvas canvas = new Canvas(b);
 //        u.draw(canvas);
         if (recyclerView.getWidth() > 0 | recyclerView.getMeasuredHeight() > 0) {
@@ -486,30 +487,61 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                     View.MeasureSpec.makeMeasureSpec(recyclerView.getWidth(), View.MeasureSpec.EXACTLY),
                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
 
-            Bitmap bm = Bitmap.createBitmap(recyclerView.getWidth(), recyclerView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bm);
+            bitmap = Bitmap.createBitmap(recyclerView.getWidth(), recyclerView.getMeasuredHeight() + 1000, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
             canvas.drawColor(getColor(R.color.white)); //Lama ini mikirin disini, kenapa pas take screenshot selalu blackscreen. Ternyata harus set warna dasar dulu.. Alhamdulillah :)
             recyclerView.draw(canvas);
-            saveImageToGallery(bm);
+//            saveImageToGallery(bm);
         } else {
             View v1 = getWindow().getDecorView().getRootView();
-            Bitmap bm = Bitmap.createBitmap(v1.getWidth(), v1.getHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bm);
+            bitmap = Bitmap.createBitmap(v1.getWidth(), v1.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
             v1.draw(canvas);
-            saveImageToGallery(bm);
+//            saveImageToGallery(bm);
 
             Toast.makeText(getApplicationContext(), "List Murojaah kosong", Toast.LENGTH_SHORT).show();
         }
+        return bitmap;
 
-
-
-//        saveImageToGallery(getRecyclerViewScreenShot(listMurojaahBinding.recyclerViewListMurojaah));
     }
 
-    private void getBitmapAllLayout (RecyclerView recyclerView, View view, int height, int width) {
-//        Bitmap bitmap = Bitmap.createBitmap(view.)
+    public static Bitmap addLogo(Bitmap mainImage, Bitmap logoImage) {
+        Bitmap finalImage = null;
+        int width, height = 0;
+        width = mainImage.getWidth();
+        height = mainImage.getHeight();
+        finalImage = Bitmap.createBitmap(width, height, mainImage.getConfig());
+        Canvas canvas = new Canvas(finalImage);
+        canvas.drawBitmap(mainImage, 0,0,null);
+        canvas.drawBitmap(logoImage, canvas.getWidth()-logoImage.getWidth() ,canvas.getHeight()-logoImage.getHeight(),null);
+
+        return finalImage;
     }
 
+    private Bitmap cropToSquare (Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int newWidth = (height > width) ? width : height;
+        int newHeight = (height > width) ? height - (height - width) : height;
+        int cropW = (width - height) / 2;
+        cropW = (cropW < 0) ? 0 : cropW;
+        int cropH = (height - width) / 2;
+        cropH = (cropH < 0) ? 0 : cropH;
+
+        Bitmap cropImg = Bitmap.createBitmap(bitmap, cropW, cropH, newWidth ,newHeight);
+
+        return cropImg;
+    }
+
+    private Bitmap screenShotView (View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+
+        return bitmap;
+    }
+
+    //Not get screen shot all Recyclerview. Some number ayat missing
     public static Bitmap getRecyclerViewScreenShot(RecyclerView view) {
         int size = view.getAdapter().getItemCount();
         RecyclerView.ViewHolder holder = view.getAdapter().createViewHolder(view, 0);
@@ -665,7 +697,12 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
-                        takeScreenShot(listMurojaahBinding.recyclerViewListMurojaah);
+                        Bitmap bitmap1 = screenShotView(view);
+                        Bitmap bitmap2 = takeScreenShot(listMurojaahBinding.recyclerViewListMurojaah);
+//                        Bitmap bitmap3 = mergeBitmap(bitmap1, bitmap2);
+//                        saveImageToGallery(bitmap2);
+//                        saveImageToGallery(cropToSquare(bitmap1));
+                        saveImageToGallery(addLogo(bitmap2, cropToSquare(bitmap1)));
 //                        saveImageToGallery(getRecyclerViewScreenShot(listMurojaahBinding.recyclerViewListMurojaah));
                     }
 

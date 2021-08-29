@@ -13,6 +13,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -59,6 +62,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joda.time.Chronology;
 import org.joda.time.LocalDate;
 import org.joda.time.chrono.IslamicChronology;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -487,7 +491,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                     View.MeasureSpec.makeMeasureSpec(recyclerView.getWidth(), View.MeasureSpec.EXACTLY),
                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
 
-            bitmap = Bitmap.createBitmap(recyclerView.getWidth(), recyclerView.getMeasuredHeight() + 1000, Bitmap.Config.ARGB_8888);
+            bitmap = Bitmap.createBitmap(recyclerView.getWidth() + 60, recyclerView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
             canvas.drawColor(getColor(R.color.white)); //Lama ini mikirin disini, kenapa pas take screenshot selalu blackscreen. Ternyata harus set warna dasar dulu.. Alhamdulillah :)
             recyclerView.draw(canvas);
@@ -516,6 +520,74 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         canvas.drawBitmap(logoImage, canvas.getWidth()-logoImage.getWidth() ,canvas.getHeight()-logoImage.getHeight(),null);
 
         return finalImage;
+    }
+
+    public static Bitmap padBitmap(Bitmap bitmap)
+    {
+        int paddingX;
+        int paddingY;
+
+        if (bitmap.getWidth() == bitmap.getHeight())
+        {
+            paddingX = 0;
+            paddingY = 0;
+        }
+        else if (bitmap.getWidth() > bitmap.getHeight())
+        {
+            paddingX = 0;
+            paddingY = bitmap.getWidth() - bitmap.getHeight();
+        }
+        else
+        {
+            paddingX = 0;
+            paddingY = 0;
+        }
+
+        Bitmap paddedBitmap = Bitmap.createBitmap(
+                bitmap.getWidth() + paddingX,
+                bitmap.getHeight() + paddingY,
+                Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(paddedBitmap);
+        canvas.drawARGB(0xFF, 0xFF, 0xFF, 0xFF); // this represents white color
+        canvas.drawBitmap(
+                bitmap,
+                paddingX / 2,
+                paddingY / 2,
+                new Paint(Paint.FILTER_BITMAP_FLAG));
+
+        return paddedBitmap;
+    }
+
+
+    public Bitmap addPaddingTopForBitmap(Bitmap bitmap) {
+
+        Bitmap outputBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight() + 500, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(outputBitmap);
+        canvas.drawColor(getColor(R.color.teal_700));
+        canvas.drawBitmap(bitmap, 0, 500, null);
+//        canvas.drawText("Indra", x, y, null);
+
+        return outputBitmap;
+    }
+
+    public static Bitmap drawStringOnBitmap(Bitmap src) {
+
+//        Bitmap result// = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
+
+        int x = src.getWidth() / 2;
+        int y = 0;
+        Canvas canvas = new Canvas(src);
+        Paint paint = new Paint();
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
+        paint.setTextSize(34);
+//        paint.setTypeface(BOL)
+//        paint.setTextAlign(Paint.Align.RIGHT);
+        canvas.drawBitmap(src, 0, 0, paint);
+        canvas.drawText("Hello Android!", x - 9, 100, paint); // draw watermark at top right corner
+
+        return src;
+
     }
 
     private Bitmap cropToSquare (Bitmap bitmap) {
@@ -697,12 +769,28 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
-                        Bitmap bitmap1 = screenShotView(view);
+//                        Bitmap bitmap1 = screenShotView(view);
                         Bitmap bitmap2 = takeScreenShot(listMurojaahBinding.recyclerViewListMurojaah);
 //                        Bitmap bitmap3 = mergeBitmap(bitmap1, bitmap2);
 //                        saveImageToGallery(bitmap2);
 //                        saveImageToGallery(cropToSquare(bitmap1));
-                        saveImageToGallery(addLogo(bitmap2, cropToSquare(bitmap1)));
+//                        addPaddingTopForBitmap(bitmap2);
+
+                        // Top-centre
+//                        int x = bitmap2.getWidth() / 2 - (bitmap2.getWidth() / 2);;
+//                        int y = 0;
+//                        // The watermark itself. It doesn't have to be mutable.
+//                        Bitmap watermarkBitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+//                                R.drawable.gl_pro);
+//                        // Creating a canvas with mainBitmap
+//                        Canvas canvas = new Canvas(bitmap2);
+//                        // The actual watermarking
+//                        canvas.drawBitmap(watermarkBitmap, 0, 0, null);
+                        Bitmap bitmap3 = addPaddingTopForBitmap(bitmap2);
+                        Bitmap bitmap4 = drawStringOnBitmap(bitmap3);
+                        saveImageToGallery(bitmap4);
+//                        addLogo(cropToSquare(bitmap1), bitmap2);
+
 //                        saveImageToGallery(getRecyclerViewScreenShot(listMurojaahBinding.recyclerViewListMurojaah));
                     }
 

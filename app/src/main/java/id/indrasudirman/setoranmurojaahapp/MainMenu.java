@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -16,7 +17,9 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.fonts.Font;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +38,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -98,7 +102,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     private ListMurojaahBinding listMurojaahBinding;
     private SQLiteHelper sqLiteHelper;
     private SharedPreferences sharedPreferences, sharedPreferencesDate;
-    private String userEmail;
+    private String userEmail, userName;
     private String dateString;
     private RecyclerView.Adapter adapterListMurojaah;
     private RecyclerView.LayoutManager layoutManagerListMurojaah;
@@ -216,7 +220,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         userEmail = (sharedPreferences.getString(KEY_EMAIL, "").trim());
 
-        String userName = sqLiteHelper.getUserName(userEmail);
+        userName = sqLiteHelper.getUserName(userEmail);
         layoutToolbarProfileBinding.profileUserName.setText(userName);
         layoutToolbarProfileBinding.profileEmail.setText(userEmail);
 
@@ -522,43 +526,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         return finalImage;
     }
 
-    public static Bitmap padBitmap(Bitmap bitmap)
-    {
-        int paddingX;
-        int paddingY;
-
-        if (bitmap.getWidth() == bitmap.getHeight())
-        {
-            paddingX = 0;
-            paddingY = 0;
-        }
-        else if (bitmap.getWidth() > bitmap.getHeight())
-        {
-            paddingX = 0;
-            paddingY = bitmap.getWidth() - bitmap.getHeight();
-        }
-        else
-        {
-            paddingX = 0;
-            paddingY = 0;
-        }
-
-        Bitmap paddedBitmap = Bitmap.createBitmap(
-                bitmap.getWidth() + paddingX,
-                bitmap.getHeight() + paddingY,
-                Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(paddedBitmap);
-        canvas.drawARGB(0xFF, 0xFF, 0xFF, 0xFF); // this represents white color
-        canvas.drawBitmap(
-                bitmap,
-                paddingX / 2,
-                paddingY / 2,
-                new Paint(Paint.FILTER_BITMAP_FLAG));
-
-        return paddedBitmap;
-    }
-
 
     public Bitmap addPaddingTopForBitmap(Bitmap bitmap) {
 
@@ -566,25 +533,38 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         Canvas canvas = new Canvas(outputBitmap);
         canvas.drawColor(getColor(R.color.teal_700));
         canvas.drawBitmap(bitmap, 0, 500, null);
-//        canvas.drawText("Indra", x, y, null);
 
         return outputBitmap;
     }
 
-    public static Bitmap drawStringOnBitmap(Bitmap src) {
+    private int getApproxXToCenterText (String text, Typeface typeface, int fontSize, int widthToFitStringInto) {
+        Paint paint = new Paint();
+        paint.setTypeface(typeface);
+        paint.setTextSize(fontSize);
+        float textWidth = paint.measureText(text);
+        return (int) ((widthToFitStringInto-textWidth)/2f) - (int) (fontSize/2f);
+    }
+
+    public Bitmap drawStringOnBitmap(Bitmap src) {
 
 //        Bitmap result// = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
 
-        int x = src.getWidth() / 2;
+        int userNameLength = userName.length();
+        int x = src.getWidth() - userNameLength;
         int y = 0;
         Canvas canvas = new Canvas(src);
         Paint paint = new Paint();
+        paint.setColor(Color.WHITE); //Color text
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
         paint.setTextSize(34);
+        Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.lateef);
 //        paint.setTypeface(BOL)
 //        paint.setTextAlign(Paint.Align.RIGHT);
+        int headerFontSize = 140;
+        int xOffset = getApproxXToCenterText(userName, typeface, headerFontSize, src.getWidth());
+
         canvas.drawBitmap(src, 0, 0, paint);
-        canvas.drawText("Hello Android!", x - 9, 100, paint); // draw watermark at top right corner
+        canvas.drawText(userName, 100, 100, paint); // draw watermark at top right corner
 
         return src;
 

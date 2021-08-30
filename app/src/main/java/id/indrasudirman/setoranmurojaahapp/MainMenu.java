@@ -114,6 +114,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     private String fileUri;
     private String pathImage;
     private LayoutShareMurojaahHarianBinding layoutShareMurojaahHarianBinding;
+    private boolean isTrue = false;
 
     public ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
 
@@ -307,19 +308,11 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     @SuppressLint("NonConstantResourceId")
     private void bottomAppBarMenuClickListener() {
         mainMenuNavigationDrawerBinding.mainMenuNavDrawer.bottomAppBar.setOnMenuItemClickListener(item -> {
-            Intent shareIntent;
-            String shareMessage = "Setoran Murojaah App";
-            //Handle Bottom App Bar view item click here
+
             if (item.getItemId() == R.id.shareMurojaah) {
-//                changeImageClicked();
+
                 checkPermissionToSaveImageMurojaahHarian();
-//                shareIntent = new Intent(Intent.ACTION_SEND);
-//                shareIntent.setType("text/plain");
-//                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Setoran Murojaah");
-//                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-//                startActivity(Intent.createChooser(shareIntent, "Share via"));
-//                overridePendingTransition(0, 0);
-//                    Toast.makeText(getApplicationContext(),"Share was click",Toast.LENGTH_SHORT).show();
+
             }
 
             return false;
@@ -736,6 +729,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                             Bitmap bitmap4 = drawStringOnBitmap(bitmap3);
                             Bitmap bitmap5 = addWaterMark(bitmap4);
                             saveImageToGallery(bitmap5);
+                            shareMurojaahHarian(bitmap5);
+                            isTrue = true;
 
                         } else {
                             Toast.makeText(getApplicationContext(), "List Murojaah kosong", Toast.LENGTH_SHORT).show();
@@ -824,45 +819,20 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     //Method to share image setoran murojaah App
-    public void shareMurojaahHarian(String url) {
-        Picasso.with(getApplicationContext()).load(url).into(new Target() {
+    public void shareMurojaahHarian(Bitmap bitmap) {
+        String shareMessage = "Assalamu'alaikum Ustad/Ustadzah, " + userName + " share murojaah hari ini. Terima kasih";
+        Uri imageUri;
+        String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), bitmap, pathImage, null);
+        imageUri = Uri.parse(path);
+        //Use Intent to share image
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        intent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+        startActivity(Intent.createChooser(intent, "Share Murojaah to"));
 
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                try {
-                    File myDir = new File(Environment.getExternalStorageDirectory() + "/setoran murojaah");
-                    if (!myDir.exists()) {
-                        myDir.mkdirs();
-                    }
-                    fileUri = myDir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
-                    FileOutputStream outputStream = new FileOutputStream(fileUri);
 
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                    outputStream.flush();
-                    outputStream.close();
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), BitmapFactory.decodeFile(fileUri), null, null));
-                //Use Intent to share image
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_STREAM, uri);
-                startActivity(Intent.createChooser(intent, "Share Image"));
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-            }
-        });
     }
 
     @Override

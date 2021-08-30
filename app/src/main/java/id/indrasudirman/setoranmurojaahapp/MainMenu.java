@@ -485,11 +485,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     private Bitmap takeScreenShot(RecyclerView recyclerView) {
-//        View u = mainMenuNavigationDrawerBinding.layoutShareMurojaahHarian.mainLayout;
-//        RecyclerView z = mainMenuNavigationDrawerBinding.mainMenuNavDrawer.listMurojaah.recyclerViewListMurojaah;
-        Bitmap bitmap;
-//        Canvas canvas = new Canvas(b);
-//        u.draw(canvas);
+        Bitmap bitmap = null;
         if (recyclerView.getWidth() > 0 | recyclerView.getMeasuredHeight() > 0) {
             recyclerView.measure(
                     View.MeasureSpec.makeMeasureSpec(recyclerView.getWidth(), View.MeasureSpec.EXACTLY),
@@ -499,13 +495,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             Canvas canvas = new Canvas(bitmap);
             canvas.drawColor(getColor(R.color.white)); //Lama ini mikirin disini, kenapa pas take screenshot selalu blackscreen. Ternyata harus set warna dasar dulu.. Alhamdulillah :)
             recyclerView.draw(canvas);
-//            saveImageToGallery(bm);
         } else {
-            View v1 = getWindow().getDecorView().getRootView();
-            bitmap = Bitmap.createBitmap(v1.getWidth(), v1.getHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            v1.draw(canvas);
-//            saveImageToGallery(bm);
 
             Toast.makeText(getApplicationContext(), "List Murojaah kosong", Toast.LENGTH_SHORT).show();
         }
@@ -513,18 +503,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     }
 
-    public static Bitmap addLogo(Bitmap mainImage, Bitmap logoImage) {
-        Bitmap finalImage = null;
-        int width, height = 0;
-        width = mainImage.getWidth();
-        height = mainImage.getHeight();
-        finalImage = Bitmap.createBitmap(width, height, mainImage.getConfig());
-        Canvas canvas = new Canvas(finalImage);
-        canvas.drawBitmap(mainImage, 0,0,null);
-        canvas.drawBitmap(logoImage, canvas.getWidth()-logoImage.getWidth() ,canvas.getHeight()-logoImage.getHeight(),null);
 
-        return finalImage;
-    }
 
 
     public Bitmap addPaddingTopForBitmap(Bitmap bitmap) {
@@ -549,6 +528,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
 //        Bitmap result// = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
 
+        String dateMasehi = setTanggalMasehi();
+        String[] tanggalHijri = setTanggalHijriyah();
         int userNameLength = userName.length();
         int x = src.getWidth() - userNameLength;
         int y = 0;
@@ -556,7 +537,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         Paint paint = new Paint();
         paint.setColor(Color.WHITE); //Color text
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
-        paint.setTextSize(34);
+        paint.setTextSize(50);
         Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.lateef);
 //        paint.setTypeface(BOL)
 //        paint.setTextAlign(Paint.Align.RIGHT);
@@ -564,7 +545,11 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         int xOffset = getApproxXToCenterText(userName, typeface, headerFontSize, src.getWidth());
 
         canvas.drawBitmap(src, 0, 0, paint);
-        canvas.drawText(userName, 100, 100, paint); // draw watermark at top right corner
+        canvas.drawText(userName, 85, 340, paint);
+        canvas.drawText(dateMasehi + " M", 85, 400, paint);
+        canvas.drawText(tanggalHijri[1], 85, 460, paint); //Tanggal
+        canvas.drawText(tanggalHijri[0], 150, 460, paint); //Bulan
+        canvas.drawText(tanggalHijri[2] + " H", 280, 460, paint); //Tahun
 
         return src;
 
@@ -749,26 +734,16 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
-//                        Bitmap bitmap1 = screenShotView(view);
-                        Bitmap bitmap2 = takeScreenShot(listMurojaahBinding.recyclerViewListMurojaah);
-//                        Bitmap bitmap3 = mergeBitmap(bitmap1, bitmap2);
-//                        saveImageToGallery(bitmap2);
-//                        saveImageToGallery(cropToSquare(bitmap1));
-//                        addPaddingTopForBitmap(bitmap2);
+                        Bitmap bitmap = takeScreenShot(listMurojaahBinding.recyclerViewListMurojaah);
+                        if (bitmap != null) {
+                            Bitmap bitmap3 = addPaddingTopForBitmap(bitmap);
+                            Bitmap bitmap4 = drawStringOnBitmap(bitmap3);
+                            saveImageToGallery(bitmap4);
 
-                        // Top-centre
-//                        int x = bitmap2.getWidth() / 2 - (bitmap2.getWidth() / 2);;
-//                        int y = 0;
-//                        // The watermark itself. It doesn't have to be mutable.
-//                        Bitmap watermarkBitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(),
-//                                R.drawable.gl_pro);
-//                        // Creating a canvas with mainBitmap
-//                        Canvas canvas = new Canvas(bitmap2);
-//                        // The actual watermarking
-//                        canvas.drawBitmap(watermarkBitmap, 0, 0, null);
-                        Bitmap bitmap3 = addPaddingTopForBitmap(bitmap2);
-                        Bitmap bitmap4 = drawStringOnBitmap(bitmap3);
-                        saveImageToGallery(bitmap4);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "List Murojaah kosong", Toast.LENGTH_SHORT).show();
+                        }
+
 //                        addLogo(cropToSquare(bitmap1), bitmap2);
 
 //                        saveImageToGallery(getRecyclerViewScreenShot(listMurojaahBinding.recyclerViewListMurojaah));

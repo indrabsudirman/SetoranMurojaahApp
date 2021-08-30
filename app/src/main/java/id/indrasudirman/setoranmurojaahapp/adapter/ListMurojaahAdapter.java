@@ -60,7 +60,7 @@ public class ListMurojaahAdapter extends RecyclerView.Adapter<ListMurojaahAdapte
         holder.iNumberMurojaah.setText((position + 1 + "."));
         holder.iTypeMurojaah.setText(" "+murojaahItem.getTypeMurojaah());
         holder.iNamaSurat.setText(murojaahItem.getNamaSurat());
-        holder.iAyatMurojaah.setText(murojaahItem.getAyatMurojaah());
+        holder.iAyatMurojaah.setText("ayat " + murojaahItem.getAyatMurojaah());
     }
 
     @Override

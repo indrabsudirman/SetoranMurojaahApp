@@ -12,21 +12,21 @@
         android:id="@+id/setoran"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="setoran"
-        android:textSize="55sp"
         android:fontFamily="@font/french_script"
-        android:textStyle="bold"
-        android:textColor="@color/white"/>
+        android:text="setoran"
+        android:textColor="@color/white"
+        android:textSize="55sp"
+        android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/murojaah"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:fontFamily="@font/ae_cortoba"
         android:text="مراجعة"
         android:textColor="@color/purple_200"
         android:textSize="65sp"
-        android:textStyle="bold"
-        android:layout_marginTop="40dp"/>
+        android:textStyle="bold" />
 
 </RelativeLayout>

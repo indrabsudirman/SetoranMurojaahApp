@@ -543,9 +543,13 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 //        paint.setTextAlign(Paint.Align.RIGHT);
         int headerFontSize = 140;
         int xOffset = getApproxXToCenterText(userName, typeface, headerFontSize, src.getWidth());
+        int canvas2 = canvas.getWidth() / 2;
+        int canvas3 = userName.length() / 2;
+
 
         canvas.drawBitmap(src, 0, 0, paint);
         canvas.drawText(userName, 85, 340, paint);
+        paint.setTextSize(40);
         canvas.drawText(dateMasehi + " M", 85, 400, paint);
         canvas.drawText(tanggalHijri[1], 85, 460, paint); //Tanggal
         canvas.drawText(tanggalHijri[0], 150, 460, paint); //Bulan
@@ -555,28 +559,20 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     }
 
-    private Bitmap cropToSquare (Bitmap bitmap) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        int newWidth = (height > width) ? width : height;
-        int newHeight = (height > width) ? height - (height - width) : height;
-        int cropW = (width - height) / 2;
-        cropW = (cropW < 0) ? 0 : cropW;
-        int cropH = (height - width) / 2;
-        cropH = (cropH < 0) ? 0 : cropH;
+    private Bitmap addWaterMark(Bitmap src) {
+        int w = src.getWidth();
+        int h = src.getHeight();
+        Bitmap result = Bitmap.createBitmap(w, h, src.getConfig());
+        Canvas canvas = new Canvas(result);
+        canvas.drawBitmap(src, 0, 0, null);
 
-        Bitmap cropImg = Bitmap.createBitmap(bitmap, cropW, cropH, newWidth ,newHeight);
+        Bitmap waterMark = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.setoran_murojaah_logo);
+        canvas.drawBitmap(waterMark, src.getWidth() / 2 - (waterMark.getWidth() / 2), 0, null);
 
-        return cropImg;
+        return result;
     }
 
-    private Bitmap screenShotView (View view) {
-        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        view.draw(canvas);
 
-        return bitmap;
-    }
 
     //Not get screen shot all Recyclerview. Some number ayat missing
     public static Bitmap getRecyclerViewScreenShot(RecyclerView view) {
@@ -738,7 +734,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                         if (bitmap != null) {
                             Bitmap bitmap3 = addPaddingTopForBitmap(bitmap);
                             Bitmap bitmap4 = drawStringOnBitmap(bitmap3);
-                            saveImageToGallery(bitmap4);
+                            Bitmap bitmap5 = addWaterMark(bitmap4);
+                            saveImageToGallery(bitmap5);
 
                         } else {
                             Toast.makeText(getApplicationContext(), "List Murojaah kosong", Toast.LENGTH_SHORT).show();

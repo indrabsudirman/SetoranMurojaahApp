@@ -7,19 +7,14 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.graphics.fonts.Font;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,7 +33,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -48,7 +42,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -60,14 +53,11 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.karumi.dexter.listener.single.PermissionListener;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.Chronology;
 import org.joda.time.LocalDate;
 import org.joda.time.chrono.IslamicChronology;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -87,8 +77,7 @@ import id.indrasudirman.setoranmurojaahapp.databinding.LayoutShareMurojaahHarian
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutToolbarProfileBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.ListMurojaahBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.MainMenuNavigationDrawerBinding;
-import id.indrasudirman.setoranmurojaahapp.fragment.BottomSheet;
-import id.indrasudirman.setoranmurojaahapp.fragment.BottomSheetShare;
+import id.indrasudirman.setoranmurojaahapp.fragment.BottomSheetEditAccount;
 import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -457,28 +446,28 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.myAccount :
+                BottomSheetEditAccount bottomSheetEditAccount = new BottomSheetEditAccount((userName, userEmail) -> {
+                    layoutToolbarProfileBinding.profileUserName.setText(userName);
+                    layoutToolbarProfileBinding.profileEmail.setText(userEmail);
+
+                });
+                bottomSheetEditAccount.show(getSupportFragmentManager(), "TAG");
                 Toast.makeText(getApplicationContext(),"My Account was click",Toast.LENGTH_SHORT).show();
+                drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.navSetting :
                 Toast.makeText(getApplicationContext(),"Settings was click",Toast.LENGTH_SHORT).show();
+                drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.navLogout :
                 logOutConfirmation();
+                drawerLayout.closeDrawer(GravityCompat.START);
                 break;
         }
 
         return false;
     }
 
-    //Method to create Bitmap and save it into local
-    public void createImageMurojaahHarian() {
-//        View view = layoutShareMurojaahHarianBinding.mainLayout;
-        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        view.draw(canvas);
-        saveImageToGallery(bitmap);
-//        mainMenuNavigationDrawerBinding.mainMenuNavDrawer.layoutToolbarProfile.imageViewUser.setImageBitmap(bitmap);
-    }
 
     private Bitmap takeScreenShot(RecyclerView recyclerView) {
         Bitmap bitmap = null;
@@ -813,7 +802,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     //Method to share image setoran murojaah App
     public void shareMurojaahHarian(Bitmap bitmap) {
-//        BottomSheetShare bottomSheetShare = new BottomSheetShare();
+//        BottomSheetEditAccount bottomSheetShare = new BottomSheetEditAccount();
 //        bottomSheetShare.show(getSupportFragmentManager(), "TAG");
         String shareMessage = "Assalamu'alaikum Ustad/Ustadzah, " + userName + " share murojaah hari ini. Terima kasih";
         Uri imageUri;

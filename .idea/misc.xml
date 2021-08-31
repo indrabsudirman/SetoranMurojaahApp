@@ -3,10 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/drawable/bottom_sheet_ayat_theme_rounded.xml" value="0.2942708333333333" />
         <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/drawable/ic_setoranmurojaah.xml" value="0.2942708333333333" />
         <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/drawable/setoran_murojaah_background.xml" value="0.2942708333333333" />
+        <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/layout/activity_change_image_profile.xml" value="0.278125" />
+        <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/layout/activity_main.xml" value="0.151268115942029" />
+        <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/layout/activity_main_menu.xml" value="0.135258358662614" />
+        <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/layout/activity_pilih_surat_murojaah.xml" value="0.135258358662614" />
+        <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/layout/activity_sign_up.xml" value="0.2640625" />
         <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/layout/activity_splash_screen.xml" value="0.278125" />
+        <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/layout/detail_item_murojaah.xml" value="0.15896739130434784" />
+        <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/layout/layout_bottomsheet_ayat_checkbox.xml" value="0.15896739130434784" />
+        <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/layout/layout_bottomsheet_share.xml" value="0.278125" />
         <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/layout/layout_share_murojaah_harian.xml" value="0.33" />
+        <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/layout/layout_toolbar_profile.xml" value="0.135258358662614" />
+        <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/layout/list_murojaah.xml" value="0.1" />
         <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/layout/main_menu_navigation_drawer.xml" value="0.1" />
         <entry key="..\:/Users/Jabrikos/Documents/BelajarAndroid/SetoranMurojaahApp/app/src/main/res/menu/navigation_menu.xml" value="0.278125" />
       </map>

@@ -48,6 +48,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -86,6 +87,8 @@ import id.indrasudirman.setoranmurojaahapp.databinding.LayoutShareMurojaahHarian
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutToolbarProfileBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.ListMurojaahBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.MainMenuNavigationDrawerBinding;
+import id.indrasudirman.setoranmurojaahapp.fragment.BottomSheet;
+import id.indrasudirman.setoranmurojaahapp.fragment.BottomSheetShare;
 import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -531,13 +534,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         paint.setColor(Color.WHITE); //Color text
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
         paint.setTextSize(50);
-        Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.lateef);
-//        paint.setTypeface(BOL)
-//        paint.setTextAlign(Paint.Align.RIGHT);
-        int headerFontSize = 140;
-        int xOffset = getApproxXToCenterText(userName, typeface, headerFontSize, src.getWidth());
-        int canvas2 = canvas.getWidth() / 2;
-        int canvas3 = userName.length() / 2;
 
 
         canvas.drawBitmap(src, 0, 0, paint);
@@ -728,7 +724,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                             Bitmap bitmap3 = addPaddingTopForBitmap(bitmap);
                             Bitmap bitmap4 = drawStringOnBitmap(bitmap3);
                             Bitmap bitmap5 = addWaterMark(bitmap4);
-                            saveImageToGallery(bitmap5);
+//                            saveImageToGallery(bitmap5);
                             shareMurojaahHarian(bitmap5);
                             isTrue = true;
 
@@ -736,9 +732,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                             Toast.makeText(getApplicationContext(), "List Murojaah kosong", Toast.LENGTH_SHORT).show();
                         }
 
-//                        addLogo(cropToSquare(bitmap1), bitmap2);
-
-//                        saveImageToGallery(getRecyclerViewScreenShot(listMurojaahBinding.recyclerViewListMurojaah));
                     }
 
                     @Override
@@ -820,6 +813,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     //Method to share image setoran murojaah App
     public void shareMurojaahHarian(Bitmap bitmap) {
+//        BottomSheetShare bottomSheetShare = new BottomSheetShare();
+//        bottomSheetShare.show(getSupportFragmentManager(), "TAG");
         String shareMessage = "Assalamu'alaikum Ustad/Ustadzah, " + userName + " share murojaah hari ini. Terima kasih";
         Uri imageUri;
         String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), bitmap, pathImage, null);
@@ -830,8 +825,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         intent.putExtra(Intent.EXTRA_STREAM, imageUri);
         intent.putExtra(Intent.EXTRA_TEXT, shareMessage);
         startActivity(Intent.createChooser(intent, "Share Murojaah to"));
-
-
+//        BottomSheet bottomSheet = BottomSheet.
 
     }
 

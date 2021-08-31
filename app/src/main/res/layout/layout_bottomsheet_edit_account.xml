@@ -149,12 +149,24 @@
         app:layout_constraintEnd_toEndOf="@id/textInputLayoutPasswordConfirm"/>
 
     <View
+        android:id="@+id/viewIdBottom"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="10dp"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/saveEditUserAccount"
         app:layout_constraintStart_toStartOf="@id/saveEditUserAccount"
         app:layout_constraintEnd_toEndOf="@id/saveEditUserAccount"/>
+    
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/coordinatorLayoutMain"
+        app:layout_constraintTop_toBottomOf="@id/viewIdBottom"
+        app:layout_constraintStart_toStartOf="@id/viewIdBottom"
+        app:layout_constraintEnd_toEndOf="@id/viewIdBottom">
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
 
 

@@ -6,8 +6,11 @@ import static id.indrasudirman.setoranmurojaahapp.tools.PasswordMD5WithSalt.byte
 import static id.indrasudirman.setoranmurojaahapp.tools.PasswordMD5WithSalt.digest;
 import static id.indrasudirman.setoranmurojaahapp.tools.PasswordMD5WithSalt.getSalt;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -27,7 +30,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Objects;
 
+import id.indrasudirman.setoranmurojaahapp.MainActivity;
 import id.indrasudirman.setoranmurojaahapp.R;
+import id.indrasudirman.setoranmurojaahapp.SplashScreen;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomsheetEditAccountBinding;
 import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
 import id.indrasudirman.setoranmurojaahapp.model.User;
@@ -110,9 +115,8 @@ public class BottomSheetEditAccount extends BottomSheetDialogFragment {
             user.setPassword(getPwdSaltedDB());
             Log.d(TAG, "User password is " + user.getPassword());
             sqLiteHelper.updateUser(userEmail, user.getName(), user.getEmail(), user.getSalt(), user.getPassword());
-            //Toast to show success message that record saved successfully
-//            Snackbar.make(getActivity().getSupportFragmentManager()., "Update Successful", Snackbar.LENGTH_LONG).show();
-            Toast.makeText(getActivity().getApplicationContext(), "Update Successful", Toast.LENGTH_SHORT).show();
+            //Snackbar to show success message that record saved successfully
+            Snackbar.make(layoutBottomsheetEditAccountBinding.coordinatorLayoutMain, "Edit data berhasil", Snackbar.LENGTH_LONG).show();
 
             layoutBottomsheetEditAccountBinding.textInputEditTextName.setText("");
             layoutBottomsheetEditAccountBinding.textInputEditTextEmail.setText("");
@@ -129,6 +133,8 @@ public class BottomSheetEditAccount extends BottomSheetDialogFragment {
         }
         allFieldValid = false;
         allFieldValid = false;
+        new Handler(Looper.getMainLooper()).postDelayed(BottomSheetEditAccount.this::dismiss, 4400);
+
 
     }
 

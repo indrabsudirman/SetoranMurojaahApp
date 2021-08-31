@@ -147,6 +147,29 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * This method to update user record
+     *
+     * @ param user
+     */
+    public void updateUser (String userEmailOld, String userName, String userEmailNew, String salt, String password) {
+        int count = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USER_NAME, userName);
+        values.put(COLUMN_USER_MAIL, userEmailNew);
+        values.put(COLUMN_PASSWORD_SALT, salt);
+        values.put(COLUMN_PASSWORD, password);
+        // update Row
+        count = db.update(TABLE_USER,values,COLUMN_USER_MAIL + "= '" + userEmailOld + "'",null);
+        if (count > 0) {
+            Log.d(TAG, "Image database updated");
+            Log.d(TAG, "Count is " + count);
+        }
+
+        db.close(); // Closing database connection
+    }
+
+    /**
      * This method to update user photo record
      *
      * @ param userEmail, photoPath

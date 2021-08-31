@@ -452,7 +452,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
                 });
                 bottomSheetEditAccount.show(getSupportFragmentManager(), "TAG");
-                Toast.makeText(getApplicationContext(),"My Account was click",Toast.LENGTH_SHORT).show();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.navSetting :

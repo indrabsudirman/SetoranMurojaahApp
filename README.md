@@ -20,17 +20,28 @@ Apa yang saya pelajari pada App ini :
 
 
 
-[<img src="https://user-images.githubusercontent.com/36407161/116968393-91935080-acde-11eb-876a-e71402ecc668.png" width="30%">]
 
-[<img src="https://user-images.githubusercontent.com/36407161/116968370-88a27f00-acde-11eb-8174-bebbab0da535.png" width="30%">]
+[<img src="https://user-images.githubusercontent.com/36407161/131440128-54dd0b1c-0daf-408b-bed2-c9d7e90451b6.png" width="30%">]
 
-[<img src="https://user-images.githubusercontent.com/36407161/116968416-9c4de580-acde-11eb-9a8a-b5deae38b845.png" width="30%">]
+[<img src="https://user-images.githubusercontent.com/36407161/131440174-a94acef5-c005-4575-a849-215031d4f227.png" width="30%">]
 
-[<img src="https://user-images.githubusercontent.com/36407161/116968439-a4a62080-acde-11eb-9404-f0539df74190.png" width="30%">]
+[<img src="https://user-images.githubusercontent.com/36407161/131440224-0cc9f7c1-5c08-4ff6-957a-154780f09225.png" width="30%">]
 
-[<img src="https://user-images.githubusercontent.com/36407161/116968445-aa036b00-acde-11eb-8ca8-a63a03f818a4.png" width="30%">]
+[<img src="https://user-images.githubusercontent.com/36407161/131440261-2bd40269-b311-45b8-ad61-a3a774ddc137.png" width="30%">]
 
-[<img src="https://user-images.githubusercontent.com/36407161/120062384-31e55680-c08c-11eb-8458-428954798a03.png" width="30%">]
+[<img src="https://user-images.githubusercontent.com/36407161/131440303-5c3bc772-daed-408d-9642-70916eddf51b.png" width="30%">]
+
+[<img src="https://user-images.githubusercontent.com/36407161/131440368-7d9942f2-1dcb-4406-8062-8cc4e2b2682b.png" width="30%">]
+
+[<img src="https://user-images.githubusercontent.com/36407161/131440439-3990fe6f-0332-421e-955e-7e7e33d53e55.png" width="30%">]
+
+[<img src="https://user-images.githubusercontent.com/36407161/131440502-0c913404-f2c1-4ef6-a515-d7a4f9d0256d.png" width="30%">]
+
+[<img src="https://user-images.githubusercontent.com/36407161/131440543-847e5f51-3632-4938-a7a5-93022425d2e3.png" width="30%">]
+
+[<img src="https://user-images.githubusercontent.com/36407161/131440582-b1549b9e-b31b-4a8f-9dd0-56817d5ac07c.png" width="30%">]
+
+
 
 Spesial thanks to :
 

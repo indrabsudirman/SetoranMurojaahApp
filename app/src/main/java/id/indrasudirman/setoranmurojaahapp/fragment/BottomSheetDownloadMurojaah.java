@@ -50,8 +50,6 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
 
         materialDatePicker.show(getParentFragmentManager(), "TAG");
-//        MaterialDatePicker.Builder builder = new MaterialDatePicker.Builder.datePicker();
-//        builder.setTitleText("Pilih Tanggal Murojaah");
     }
 
     @Override

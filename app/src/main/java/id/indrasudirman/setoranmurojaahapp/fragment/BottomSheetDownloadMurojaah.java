@@ -45,7 +45,8 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
     private void pilihTanggalMurojaah() {
         MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
-        builder.setTitleText("Pilih Tanggal");
+        builder.setTitleText("Pilih Tanggal Download");
+//        builder.set
         MaterialDatePicker materialDatePicker = builder.build();
 
 

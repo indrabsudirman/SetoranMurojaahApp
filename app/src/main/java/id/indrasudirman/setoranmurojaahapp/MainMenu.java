@@ -42,6 +42,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -77,6 +78,7 @@ import id.indrasudirman.setoranmurojaahapp.databinding.LayoutShareMurojaahHarian
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutToolbarProfileBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.ListMurojaahBinding;
 import id.indrasudirman.setoranmurojaahapp.databinding.MainMenuNavigationDrawerBinding;
+import id.indrasudirman.setoranmurojaahapp.fragment.BottomSheetDownloadMurojaah;
 import id.indrasudirman.setoranmurojaahapp.fragment.BottomSheetEditAccount;
 import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
@@ -442,7 +444,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         //Handle navigation view item click here
         switch (item.getItemId()) {
             case R.id.backButton :
-                Toast.makeText(getApplicationContext(),"Back was click",Toast.LENGTH_SHORT).show();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.myAccount :
@@ -455,6 +456,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.navDownloadMurojaah:
+                BottomSheetDownloadMurojaah bottomSheetDownloadMurojaah = new BottomSheetDownloadMurojaah();
+                bottomSheetDownloadMurojaah.show(getSupportFragmentManager(), "TAG");
                 Toast.makeText(getApplicationContext(),"Download was click",Toast.LENGTH_SHORT).show();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
@@ -466,6 +469,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
         return false;
     }
+
+
 
 
     private Bitmap takeScreenShot(RecyclerView recyclerView) {

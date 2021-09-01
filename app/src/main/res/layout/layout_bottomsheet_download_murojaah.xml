@@ -52,6 +52,38 @@
         app:layout_constraintStart_toStartOf="@id/viewid"
         app:layout_constraintEnd_toEndOf="@id/viewid"/>
 
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:id="@+id/spinnerTypeMurojaah"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:entries="@array/type_murojaah_arrays"
+        android:prompt="@string/type_murojaah"
+        app:layout_constraintTop_toBottomOf="@id/pilihTanggalMurojaah"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <View
+        android:id="@+id/viewIdBottom"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/spinnerTypeMurojaah"
+        app:layout_constraintStart_toStartOf="@id/spinnerTypeMurojaah"
+        app:layout_constraintEnd_toEndOf="@id/spinnerTypeMurojaah"/>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/coordinatorLayoutMain"
+        app:layout_constraintTop_toBottomOf="@id/viewIdBottom"
+        app:layout_constraintStart_toStartOf="@id/viewIdBottom"
+        app:layout_constraintEnd_toEndOf="@id/viewIdBottom">
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

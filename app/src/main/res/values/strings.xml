@@ -29,4 +29,11 @@
     <string name="lbl_take_camera_picture">Take a picture</string>
     <string name="lbl_choose_from_gallery">Choose from gallery</string>
     <string name="toast_image_intent_null">Image picker option is missing!</string>
+<!--Spinner Download Murojaah-->
+    <string name="type_murojaah">Pilih tipe Murojaah</string>
+
+    <string-array name="type_murojaah_arrays">
+        <item>Ziyadah</item>
+        <item>Murojaah</item>
+    </string-array>
 </resources>

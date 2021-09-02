@@ -450,7 +450,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 BottomSheetEditAccount bottomSheetEditAccount = new BottomSheetEditAccount((userName, userEmail) -> {
                     layoutToolbarProfileBinding.profileUserName.setText(userName);
                     layoutToolbarProfileBinding.profileEmail.setText(userEmail);
-
                 });
                 bottomSheetEditAccount.show(getSupportFragmentManager(), "TAG");
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -458,7 +457,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             case R.id.navDownloadMurojaah:
                 BottomSheetDownloadMurojaah bottomSheetDownloadMurojaah = new BottomSheetDownloadMurojaah();
                 bottomSheetDownloadMurojaah.show(getSupportFragmentManager(), "TAG");
-                Toast.makeText(getApplicationContext(),"Download was click",Toast.LENGTH_SHORT).show();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.navLogout :

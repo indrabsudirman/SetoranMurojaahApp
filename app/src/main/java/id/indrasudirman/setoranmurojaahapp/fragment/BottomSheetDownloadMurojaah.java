@@ -41,6 +41,11 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     private View view;
     private LayoutBottomsheetDownloadMurojaahBinding bottomsheetDownloadMurojaahBinding;
 
+    private String[] months = {
+            "Januari", "Februari", "Maret", "April",
+            "Mei", "Juni", "Juli", "Agustus",
+            "September", "Oktober", "November", "Desember"};
+
     //Default Constructor
     public BottomSheetDownloadMurojaah() {
     }
@@ -58,11 +63,19 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
         //Set Spinner adapter
         setSpinnerAdapterAndListener();
-        //Underline Pilih Tipe Murojaah
-//        underlinePilihTipeMurojaahTextView();
+
+        //setDefaultDateTextView
+        setDefaultDateTextView();
 
 
         return view;
+    }
+
+    private void setDefaultDateTextView() {
+        Calendar startCalender = Calendar.getInstance();
+        String startDate1 = startCalender.get(Calendar.DATE) + " " + months[startCalender.get(Calendar.MONTH)] + " " + startCalender.get(Calendar.YEAR);
+        bottomsheetDownloadMurojaahBinding.textViewStartDateShow.setText(startDate1 + " M");
+        bottomsheetDownloadMurojaahBinding.textViewEndDateShow.setText(startDate1 + " M");
     }
 
     private void underlinePilihTipeMurojaahTextView() {
@@ -106,10 +119,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     }
 
     private void pilihTanggalMurojaah() {
-        String[] months = {
-                "Januari", "Februari", "Maret", "April",
-                "Mei", "Juni", "Juli", "Agustus",
-                "September", "Oktober", "November", "Desember"};
+
 
         MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
         builder.setTitleText("Pilih Tanggal Download");
@@ -123,8 +133,8 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                 //Start Date
                 Calendar startCalender = Calendar.getInstance();
                 startCalender.setTimeInMillis(selection.first);
-                String startDate1 = startCalender.get(Calendar.DATE) + " " + months[startCalender.get(Calendar.MONTH)] + " " + startCalender.get(Calendar.YEAR);
-                bottomsheetDownloadMurojaahBinding.textViewStartDateShow.setText(startDate1 + " M");
+                String startDate = startCalender.get(Calendar.DATE) + " " + months[startCalender.get(Calendar.MONTH)] + " " + startCalender.get(Calendar.YEAR);
+                bottomsheetDownloadMurojaahBinding.textViewStartDateShow.setText(startDate + " M");
 
                 //End Date
                 Calendar endCalender = Calendar.getInstance();
@@ -132,7 +142,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                 String endDate1 = endCalender.get(Calendar.DATE) + " " + months[endCalender.get(Calendar.MONTH)] + " " + endCalender.get(Calendar.YEAR);
                 bottomsheetDownloadMurojaahBinding.textViewEndDateShow.setText(endDate1 + " M");
 
-                Log.d("TAG", "OnPositiveButtonClick : " + startDate1 + " "+ endDate1);
+                Log.d("TAG", "OnPositiveButtonClick : " + startDate + " "+ endDate1);
 
             }
         });

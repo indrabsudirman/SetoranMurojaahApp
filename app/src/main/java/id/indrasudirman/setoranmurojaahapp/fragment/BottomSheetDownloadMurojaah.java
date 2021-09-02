@@ -1,8 +1,6 @@
 package id.indrasudirman.setoranmurojaahapp.fragment;
 
-import android.app.DatePickerDialog;
-import android.content.DialogInterface;
-import android.graphics.Paint;
+
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -12,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,13 +17,10 @@ import androidx.core.util.Pair;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -40,8 +33,10 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
     private View view;
     private LayoutBottomsheetDownloadMurojaahBinding bottomsheetDownloadMurojaahBinding;
+    private String item;
+    private boolean isTrue = true;
 
-    private String[] months = {
+    private final String[] months = {
             "Januari", "Februari", "Maret", "April",
             "Mei", "Juni", "Juli", "Agustus",
             "September", "Oktober", "November", "Desember"};
@@ -78,8 +73,14 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
     // Download murojaah button
     private void downloadMurojaah() {
-        Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
-                "Download click", Snackbar.LENGTH_SHORT).show();
+        if (isTrue) {
+            Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
+                    "Download click", Snackbar.LENGTH_SHORT).show();
+        } else {
+            Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
+                    "Pilih tipe Murojaah dahulu!", Snackbar.LENGTH_SHORT).show();
+        }
+
     }
 
     //setDefaultDateTextView
@@ -109,7 +110,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         typeMurojaah.add("Ziyadah");
         typeMurojaah.add("Murojaah");
 
-        ArrayAdapter <String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, typeMurojaah);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, typeMurojaah);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bottomsheetDownloadMurojaahBinding.spinnerTypeMurojaah.setAdapter(arrayAdapter);
 
@@ -117,9 +118,11 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (adapterView.getItemAtPosition(i).equals("Pilih tipe Murojaah")) {
+                    isTrue = false;
                 } else {
-                    String item = adapterView.getItemAtPosition(i).toString();
+                    item = adapterView.getItemAtPosition(i).toString();
                     Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain, "Tipe Murojaah : " + item, Snackbar.LENGTH_SHORT).show();
+                    isTrue = true;
                 }
             }
 
@@ -154,14 +157,14 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                 String endDate1 = endCalender.get(Calendar.DATE) + " " + months[endCalender.get(Calendar.MONTH)] + " " + endCalender.get(Calendar.YEAR);
                 bottomsheetDownloadMurojaahBinding.textViewEndDateShow.setText(endDate1 + " M");
 
-                Log.d("TAG", "OnPositiveButtonClick : " + startDate + " "+ endDate1);
+                Log.d("TAG", "OnPositiveButtonClick : " + startDate + " " + endDate1);
 
             }
         });
         //While close by back button, or touch top screen
         materialDatePicker.addOnCancelListener(dialogInterface ->
                 Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain, "Batal memilih tanggal",
-                Snackbar.LENGTH_SHORT).show());
+                        Snackbar.LENGTH_SHORT).show());
         //While cancel button was clicked
         materialDatePicker.addOnNegativeButtonClickListener(view ->
                 Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain, "Batal memilih tanggal",

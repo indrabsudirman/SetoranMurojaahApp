@@ -67,10 +67,22 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         //setDefaultDateTextView
         setDefaultDateTextView();
 
+        //Set listener if button download click
+        bottomsheetDownloadMurojaahBinding.downloadMurojaah.setOnClickListener(view1 -> {
+            downloadMurojaah();
+        });
+
 
         return view;
     }
 
+    // Download murojaah button
+    private void downloadMurojaah() {
+        Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
+                "Download click", Snackbar.LENGTH_SHORT).show();
+    }
+
+    //setDefaultDateTextView
     private void setDefaultDateTextView() {
         Calendar startCalender = Calendar.getInstance();
         String startDate1 = startCalender.get(Calendar.DATE) + " " + months[startCalender.get(Calendar.MONTH)] + " " + startCalender.get(Calendar.YEAR);

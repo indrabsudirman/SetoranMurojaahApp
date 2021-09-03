@@ -1,8 +1,12 @@
 package id.indrasudirman.setoranmurojaahapp.fragment;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +17,7 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.util.Pair;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -34,7 +39,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     private View view;
     private LayoutBottomsheetDownloadMurojaahBinding bottomsheetDownloadMurojaahBinding;
     private String item;
-    private boolean isTrue = true;
+    private boolean isTrue = false;
 
     private final String[] months = {
             "Januari", "Februari", "Maret", "April",
@@ -74,8 +79,25 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     // Download murojaah button
     private void downloadMurojaah() {
         if (isTrue) {
-            Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
-                    "Download click", Snackbar.LENGTH_SHORT).show();
+            SpannableStringBuilder sStringTitle = new SpannableStringBuilder("Konfimasi Donwload");
+            sStringTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            //Set Title
+            alertDialog
+                    .setTitle(sStringTitle)
+                    .setCancelable(false)
+                    .setMessage("Anda ingin donwload murojaah atau hanya ingin tampilkan saja?")
+                    .setPositiveButton("Download", ((dialogInterface, i) -> {
+                        Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain, "Anda pilih download",
+                                Snackbar.LENGTH_SHORT).show();
+                    }))
+                    .setNegativeButton("Tampilkan", (((dialogInterface, i) -> {
+                        Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain, "Anda pilih tampilkan",
+                                Snackbar.LENGTH_SHORT).show();
+                    })));
+            alertDialog.show();
+
         } else {
             Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
                     "Pilih tipe Murojaah dahulu!", Snackbar.LENGTH_SHORT).show();

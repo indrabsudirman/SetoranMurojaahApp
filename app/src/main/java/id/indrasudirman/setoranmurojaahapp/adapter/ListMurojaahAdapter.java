@@ -13,11 +13,40 @@ import java.util.ArrayList;
 
 import id.indrasudirman.setoranmurojaahapp.R;
 import id.indrasudirman.setoranmurojaahapp.databinding.DetailItemMurojaahBinding;
-import id.indrasudirman.setoranmurojaahapp.MurojaahItem;
+import id.indrasudirman.setoranmurojaahapp.databinding.DetailItemTampilMurojaahBinding;
+import id.indrasudirman.setoranmurojaahapp.model.MurojaahItem;
 
 public class ListMurojaahAdapter extends RecyclerView.Adapter<ListMurojaahAdapter.ListMurojaahViewHolder> {
 
     private ArrayList<MurojaahItem> iMurojaahItemArrayList;
+
+    public ListMurojaahAdapter (ArrayList<MurojaahItem> murojaahItemArrayList) {
+        iMurojaahItemArrayList =  murojaahItemArrayList;
+    }
+
+    @NonNull
+    @Override
+    public ListMurojaahViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ListMurojaahViewHolder(DetailItemMurojaahBinding.inflate(LayoutInflater.from(parent.getContext()),
+                parent, false));
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onBindViewHolder(@NonNull ListMurojaahViewHolder holder, int position) {
+        MurojaahItem murojaahItem = iMurojaahItemArrayList.get(position);
+
+
+        holder.detailItemMurojaahBinding.numberTextView.setText((position + 1 + "."));
+        holder.detailItemMurojaahBinding.murojaahTextView.setText(" "+murojaahItem.getTypeMurojaah());
+        holder.detailItemMurojaahBinding.suratNameTextView.setText(murojaahItem.getNamaSurat());
+        holder.detailItemMurojaahBinding.ayatTextView.setText("ayat " + murojaahItem.getAyatMurojaah());
+    }
+
+    @Override
+    public int getItemCount() {
+        return iMurojaahItemArrayList.size();
+    }
 
     public static class ListMurojaahViewHolder extends RecyclerView.ViewHolder {
 
@@ -27,45 +56,16 @@ public class ListMurojaahAdapter extends RecyclerView.Adapter<ListMurojaahAdapte
         private AppCompatTextView iAyatMurojaah;
         private DetailItemMurojaahBinding detailItemMurojaahBinding;
 
-        public ListMurojaahViewHolder(@NonNull View itemView) {
-            super(itemView);
-            //ga yakin working, nanti coba di cek dan Google dulu
+        public ListMurojaahViewHolder(@NonNull DetailItemMurojaahBinding detailItemMurojaahBinding) {
+            super(detailItemMurojaahBinding.getRoot());
+            //ga yakin working, nanti coba di cek dan Google dulu, akhirnya bisa VIewBinding https://stackoverflow.com/a/62255625
 //            iNumberMurojaah = detailItemMurojaahBinding.numberMurojaah;
-            iNumberMurojaah = itemView.findViewById(R.id.numberTextView);
-            iTypeMurojaah = itemView.findViewById(R.id.murojaahTextView);
-            iNamaSurat = itemView.findViewById(R.id.suratNameTextView);
-            iAyatMurojaah = itemView.findViewById(R.id.ayatTextView);
+//            iNumberMurojaah = itemView.findViewById(R.id.numberTextView);
+//            iTypeMurojaah = itemView.findViewById(R.id.murojaahTextView);
+//            iNamaSurat = itemView.findViewById(R.id.suratNameTextView);
+//            iAyatMurojaah = itemView.findViewById(R.id.ayatTextView);
+            this.detailItemMurojaahBinding = detailItemMurojaahBinding;
 
         }
     }
-
-    public ListMurojaahAdapter (ArrayList<MurojaahItem> murojaahItemArrayList) {
-        iMurojaahItemArrayList =  murojaahItemArrayList;
-    }
-
-    @NonNull
-    @Override
-    public ListMurojaahViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detail_item_murojaah, parent, false);
-        ListMurojaahViewHolder murojaahViewHolder = new ListMurojaahViewHolder(view);
-        return murojaahViewHolder;
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onBindViewHolder(@NonNull ListMurojaahViewHolder holder, int position) {
-        MurojaahItem murojaahItem = iMurojaahItemArrayList.get(position);
-
-
-        holder.iNumberMurojaah.setText((position + 1 + "."));
-        holder.iTypeMurojaah.setText(" "+murojaahItem.getTypeMurojaah());
-        holder.iNamaSurat.setText(murojaahItem.getNamaSurat());
-        holder.iAyatMurojaah.setText("ayat " + murojaahItem.getAyatMurojaah());
-    }
-
-    @Override
-    public int getItemCount() {
-        return iMurojaahItemArrayList.size();
-    }
-
 }

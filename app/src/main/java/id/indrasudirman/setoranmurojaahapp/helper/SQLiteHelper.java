@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +16,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import id.indrasudirman.setoranmurojaahapp.model.Murojaah;
-import id.indrasudirman.setoranmurojaahapp.MurojaahItem;
+import id.indrasudirman.setoranmurojaahapp.model.MurojaahItem;
 import id.indrasudirman.setoranmurojaahapp.model.User;
 
 public class SQLiteHelper extends SQLiteOpenHelper {

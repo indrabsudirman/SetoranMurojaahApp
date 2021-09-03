@@ -16,7 +16,7 @@
         android:theme="@style/Theme.SetoranMurojaahApp">
         <activity
             android:name=".TampilkanMurojaahDatabase"
-            android:exported="true" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".PilihSuratMurojaah"
             android:screenOrientation="portrait" />

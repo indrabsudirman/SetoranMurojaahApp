@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/laoyutDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/numberTextView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="1."
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/laoyutDetail"
+            app:layout_constraintTop_toTopOf="@+id/laoyutDetail" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tanggal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="Tanggal :"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/numberTextView1"
+            app:layout_constraintTop_toTopOf="@+id/laoyutDetail" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tanggalMasehi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="27 Januari 2016 M"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/numberTextView1"
+            app:layout_constraintTop_toBottomOf="@+id/tanggal" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tanggalHijriyah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="17"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/numberTextView1"
+            app:layout_constraintTop_toBottomOf="@+id/tanggalMasehi" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/bulanHijriyah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:text="رَبِيع ٱلْآخِر"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/tanggalHijriyah"
+            app:layout_constraintTop_toBottomOf="@+id/tanggalMasehi" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tahunHijriyah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:text="1437 H"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/bulanHijriyah"
+            app:layout_constraintTop_toBottomOf="@+id/tanggalMasehi" />
+
+        <View
+            android:id="@+id/viewBottomPilihtanggal"
+            android:layout_width="315dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tahunHijriyah" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tipeMurojaah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Tipe Murojaah :"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/numberTextView1"
+            app:layout_constraintTop_toBottomOf="@+id/viewBottomPilihtanggal" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/murojaah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Murojaah"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/numberTextView1"
+            app:layout_constraintTop_toBottomOf="@+id/tipeMurojaah" />
+
+        <View
+            android:id="@+id/viewBottomTipeMurojaah"
+            android:layout_width="315dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/murojaah" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/namaSurat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Surat :"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/numberTextView1"
+            app:layout_constraintTop_toBottomOf="@+id/viewBottomTipeMurojaah" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/surat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="ٱلْفَاتِحَة"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/numberTextView1"
+            app:layout_constraintTop_toBottomOf="@+id/namaSurat" />
+
+        <View
+            android:id="@+id/viewBottomSurat"
+            android:layout_width="315dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/surat" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ayat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Ayat :"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/numberTextView1"
+            app:layout_constraintTop_toBottomOf="@+id/viewBottomSurat" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/nomorAyat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Ayat 1 - 7"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/numberTextView1"
+            app:layout_constraintTop_toBottomOf="@+id/ayat" />
+
+        <View
+            android:id="@+id/viewBottomAyat"
+            android:layout_width="315dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nomorAyat" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

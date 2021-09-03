@@ -1,6 +1,7 @@
 package id.indrasudirman.setoranmurojaahapp.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -61,6 +62,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
     private SharedPreferences sharedPreferences;
     private String switchText = "Murojaah";
     private ArrayList<MurojaahItem> listMurojaah;
+    private boolean isTrueBack = false;
 
     private MainMenu mainMenu;
 
@@ -356,6 +358,16 @@ public class BottomSheet extends BottomSheetDialogFragment {
         }
         return false;
     }
+
+//    @Override
+//    public void onDismiss(@NonNull DialogInterface dialog) {
+////        super.onDismiss(dialog);
+//        //Move to Main Menu Activity and send value murojaah_list true
+//        Intent intent = new Intent(getContext().getApplicationContext(), MainMenu.class);
+//        intent.putExtra("murojaah_list", true);
+//        startActivity(intent);
+//        getActivity().overridePendingTransition(0, 0);
+//    }
 
     @Override
     public int getTheme() {

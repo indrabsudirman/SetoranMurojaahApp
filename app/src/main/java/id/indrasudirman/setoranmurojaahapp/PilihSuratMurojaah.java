@@ -1,7 +1,9 @@
 package id.indrasudirman.setoranmurojaahapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -414,5 +416,14 @@ public class PilihSuratMurojaah extends AppCompatActivity {
 
         surat = new Surat(114, "النَّاس", "6");
         suratList.add(surat);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+        intent.putExtra("murojaah_list", true);
+        startActivity(intent);
+        overridePendingTransition(0, 0);
     }
 }

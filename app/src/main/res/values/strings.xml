@@ -11,20 +11,20 @@
     <string name="register_here">Don\'t have account! Register here!</string>
     <string name="already_a_member_login">Already a member? Login</string>
     <string name="skip_register">Don\'t want to register, skip here!</string>
-<!--    Detail Surat -->
+    <!--    Detail Surat -->
     <string name="surat_ke">Surat ke </string>
     <string name="satu">1</string>
     <string name="al_fatihah_arab">ٱلْفَاتِحَةِ</string>
     <string name="al_fatihah_ayat">7</string>
     <string name="ayat">Ayat</string>
-<!--    To toggle the open, close button of the navigation drawer -->
+    <!--    To toggle the open, close button of the navigation drawer -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
-<!--Permission String-->
+    <!--Permission String-->
     <string name="dialog_permission_title">Grant Permissions</string>
     <string name="dialog_permission_message">This app needs permission to use this feature. You can grant them in app settings.</string>
     <string name="go_to_settings">GOTO SETTINGS</string>
-<!--    Change Image Profile-->
+    <!--    Change Image Profile-->
     <string name="lbl_set_profile_photo">Set profile image</string>
     <string name="lbl_take_camera_picture">Take a picture</string>
     <string name="lbl_choose_from_gallery">Choose from gallery</string>

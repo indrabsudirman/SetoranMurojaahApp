@@ -1,6 +1,7 @@
 package id.indrasudirman.setoranmurojaahapp.fragment;
 
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -30,7 +31,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import id.indrasudirman.setoranmurojaahapp.MainMenu;
 import id.indrasudirman.setoranmurojaahapp.R;
+import id.indrasudirman.setoranmurojaahapp.TampilkanMurojaahDatabase;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomsheetDownloadMurojaahBinding;
 
 public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
@@ -93,8 +96,9 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                                 Snackbar.LENGTH_SHORT).show();
                     }))
                     .setNegativeButton("Tampilkan", (((dialogInterface, i) -> {
-                        Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain, "Anda pilih tampilkan",
-                                Snackbar.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getContext(), TampilkanMurojaahDatabase.class);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(0,0);
                     })));
             alertDialog.show();
 
@@ -129,6 +133,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     private void setSpinnerAdapterAndListener() {
         List<String> typeMurojaah = new ArrayList<>();
         typeMurojaah.add(0, "Pilih tipe Murojaah");
+        typeMurojaah.add("Semua");
         typeMurojaah.add("Ziyadah");
         typeMurojaah.add("Murojaah");
 

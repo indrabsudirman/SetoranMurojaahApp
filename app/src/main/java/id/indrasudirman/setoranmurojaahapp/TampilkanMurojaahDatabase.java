@@ -58,7 +58,7 @@ public class TampilkanMurojaahDatabase extends AppCompatActivity {
             tampilMurojaahArrayList = new ArrayList<>();
         }
 
-//        tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaah();
+//        tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDB();
     }
 
     @Override

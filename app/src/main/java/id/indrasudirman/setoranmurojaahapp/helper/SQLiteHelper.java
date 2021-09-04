@@ -9,14 +9,17 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import id.indrasudirman.setoranmurojaahapp.model.Murojaah;
 import id.indrasudirman.setoranmurojaahapp.model.MurojaahItem;
+import id.indrasudirman.setoranmurojaahapp.model.TampilMurojaah;
 import id.indrasudirman.setoranmurojaahapp.model.User;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
@@ -404,6 +407,51 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
 
         return murojaahArrayList;
+    }
+
+    //Belum bisa dipake, karena harus belajar parse dari JSON API dulu, Asyiik belajar API
+    public ArrayList<TampilMurojaah> getTampilMurojaahDB (String id, LocalDate startDate, LocalDate lastDate) {
+        ArrayList<TampilMurojaah> tampilMurojaahArrayList = new ArrayList<>();
+
+        String[] columns = {DATE_MASEHI, DATE_HIJRI, MUROJAAH_TYPE, SURAT, AYAT};
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        //Selection criteria
+        String selection = USER_ID + " = ? AND " + DATE_MASEHI + " BETWEEN = ? AND = ?";
+
+        //Selection argument
+        String[] selectionArgs = {id, String.valueOf(startDate), String.valueOf(lastDate)};
+
+        //Order by String
+        String orderBy = MUROJAAH_TYPE + " DESC";
+
+        //Query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query
+         * SQL query equivalent to this query function is
+         * SELECT type_murojaah, surat, ayat FROM Murojaah WHERE user_id = ? AND date_masehi = ? ORDER BY type_murojaah DESC;
+         */
+        Cursor cursor = sqLiteDatabase.query(TABLE_MUROJAAH, //Table to query
+                columns, // column to return
+                selection, //Select base on
+                selectionArgs, //select argument
+                null, //The values for the WHERE clause
+                null, //group the rows
+                orderBy); //filter by row groups
+
+        while (cursor.moveToNext()){
+            TampilMurojaah tampilMurojaah = new TampilMurojaah();
+            tampilMurojaah.setTanggalMasehi(cursor.getString(cursor.getColumnIndex(DATE_MASEHI)));
+            tampilMurojaah.setTanggalHijriah(cursor.getString(cursor.getColumnIndex(DATE_HIJRI)));
+            String columnAyatMurojaah = cursor.getString(cursor.getColumnIndex(AYAT));
+
+            tampilMurojaahArrayList.add(tampilMurojaah);
+
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+
+        return tampilMurojaahArrayList;
     }
 
     /**

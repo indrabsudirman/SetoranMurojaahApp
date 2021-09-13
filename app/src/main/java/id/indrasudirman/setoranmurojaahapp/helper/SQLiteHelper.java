@@ -27,7 +27,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String TAG = SQLiteHelper.class.getSimpleName();
 
     //Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 1;
 
     //Database Name
     private static final String DATABASE_NAME = "MurojaahSetiapHari.db";

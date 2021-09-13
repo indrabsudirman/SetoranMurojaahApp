@@ -221,9 +221,9 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 String userID = sqLiteHelper.getUserId(userEmail);
 //                Log.e("BottomSheet.class", "UserID is : " + userID);
                 murojaah.setTypeMurojaah(switchText);
-                String tanggalMasehi = mainMenu.setTanggalMasehi() + " M";
+                String tanggalMasehi = mainMenu.getTanggalMasehi()[1];
                 murojaah.setDateMasehi(tanggalMasehi);
-                String[] tanggalHijriArray = mainMenu.setTanggalHijriyah();
+                String[] tanggalHijriArray = mainMenu.getTanggalHijriyah();
                 murojaah.setDateHijri("H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2]);
                 murojaah.setSurat(namaSurat);
                 murojaah.setAyat(finalAyatMurojaah1);
@@ -280,9 +280,9 @@ public class BottomSheet extends BottomSheetDialogFragment {
                     String userID = sqLiteHelper.getUserId(userEmail);
                     Log.e("BottomSheet.class", "UserID is : " + userID);
                     murojaah.setTypeMurojaah(switchText);
-                    String tanggalMasehi = mainMenu.setTanggalMasehi() + " M";
+                    String tanggalMasehi = mainMenu.getTanggalMasehi()[1];
                     murojaah.setDateMasehi(tanggalMasehi);
-                    String[] tanggalHijriArray = mainMenu.setTanggalHijriyah();
+                    String[] tanggalHijriArray = mainMenu.getTanggalHijriyah();
                     murojaah.setDateHijri("H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2]);
                     murojaah.setSurat(namaSurat);
                     murojaah.setAyat(finalAyatMurojaah);

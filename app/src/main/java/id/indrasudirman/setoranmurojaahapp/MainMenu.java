@@ -136,14 +136,14 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 adapterListMurojaah.notifyDataSetChanged();
 
                 //Delete murojaah harian database by row today
-                sqLiteHelper.deleteMurojaahHarianDB(setTanggalMasehi() + " M");
+                sqLiteHelper.deleteMurojaahHarianDB(getTanggalMasehi()[1]);
 
                 //Insert new murojaah harian database by row today from recyclerview
                 if (!murojaahItemArrayList.isEmpty()) {
                     String userID = sqLiteHelper.getUserId(userEmail);
-                    String[] tanggalHijriArray = setTanggalHijriyah();
+                    String[] tanggalHijriArray = getTanggalHijriyah();
                     String tglHijri = "H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2];
-                    sqLiteHelper.addMurojaahHarianDB(murojaahItemArrayList, userID, setTanggalMasehi() + " M", tglHijri);
+                    sqLiteHelper.addMurojaahHarianDB(murojaahItemArrayList, userID, getTanggalMasehi()[1], tglHijri);
                     ArraylistToJson(murojaahItemArrayList);
                 }
 
@@ -156,14 +156,14 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                             adapterListMurojaah.notifyItemRangeChanged(deleteIndexMurojaah, murojaahItemArrayList.size());
                             adapterListMurojaah.notifyDataSetChanged();
                             //Delete murojaah harian database by row today
-                            sqLiteHelper.deleteMurojaahHarianDB(setTanggalMasehi() + " M");
+                            sqLiteHelper.deleteMurojaahHarianDB(getTanggalMasehi()[1]);
 
                             //Insert new murojaah harian database by row today from recyclerview
                             if (!murojaahItemArrayList.isEmpty()) {
                                 String userID = sqLiteHelper.getUserId(userEmail);
-                                String[] tanggalHijriArray = setTanggalHijriyah();
+                                String[] tanggalHijriArray = getTanggalHijriyah();
                                 String tglHijri = "H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2];
-                                sqLiteHelper.addMurojaahHarianDB(murojaahItemArrayList, userID, setTanggalMasehi() + " M", tglHijri);
+                                sqLiteHelper.addMurojaahHarianDB(murojaahItemArrayList, userID, getTanggalMasehi()[1], tglHijri);
                                 ArraylistToJson(murojaahItemArrayList);
                             }
                         })
@@ -220,10 +220,10 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         layoutToolbarProfileBinding.profileEmail.setText(userEmail);
 
         //Set Tanggal Masehi
-        layoutToolbarProfileBinding.tanggalMasehi.setText(setTanggalMasehi() + " M");
+        layoutToolbarProfileBinding.tanggalMasehi.setText(getTanggalMasehi()[0] + " M");
 
 
-        String[] tanggalHijri = setTanggalHijriyah();
+        String[] tanggalHijri = getTanggalHijriyah();
 //        Log.d("Bulan ", tanggalHijri[0]);
 //        Log.d("Tanggal ", tanggalHijri[1]);
 //        Log.d("Tahun ", tanggalHijri[2]);
@@ -245,7 +245,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                 murojaahItemArrayList = new ArrayList<>();
             }
             murojaahItemArrayList.clear();
-            murojaahItemArrayList = sqLiteHelper.getMurojaahHarianDB(sqLiteHelper.getUserId(userEmail), setTanggalMasehi() + " M");
+            murojaahItemArrayList = sqLiteHelper.getMurojaahHarianDB(sqLiteHelper.getUserId(userEmail), getTanggalMasehi()[1]);
 
         }
 
@@ -319,7 +319,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
             murojaahItemArrayList = new ArrayList<>();
         }
 
-        murojaahItemArrayList = sqLiteHelper.getMurojaahHarianDB(sqLiteHelper.getUserId(userEmail), setTanggalMasehi() + " M");
+        murojaahItemArrayList = sqLiteHelper.getMurojaahHarianDB(sqLiteHelper.getUserId(userEmail), getTanggalMasehi()[1]);
 
         if (!dateString.isEmpty()) {
             LocalDate localDate = LocalDate.now();
@@ -361,7 +361,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         listMurojaahBinding.recyclerViewListMurojaah.setAdapter(adapterListMurojaah);
     }
 
-    public String[] setTanggalHijriyah() {
+    public String[] getTanggalHijriyah() {
         // List of Hijriyah months https://ocmic.org.uk/12-islamic-months/
         String[] months = {
                 "ٱلْمُحَرَّم", "صَفَر", "رَبِيع ٱلْأَوَّل", "رَبِيع ٱلْآخِر",
@@ -384,17 +384,22 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         return new String[]{monthName, String.valueOf(todayHijri.getDayOfMonth()), String.valueOf(todayHijri.getYear())};
     }
 
-    public String setTanggalMasehi() {
+    public String[] getTanggalMasehi() {
         String[] months = {
                 "Januari", "Februari", "Maret", "April",
                 "Mei", "Juni", "Juli", "Agustus",
                 "September", "Oktober", "November", "Desember"};
 
         GregorianCalendar calendar = new GregorianCalendar();
+        int month;
+        month = calendar.get(Calendar.MONTH);
+        month = month+1;
 
         String i = calendar.get(Calendar.DATE) + " " + months[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.YEAR);
+        String n = calendar.get(Calendar.YEAR) + "-" + month + "-" + calendar.get(Calendar.DATE);
         Log.d("Tanggal ", i);
-        return i;
+        Log.d("Tanggal ", n);
+        return new String[] {i, n};
 
 
     }
@@ -515,8 +520,8 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
 //        Bitmap result// = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
 
-        String dateMasehi = setTanggalMasehi();
-        String[] tanggalHijri = setTanggalHijriyah();
+        String[] dateMasehi = getTanggalMasehi();
+        String[] tanggalHijri = getTanggalHijriyah();
         int userNameLength = userName.length();
         int x = src.getWidth() - userNameLength;
         int y = 0;
@@ -530,7 +535,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         canvas.drawBitmap(src, 0, 0, paint);
         canvas.drawText(userName, 85, 340, paint);
         paint.setTextSize(40);
-        canvas.drawText(dateMasehi + " M", 85, 400, paint);
+        canvas.drawText(dateMasehi[0] + " M", 85, 400, paint);
         canvas.drawText(tanggalHijri[1], 85, 460, paint); //Tanggal
         canvas.drawText(tanggalHijri[0], 150, 460, paint); //Bulan
         canvas.drawText(tanggalHijri[2] + " H", 280, 460, paint); //Tahun

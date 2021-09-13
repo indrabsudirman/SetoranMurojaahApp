@@ -6,6 +6,8 @@ public class Murojaah {
     private String typeMurojaah;
     private String dateMasehi;
     private String dateHijri;
+    private String monthHijri;
+    private String yearHijri;
     private String surat;
     private String ayat;
 
@@ -59,5 +61,21 @@ public class Murojaah {
 
     public void setAyat(String ayat) {
         this.ayat = ayat;
+    }
+
+    public String getMonthHijri() {
+        return monthHijri;
+    }
+
+    public void setMonthHijri(String monthHijri) {
+        this.monthHijri = monthHijri;
+    }
+
+    public String getYearHijri() {
+        return yearHijri;
+    }
+
+    public void setYearHijri(String yearHijri) {
+        this.yearHijri = yearHijri;
     }
 }

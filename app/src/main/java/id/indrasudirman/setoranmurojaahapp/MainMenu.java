@@ -143,7 +143,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                     String userID = sqLiteHelper.getUserId(userEmail);
                     String[] tanggalHijriArray = getTanggalHijriyah();
                     String tglHijri = "H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2];
-                    sqLiteHelper.addMurojaahHarianDB(murojaahItemArrayList, userID, getTanggalMasehi()[1], tglHijri);
+                    sqLiteHelper.addMurojaahHarianDB(murojaahItemArrayList, userID, getTanggalMasehi()[1], tanggalHijriArray);
                     ArraylistToJson(murojaahItemArrayList);
                 }
 
@@ -163,7 +163,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
                                 String userID = sqLiteHelper.getUserId(userEmail);
                                 String[] tanggalHijriArray = getTanggalHijriyah();
                                 String tglHijri = "H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2];
-                                sqLiteHelper.addMurojaahHarianDB(murojaahItemArrayList, userID, getTanggalMasehi()[1], tglHijri);
+                                sqLiteHelper.addMurojaahHarianDB(murojaahItemArrayList, userID, getTanggalMasehi()[1], tanggalHijriArray);
                                 ArraylistToJson(murojaahItemArrayList);
                             }
                         })
@@ -373,15 +373,18 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         LocalDate localDate = LocalDate.now();
         GregorianCalendar calendar = new GregorianCalendar();
         LocalDate todayHijri = new LocalDate(localDate.toDateTimeAtStartOfDay(), hijri);
+        int dayHijri;
+        dayHijri = todayHijri.getDayOfMonth();
+        dayHijri = dayHijri + 1;
         Log.d("hijri", String.valueOf(todayHijri));
         int numberMonth = todayHijri.getMonthOfYear() - 1;
-        Log.d("hijri month", String.valueOf(numberMonth));
+        Log.d("hijri month number array", String.valueOf(numberMonth));
         String monthName = months[numberMonth];
         Log.d("hijri month", monthName);
-        String dateHijri = monthName + " " + todayHijri.getYear();
-        Log.d("hijri date cool", dateHijri);
+        String dateHijri = monthName + " " + dayHijri;
+        Log.d("hijri date cool", String.valueOf(todayHijri.getDayOfMonth() + 1));
 
-        return new String[]{monthName, String.valueOf(todayHijri.getDayOfMonth()), String.valueOf(todayHijri.getYear())};
+        return new String[]{monthName, String.valueOf(todayHijri.getDayOfMonth() + 1), String.valueOf(todayHijri.getYear())};
     }
 
     public String[] getTanggalMasehi() {

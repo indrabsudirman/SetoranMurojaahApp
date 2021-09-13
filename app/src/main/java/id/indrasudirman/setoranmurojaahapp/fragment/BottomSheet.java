@@ -224,7 +224,9 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 String tanggalMasehi = mainMenu.getTanggalMasehi()[1];
                 murojaah.setDateMasehi(tanggalMasehi);
                 String[] tanggalHijriArray = mainMenu.getTanggalHijriyah();
-                murojaah.setDateHijri("H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2]);
+                murojaah.setDateHijri(tanggalHijriArray[1]);
+                murojaah.setMonthHijri(tanggalHijriArray[0]);
+                murojaah.setYearHijri(tanggalHijriArray[2] + " H");
                 murojaah.setSurat(namaSurat);
                 murojaah.setAyat(finalAyatMurojaah1);
 
@@ -283,7 +285,9 @@ public class BottomSheet extends BottomSheetDialogFragment {
                     String tanggalMasehi = mainMenu.getTanggalMasehi()[1];
                     murojaah.setDateMasehi(tanggalMasehi);
                     String[] tanggalHijriArray = mainMenu.getTanggalHijriyah();
-                    murojaah.setDateHijri("H " + tanggalHijriArray[0] + " ," + tanggalHijriArray[1] + " ," + tanggalHijriArray[2]);
+                    murojaah.setDateHijri(tanggalHijriArray[1]);
+                    murojaah.setMonthHijri(tanggalHijriArray[0]);
+                    murojaah.setYearHijri(tanggalHijriArray[2] + " H");
                     murojaah.setSurat(namaSurat);
                     murojaah.setAyat(finalAyatMurojaah);
 

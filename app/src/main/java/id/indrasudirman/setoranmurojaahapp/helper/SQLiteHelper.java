@@ -320,6 +320,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         contentValues.put(MUROJAAH_TYPE, murojaah.getTypeMurojaah());
         contentValues.put(DATE_MASEHI, murojaah.getDateMasehi());
         contentValues.put(DATE_HIJRI, murojaah.getDateHijri());
+        contentValues.put(MONTH_HIJRI, murojaah.getMonthHijri());
+        contentValues.put(YEAR_HIJRI, murojaah.getYearHijri());
         contentValues.put(SURAT, murojaah.getSurat());
         contentValues.put(AYAT, murojaah.getAyat());
 
@@ -479,7 +481,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     /**
      * This method is to insert new murojaahlist daily record, while swipe recyclerview
      */
-    public void addMurojaahHarianDB (ArrayList<MurojaahItem> murojaahItemArrayList, String userID, String dateMasehi, String dateHijri) {
+    public void addMurojaahHarianDB (ArrayList<MurojaahItem> murojaahItemArrayList, String userID, String dateMasehi, String[] dateHijri) {
 
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
@@ -492,7 +494,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             for (int i = 0; i < jsonArray.length(); i++) {
                 contentValues.put(USER_ID, userID);
                 contentValues.put(DATE_MASEHI, dateMasehi);
-                contentValues.put(DATE_HIJRI, dateHijri);
+                contentValues.put(DATE_HIJRI, dateHijri[1]);
+                contentValues.put(MONTH_HIJRI, dateHijri[0]);
+                contentValues.put(YEAR_HIJRI, dateHijri[2] + " H");
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 Log.e("Output", jsonObject.getString("namaSurat"));
                 contentValues.put(MUROJAAH_TYPE, jsonObject.getString("typeMurojaah"));

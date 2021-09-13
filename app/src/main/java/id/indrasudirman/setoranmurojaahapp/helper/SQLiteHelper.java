@@ -51,6 +51,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String MUROJAAH_TYPE = "type_murojaah";
     private static final String DATE_MASEHI = "date_masehi";
     private static final String DATE_HIJRI = "date_hijri";
+    private static final String MONTH_HIJRI = "month_hijri";
+    private static final String YEAR_HIJRI = "year_hijri";
     private static final String SURAT = "surat";
     private static final String AYAT = "ayat";
 
@@ -64,6 +66,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private String CREATE_MUROJAAH_TABLE = "CREATE TABLE " + TABLE_MUROJAAH + "(" + MUROJAAH_ID
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_ID + " INTEGER, "
             + MUROJAAH_TYPE + " TEXT, " + DATE_MASEHI + " TEXT, " + DATE_HIJRI + " TEXT, "
+            + MONTH_HIJRI + " TEXT, " + YEAR_HIJRI + " TEXT, "
             + SURAT + " TEXT, " + AYAT + " TEXT " + ")";
 
     //Drop Table Users SQL Query

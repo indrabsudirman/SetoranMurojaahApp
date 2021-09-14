@@ -415,17 +415,18 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
     //Belum bisa dipake, karena harus belajar parse dari JSON API dulu, Asyiik belajar API
-    public ArrayList<TampilMurojaah> getTampilMurojaahDB (String id, LocalDate startDate, LocalDate lastDate) {
+    //Sudah belajar API Json, lanjut menthod ini untuk tampil murojaah class
+    public ArrayList<TampilMurojaah> getTampilMurojaahDB (String id, String startDate, String lastDate) {
         ArrayList<TampilMurojaah> tampilMurojaahArrayList = new ArrayList<>();
 
-        String[] columns = {DATE_MASEHI, DATE_HIJRI, MUROJAAH_TYPE, SURAT, AYAT};
+        String[] columns = {DATE_MASEHI, DATE_HIJRI, MONTH_HIJRI, YEAR_HIJRI, MUROJAAH_TYPE, SURAT, AYAT};
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
         //Selection criteria
         String selection = USER_ID + " = ? AND " + DATE_MASEHI + " BETWEEN = ? AND = ?";
 
         //Selection argument
-        String[] selectionArgs = {id, String.valueOf(startDate), String.valueOf(lastDate)};
+        String[] selectionArgs = {id, startDate, lastDate};
 
         //Order by String
         String orderBy = MUROJAAH_TYPE + " DESC";
@@ -442,13 +443,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 selectionArgs, //select argument
                 null, //The values for the WHERE clause
                 null, //group the rows
-                orderBy); //filter by row groups
+                null); //filter by row groups
 
         while (cursor.moveToNext()){
             TampilMurojaah tampilMurojaah = new TampilMurojaah();
             tampilMurojaah.setTanggalMasehi(cursor.getString(cursor.getColumnIndex(DATE_MASEHI)));
             tampilMurojaah.setTanggalHijriah(cursor.getString(cursor.getColumnIndex(DATE_HIJRI)));
-            String columnAyatMurojaah = cursor.getString(cursor.getColumnIndex(AYAT));
+            tampilMurojaah.setBulanHijriah(cursor.getString(cursor.getColumnIndex(MONTH_HIJRI)));
+            tampilMurojaah.setTahunHijriah(cursor.getString(cursor.getColumnIndex(YEAR_HIJRI)));
+            tampilMurojaah.setTipeMurojaah(cursor.getString(cursor.getColumnIndex(MUROJAAH_TYPE)));
+            tampilMurojaah.setSurat(cursor.getString(cursor.getColumnIndex(SURAT)));
+            tampilMurojaah.setAyat(cursor.getString(cursor.getColumnIndex(AYAT)));
 
             tampilMurojaahArrayList.add(tampilMurojaah);
 

@@ -43,6 +43,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     private LayoutBottomsheetDownloadMurojaahBinding bottomsheetDownloadMurojaahBinding;
     private String item;
     private boolean isTrue = false;
+    private String startDateToDb, endDateToDb;
 
     private final String[] months = {
             "Januari", "Februari", "Maret", "April",
@@ -97,9 +98,12 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                     }))
                     .setNegativeButton("Tampilkan", (((dialogInterface, i) -> {
                         Intent intent = new Intent(getContext(), TampilkanMurojaahDatabase.class);
+                        intent.putExtra("start_date_select", startDateToDb);
+                        intent.putExtra("end_date_select", endDateToDb);
                         startActivity(intent);
-                        getActivity().overridePendingTransition(0,0);
+                        getActivity().overridePendingTransition(0, 0);
                     })));
+
             alertDialog.show();
 
         } else {
@@ -175,16 +179,26 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                 //Start Date
                 Calendar startCalender = Calendar.getInstance();
                 startCalender.setTimeInMillis(selection.first);
+                int startMonth;
+                startMonth = startCalender.get(Calendar.MONTH);
+                startMonth = startMonth + 1;
+                startDateToDb = startCalender.get(Calendar.YEAR) + "-" + startMonth + "-" + startCalender.get(Calendar.DATE);
+                Log.d("Start tanggal Masehi untuk query Download ", startDateToDb);
                 String startDate = startCalender.get(Calendar.DATE) + " " + months[startCalender.get(Calendar.MONTH)] + " " + startCalender.get(Calendar.YEAR);
                 bottomsheetDownloadMurojaahBinding.textViewStartDateShow.setText(startDate + " M");
 
                 //End Date
                 Calendar endCalender = Calendar.getInstance();
                 endCalender.setTimeInMillis(selection.second);
+                int endMonth;
+                endMonth = endCalender.get(Calendar.MONTH);
+                endMonth = endMonth + 1;
+                endDateToDb = endCalender.get(Calendar.YEAR) + "-" + endMonth + "-" + endCalender.get(Calendar.DATE);
+                Log.d("End tanggal Masehi untuk query Download ", endDateToDb);
                 String endDate1 = endCalender.get(Calendar.DATE) + " " + months[endCalender.get(Calendar.MONTH)] + " " + endCalender.get(Calendar.YEAR);
                 bottomsheetDownloadMurojaahBinding.textViewEndDateShow.setText(endDate1 + " M");
 
-                Log.d("TAG", "OnPositiveButtonClick : " + startDate + " " + endDate1);
+                Log.d("TAG", "OnPositiveButtonClick : " + startDate + " sampai " + endDate1);
 
             }
         });

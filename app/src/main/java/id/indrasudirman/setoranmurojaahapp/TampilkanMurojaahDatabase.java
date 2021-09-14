@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -25,6 +27,11 @@ public class TampilkanMurojaahDatabase extends AppCompatActivity {
     private ActivityTampilkanMurojaahDatabaseBinding activityTampilkanMurojaahDatabaseBinding;
     private View view;
     private SQLiteHelper sqLiteHelper;
+    private String userEmail;
+    private SharedPreferences sharedPreferences;
+    private static final String SHARED_PREF_NAME = "sharedPrefLogin";
+    private static final String KEY_EMAIL = "email";
+    private String startDate, endDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,14 @@ public class TampilkanMurojaahDatabase extends AppCompatActivity {
         activityTampilkanMurojaahDatabaseBinding = ActivityTampilkanMurojaahDatabaseBinding.inflate(getLayoutInflater());
         view = activityTampilkanMurojaahDatabaseBinding.getRoot();
         setContentView(view);
+
+        Intent i = getIntent();
+        startDate = i.getStringExtra("start_date_select");
+        endDate = i.getStringExtra("end_date_select");
+        Log.d("Date tampil murojaah  ", startDate + " " + endDate);
+
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        userEmail = (sharedPreferences.getString(KEY_EMAIL, "").trim());
 
         sqLiteHelper = new SQLiteHelper(this);
 
@@ -54,11 +69,18 @@ public class TampilkanMurojaahDatabase extends AppCompatActivity {
     }
 
     private void createTampilMurojaahArrayList() {
-        if (tampilMurojaahArrayList == null) {
-            tampilMurojaahArrayList = new ArrayList<>();
-        }
+        Intent intent = getIntent();
 
-//        tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDB();
+        if (intent != null) {
+
+            if (tampilMurojaahArrayList == null) {
+                tampilMurojaahArrayList = new ArrayList<>();
+            }
+            tampilMurojaahArrayList.clear();
+            tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDB(sqLiteHelper.getUserId(userEmail), startDate, endDate);
+
+
+        }
     }
 
     @Override

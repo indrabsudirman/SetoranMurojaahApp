@@ -423,7 +423,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
         //Selection criteria
-        String selection = USER_ID + " = ? AND " + DATE_MASEHI + " BETWEEN = ? AND = ?";
+        String selection = USER_ID + " =? AND " + DATE_MASEHI + " BETWEEN ? AND ?";
 
         //Selection argument
         String[] selectionArgs = {id, startDate, lastDate};

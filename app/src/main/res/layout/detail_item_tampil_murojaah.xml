@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp"
+        android:padding="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -20,7 +20,7 @@
             android:layout_marginStart="20dp"
             android:text="1."
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/laoyutDetail"
             app:layout_constraintTop_toTopOf="@+id/laoyutDetail" />
 
@@ -31,7 +31,7 @@
             android:layout_marginStart="20dp"
             android:text="Tanggal :"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
             app:layout_constraintTop_toTopOf="@+id/laoyutDetail" />
 
@@ -40,10 +40,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="27 Januari 2016 M"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
             app:layout_constraintTop_toBottomOf="@+id/tanggal" />
@@ -53,10 +53,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="17"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
             app:layout_constraintTop_toBottomOf="@+id/tanggalMasehi" />
@@ -66,10 +66,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="رَبِيع ٱلْآخِر"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/tanggalHijriyah"
             app:layout_constraintTop_toBottomOf="@+id/tanggalMasehi" />
@@ -79,10 +79,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="1437 H"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/bulanHijriyah"
             app:layout_constraintTop_toBottomOf="@+id/tanggalMasehi" />
@@ -92,7 +92,7 @@
             android:layout_width="315dp"
             android:layout_height="1dp"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:background="@color/colorView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -103,10 +103,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="Tipe Murojaah :"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
             app:layout_constraintTop_toBottomOf="@+id/viewBottomPilihtanggal" />
 
@@ -115,10 +115,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="Murojaah"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
             app:layout_constraintTop_toBottomOf="@+id/tipeMurojaah" />
@@ -128,7 +128,7 @@
             android:layout_width="315dp"
             android:layout_height="1dp"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:background="@color/colorView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -139,10 +139,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="Surat :"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
             app:layout_constraintTop_toBottomOf="@+id/viewBottomTipeMurojaah" />
 
@@ -151,10 +151,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="ٱلْفَاتِحَة"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
             app:layout_constraintTop_toBottomOf="@+id/namaSurat" />
@@ -164,7 +164,7 @@
             android:layout_width="315dp"
             android:layout_height="1dp"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:background="@color/colorView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -175,10 +175,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="Ayat :"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
             app:layout_constraintTop_toBottomOf="@+id/viewBottomSurat" />
 
@@ -187,24 +187,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="Ayat 1 - 7"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
             app:layout_constraintTop_toBottomOf="@+id/ayat" />
-
-        <View
-            android:id="@+id/viewBottomAyat"
-            android:layout_width="315dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:background="@color/colorView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nomorAyat" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

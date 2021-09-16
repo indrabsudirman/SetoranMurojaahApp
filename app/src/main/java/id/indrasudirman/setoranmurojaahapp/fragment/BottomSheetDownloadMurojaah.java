@@ -98,8 +98,16 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                     }))
                     .setNegativeButton("Tampilkan", (((dialogInterface, i) -> {
                         if (startDateToDb == null && endDateToDb == null) {
-                            Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain, "Pilih tanggal dahulu!",
-                                    Snackbar.LENGTH_SHORT).show();
+                            Calendar startCalender = Calendar.getInstance();
+                            int startMonth;
+                            startMonth = startCalender.get(Calendar.MONTH);
+                            startMonth = startMonth + 1;
+                            String defaultDateToDb = startCalender.get(Calendar.YEAR) + "-" + startMonth + "-" + startCalender.get(Calendar.DATE);
+                            Intent intent = new Intent(getContext(), TampilkanMurojaahDatabase.class);
+                            intent.putExtra("start_date_select", defaultDateToDb);
+                            intent.putExtra("end_date_select", defaultDateToDb);
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(0, 0);
                         } else {
                             Intent intent = new Intent(getContext(), TampilkanMurojaahDatabase.class);
                             intent.putExtra("start_date_select", startDateToDb);

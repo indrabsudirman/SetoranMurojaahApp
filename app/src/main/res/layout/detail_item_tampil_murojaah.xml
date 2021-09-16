@@ -133,7 +133,7 @@
             android:layout_marginTop="5dp"
             android:text="ٱلْفَاتِحَة"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
             app:layout_constraintTop_toBottomOf="@+id/namaSurat" />

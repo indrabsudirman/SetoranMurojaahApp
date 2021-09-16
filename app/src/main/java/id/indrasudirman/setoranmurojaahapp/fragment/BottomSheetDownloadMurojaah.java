@@ -107,7 +107,10 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                             intent.putExtra("end_date_select", defaultDateToDb);
                             startActivity(intent);
                             getActivity().overridePendingTransition(0, 0);
-                        } else {
+                        } else if (tipeMurojaah.equals("Semua")) {
+                            Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
+                                    "Kamu pilih " + tipeMurojaah, Snackbar.LENGTH_SHORT).show();
+                        }else {
                             Intent intent = new Intent(getContext(), TampilkanMurojaahDatabase.class);
                             intent.putExtra("start_date_select", startDateToDb);
                             intent.putExtra("end_date_select", endDateToDb);

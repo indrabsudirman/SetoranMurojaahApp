@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/laoyutDetail"
@@ -22,13 +22,14 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/laoyutDetail"
-            app:layout_constraintTop_toTopOf="@+id/laoyutDetail" />
+            app:layout_constraintBottom_toBottomOf="@+id/surat"
+            app:layout_constraintTop_toTopOf="@id/laoyutDetail"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tanggal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="25dp"
             android:text="Tanggal :"
             android:textColor="@color/black"
             android:textSize="14sp"
@@ -39,7 +40,7 @@
             android:id="@+id/tanggalMasehi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="5dp"
             android:text="27 Januari 2016 M"
             android:textColor="@color/black"
@@ -52,7 +53,7 @@
             android:id="@+id/tanggalHijriyah"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="5dp"
             android:text="17"
             android:textColor="@color/black"
@@ -87,70 +88,48 @@
             app:layout_constraintStart_toEndOf="@+id/bulanHijriyah"
             app:layout_constraintTop_toBottomOf="@+id/tanggalMasehi" />
 
-        <View
-            android:id="@+id/viewBottomPilihtanggal"
-            android:layout_width="315dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:background="@color/colorView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tahunHijriyah" />
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tipeMurojaah"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginEnd="35dp"
             android:text="Tipe Murojaah :"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/numberTextView1"
-            app:layout_constraintTop_toBottomOf="@+id/viewBottomPilihtanggal" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/laoyutDetail" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/murojaah"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginEnd="35dp"
             android:layout_marginTop="5dp"
             android:text="Murojaah"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/numberTextView1"
+            app:layout_constraintStart_toStartOf="@id/tipeMurojaah"
             app:layout_constraintTop_toBottomOf="@+id/tipeMurojaah" />
 
-        <View
-            android:id="@+id/viewBottomTipeMurojaah"
-            android:layout_width="315dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:background="@color/colorView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/murojaah" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/namaSurat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
             android:text="Surat :"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
-            app:layout_constraintTop_toBottomOf="@+id/viewBottomTipeMurojaah" />
+            app:layout_constraintTop_toBottomOf="@+id/tanggalHijriyah" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/surat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="5dp"
             android:text="ٱلْفَاتِحَة"
             android:textColor="@color/black"
@@ -159,40 +138,28 @@
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
             app:layout_constraintTop_toBottomOf="@+id/namaSurat" />
 
-        <View
-            android:id="@+id/viewBottomSurat"
-            android:layout_width="315dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:background="@color/colorView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/surat" />
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/ayat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginTop="10dp"
             android:text="Ayat :"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/numberTextView1"
-            app:layout_constraintTop_toBottomOf="@+id/viewBottomSurat" />
+            app:layout_constraintStart_toStartOf="@id/tipeMurojaah"
+            app:layout_constraintTop_toBottomOf="@+id/tanggalHijriyah" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/nomorAyat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginEnd="35dp"
             android:text="Ayat 1 - 7"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/numberTextView1"
+            app:layout_constraintStart_toStartOf="@+id/ayat"
             app:layout_constraintTop_toBottomOf="@+id/ayat" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

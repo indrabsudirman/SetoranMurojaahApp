@@ -97,11 +97,16 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                                 Snackbar.LENGTH_SHORT).show();
                     }))
                     .setNegativeButton("Tampilkan", (((dialogInterface, i) -> {
-                        Intent intent = new Intent(getContext(), TampilkanMurojaahDatabase.class);
-                        intent.putExtra("start_date_select", startDateToDb);
-                        intent.putExtra("end_date_select", endDateToDb);
-                        startActivity(intent);
-                        getActivity().overridePendingTransition(0, 0);
+                        if (startDateToDb == null && endDateToDb == null) {
+                            Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain, "Pilih tanggal dahulu!",
+                                    Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent = new Intent(getContext(), TampilkanMurojaahDatabase.class);
+                            intent.putExtra("start_date_select", startDateToDb);
+                            intent.putExtra("end_date_select", endDateToDb);
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(0, 0);
+                        }
                     })));
 
             alertDialog.show();

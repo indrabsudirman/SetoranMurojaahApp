@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:text="Tanggal :"
+            android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
@@ -45,7 +46,6 @@
             android:text="27 Januari 2016 M"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
             app:layout_constraintTop_toBottomOf="@+id/tanggal" />
 
@@ -58,7 +58,6 @@
             android:text="17"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
             app:layout_constraintTop_toBottomOf="@+id/tanggalMasehi" />
 
@@ -71,7 +70,6 @@
             android:text="رَبِيع ٱلْآخِر"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/tanggalHijriyah"
             app:layout_constraintTop_toBottomOf="@+id/tanggalMasehi" />
 
@@ -84,7 +82,6 @@
             android:text="1437 H"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/bulanHijriyah"
             app:layout_constraintTop_toBottomOf="@+id/tanggalMasehi" />
 
@@ -95,6 +92,7 @@
             android:layout_marginEnd="35dp"
             android:text="Tipe Murojaah :"
             android:textColor="@color/black"
+            android:textStyle="bold"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/laoyutDetail" />
@@ -108,7 +106,6 @@
             android:text="Murojaah"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tipeMurojaah"
             app:layout_constraintTop_toBottomOf="@+id/tipeMurojaah" />
 
@@ -120,6 +117,7 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="10dp"
             android:text="Surat :"
+            android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
@@ -134,7 +132,6 @@
             android:text="ٱلْفَاتِحَة"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/numberTextView1"
             app:layout_constraintTop_toBottomOf="@+id/namaSurat" />
 
@@ -146,6 +143,7 @@
             android:layout_marginTop="10dp"
             android:text="Ayat :"
             android:textColor="@color/black"
+            android:textStyle="bold"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/tipeMurojaah"
             app:layout_constraintTop_toBottomOf="@+id/tanggalHijriyah" />
@@ -158,7 +156,6 @@
             android:text="Ayat 1 - 7"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/ayat"
             app:layout_constraintTop_toBottomOf="@+id/ayat" />
 

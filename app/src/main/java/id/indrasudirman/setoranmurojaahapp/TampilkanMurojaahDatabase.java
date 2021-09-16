@@ -63,6 +63,7 @@ public class TampilkanMurojaahDatabase extends AppCompatActivity {
         tampilMurojaahLayoutManager = new LinearLayoutManager(this);
         tampilMurojaahAdapter = new TampilMurojaahAdapter(tampilMurojaahArrayList);
         activityTampilkanMurojaahDatabaseBinding.recyclerViewMurojaahmu.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
+//        activityTampilkanMurojaahDatabaseBinding.recyclerViewMurojaahmu.addItemDecoration(new TampilMurojaahAdapter.MyItemDecoration)
 
         activityTampilkanMurojaahDatabaseBinding.recyclerViewMurojaahmu.setLayoutManager(tampilMurojaahLayoutManager);
         activityTampilkanMurojaahDatabaseBinding.recyclerViewMurojaahmu.setAdapter(tampilMurojaahAdapter);

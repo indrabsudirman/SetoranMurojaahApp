@@ -423,13 +423,16 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
         //Selection criteria
-        String selection = USER_ID + " =? AND " + DATE_MASEHI + " BETWEEN ? AND ?";
+        String selection = USER_ID + " = ? AND " + DATE_MASEHI + " BETWEEN ? AND ? AND " + MUROJAAH_TYPE + " = ?";
 
         //Selection argument
-        String[] selectionArgs = {id, startDate, lastDate};
+        String type = "Murojaah";
+        String[] selectionArgs = {id, startDate, lastDate, type};
 
         //Order by String
-        String orderBy = MUROJAAH_TYPE + " DESC";
+        String orderBy = MUROJAAH_TYPE + " Murojaah";
+
+        String groupBy = MUROJAAH_TYPE;
 
         //Query user table with condition
         /**

@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import id.indrasudirman.setoranmurojaahapp.MainMenu;
 import id.indrasudirman.setoranmurojaahapp.R;
 import id.indrasudirman.setoranmurojaahapp.TampilkanMurojaahDatabase;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomsheetDownloadMurojaahBinding;
@@ -41,7 +40,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
     private View view;
     private LayoutBottomsheetDownloadMurojaahBinding bottomsheetDownloadMurojaahBinding;
-    private String item;
+    private String tipeMurojaah;
     private boolean isTrue = false;
     private String startDateToDb, endDateToDb;
 
@@ -164,8 +163,8 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                 if (adapterView.getItemAtPosition(i).equals("Pilih tipe Murojaah")) {
                     isTrue = false;
                 } else {
-                    item = adapterView.getItemAtPosition(i).toString();
-                    Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain, "Tipe Murojaah : " + item, Snackbar.LENGTH_SHORT).show();
+                    tipeMurojaah = adapterView.getItemAtPosition(i).toString();
+                    Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain, "Tipe Murojaah : " + tipeMurojaah, Snackbar.LENGTH_SHORT).show();
                     isTrue = true;
                 }
             }

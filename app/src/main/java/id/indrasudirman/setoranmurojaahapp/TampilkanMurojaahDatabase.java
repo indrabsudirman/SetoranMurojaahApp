@@ -81,13 +81,30 @@ public class TampilkanMurojaahDatabase extends AppCompatActivity {
             if (typeMurojaah.equals("Semua")) {
                 tampilMurojaahArrayList.clear();
                 tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBAll(sqLiteHelper.getUserId(userEmail), startDate, endDate);
+                if (tampilMurojaahArrayList.isEmpty()) {
+                    activityTampilkanMurojaahDatabaseBinding.recyclerViewMurojaahmu.setVisibility(View.GONE);
+                    activityTampilkanMurojaahDatabaseBinding.textViewRecylerEmpty.setVisibility(View.VISIBLE);
+                }
             } else {
                 tampilMurojaahArrayList.clear();
                 tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBOnlyTypeSelected(sqLiteHelper.getUserId(userEmail), startDate, endDate, typeMurojaah);
+                if (tampilMurojaahArrayList.isEmpty()) {
+                    activityTampilkanMurojaahDatabaseBinding.recyclerViewMurojaahmu.setVisibility(View.GONE);
+                    activityTampilkanMurojaahDatabaseBinding.textViewRecylerEmpty.setVisibility(View.VISIBLE);
+                }
             }
 
 
 
+        }
+        boolean listEmpty = tampilMurojaahArrayList.isEmpty();
+
+        if (listEmpty) {
+            activityTampilkanMurojaahDatabaseBinding.recyclerViewMurojaahmu.setVisibility(View.GONE);
+            activityTampilkanMurojaahDatabaseBinding.textViewRecylerEmpty.setVisibility(View.VISIBLE);
+        } else {
+            activityTampilkanMurojaahDatabaseBinding.recyclerViewMurojaahmu.setVisibility(View.VISIBLE);
+            activityTampilkanMurojaahDatabaseBinding.textViewRecylerEmpty.setVisibility(View.GONE);
         }
     }
 

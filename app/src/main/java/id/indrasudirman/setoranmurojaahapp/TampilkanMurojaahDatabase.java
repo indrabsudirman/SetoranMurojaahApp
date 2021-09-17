@@ -80,10 +80,10 @@ public class TampilkanMurojaahDatabase extends AppCompatActivity {
             }
             if (typeMurojaah.equals("Semua")) {
                 tampilMurojaahArrayList.clear();
-                tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDB(sqLiteHelper.getUserId(userEmail), startDate, endDate);
+                tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBAll(sqLiteHelper.getUserId(userEmail), startDate, endDate);
             } else {
                 tampilMurojaahArrayList.clear();
-                tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBAll(sqLiteHelper.getUserId(userEmail), startDate, endDate, typeMurojaah);
+                tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBOnlyTypeSelected(sqLiteHelper.getUserId(userEmail), startDate, endDate, typeMurojaah);
             }
 
 

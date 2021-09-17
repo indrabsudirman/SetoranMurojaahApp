@@ -416,7 +416,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     //Belum bisa dipake, karena harus belajar parse dari JSON API dulu, Asyiik belajar API
     //Sudah belajar API Json, lanjut menthod ini untuk tampil murojaah class
-    public ArrayList<TampilMurojaah> getTampilMurojaahDB(String id, String startDate, String lastDate) {
+    public ArrayList<TampilMurojaah> getTampilMurojaahDBAll(String id, String startDate, String lastDate) {
         ArrayList<TampilMurojaah> tampilMurojaahArrayList = new ArrayList<>();
 
         String[] columns = {DATE_MASEHI, DATE_HIJRI, MONTH_HIJRI, YEAR_HIJRI, MUROJAAH_TYPE, SURAT, AYAT};
@@ -466,7 +466,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return tampilMurojaahArrayList;
     }
 
-    public ArrayList<TampilMurojaah> getTampilMurojaahDBAll(String id, String startDate, String lastDate, String typeMurojaah) {
+    public ArrayList<TampilMurojaah> getTampilMurojaahDBOnlyTypeSelected(String id, String startDate, String lastDate, String typeMurojaah) {
         ArrayList<TampilMurojaah> tampilMurojaahArrayList = new ArrayList<>();
 
         String[] columns = {DATE_MASEHI, DATE_HIJRI, MONTH_HIJRI, YEAR_HIJRI, MUROJAAH_TYPE, SURAT, AYAT};

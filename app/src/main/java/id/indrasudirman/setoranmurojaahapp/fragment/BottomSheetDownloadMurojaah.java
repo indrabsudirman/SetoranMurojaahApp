@@ -1,8 +1,12 @@
 package id.indrasudirman.setoranmurojaahapp.fragment;
 
 
+import android.Manifest;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -24,6 +28,12 @@ import androidx.core.util.Pair;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.snackbar.Snackbar;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -92,8 +102,8 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                     .setCancelable(false)
                     .setMessage("Anda ingin donwload murojaah atau hanya ingin tampilkan saja?")
                     .setPositiveButton("Download", ((dialogInterface, i) -> {
-                        Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain, "Anda pilih download",
-                                Snackbar.LENGTH_SHORT).show();
+
+                        checkPermissionToSavePdf();
                     }))
                     .setNegativeButton("Tampilkan", (((dialogInterface, i) -> {
                         if (startDateToDb == null && endDateToDb == null) {
@@ -164,6 +174,43 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
             Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
                     "Pilih tipe Murojaah dahulu!", Snackbar.LENGTH_SHORT).show();
         }
+
+    }
+
+    private void checkPermissionToSavePdf() {
+        Dexter.withActivity(getActivity())
+                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        createPdfMurojaah();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+                        Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
+                                "Gagal download Murojaah, permission ditolak!", Snackbar.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
+    }
+
+    private void createPdfMurojaah() {
+        Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain, "Anda pilih download",
+                Snackbar.LENGTH_SHORT).show();
+        PdfDocument pdfDocument = new PdfDocument();
+        Paint paint = new Paint();
+
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(1200, 2010, 1).create();
+        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+        Canvas canvas = page.getCanvas();
+
+        pdfDocument.finishPage(page);
+
 
     }
 

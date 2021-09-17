@@ -416,7 +416,57 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     //Belum bisa dipake, karena harus belajar parse dari JSON API dulu, Asyiik belajar API
     //Sudah belajar API Json, lanjut menthod ini untuk tampil murojaah class
-    public ArrayList<TampilMurojaah> getTampilMurojaahDB (String id, String startDate, String lastDate) {
+    public ArrayList<TampilMurojaah> getTampilMurojaahDB(String id, String startDate, String lastDate) {
+        ArrayList<TampilMurojaah> tampilMurojaahArrayList = new ArrayList<>();
+
+        String[] columns = {DATE_MASEHI, DATE_HIJRI, MONTH_HIJRI, YEAR_HIJRI, MUROJAAH_TYPE, SURAT, AYAT};
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        //Selection criteria
+        String selection = USER_ID + " = ? AND " + DATE_MASEHI + " BETWEEN ? AND ? ";
+
+        //Selection argument
+        String[] selectionArgs = {id, startDate, lastDate};
+
+        //Order by String
+        String orderBy = MUROJAAH_TYPE + " Murojaah";
+
+        String groupBy = MUROJAAH_TYPE;
+
+        //Query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query
+         * SQL query equivalent to this query function is
+         * SELECT type_murojaah, date_masehi, date_hijri, surat, ayat FROM Murojaah WHERE user_id = ? AND date_masehi BETWEEN ? AND ?;
+         */
+        Cursor cursor = sqLiteDatabase.query(TABLE_MUROJAAH, //Table to query
+                columns, // column to return
+                selection, //Select base on
+                selectionArgs, //select argument
+                null, //The values for the WHERE clause
+                null, //group the rows
+                null); //filter by row groups
+
+        while (cursor.moveToNext()){
+            TampilMurojaah tampilMurojaah = new TampilMurojaah();
+            tampilMurojaah.setTanggalMasehi(cursor.getString(cursor.getColumnIndex(DATE_MASEHI)));
+            tampilMurojaah.setTanggalHijriah(cursor.getString(cursor.getColumnIndex(DATE_HIJRI)));
+            tampilMurojaah.setBulanHijriah(cursor.getString(cursor.getColumnIndex(MONTH_HIJRI)));
+            tampilMurojaah.setTahunHijriah(cursor.getString(cursor.getColumnIndex(YEAR_HIJRI)));
+            tampilMurojaah.setTipeMurojaah(cursor.getString(cursor.getColumnIndex(MUROJAAH_TYPE)));
+            tampilMurojaah.setSurat(cursor.getString(cursor.getColumnIndex(SURAT)));
+            tampilMurojaah.setAyat(cursor.getString(cursor.getColumnIndex(AYAT)));
+
+            tampilMurojaahArrayList.add(tampilMurojaah);
+
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+
+        return tampilMurojaahArrayList;
+    }
+
+    public ArrayList<TampilMurojaah> getTampilMurojaahDBAll(String id, String startDate, String lastDate, String typeMurojaah) {
         ArrayList<TampilMurojaah> tampilMurojaahArrayList = new ArrayList<>();
 
         String[] columns = {DATE_MASEHI, DATE_HIJRI, MONTH_HIJRI, YEAR_HIJRI, MUROJAAH_TYPE, SURAT, AYAT};
@@ -426,8 +476,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         String selection = USER_ID + " = ? AND " + DATE_MASEHI + " BETWEEN ? AND ? AND " + MUROJAAH_TYPE + " = ?";
 
         //Selection argument
-        String type = "Murojaah";
-        String[] selectionArgs = {id, startDate, lastDate, type};
+        String[] selectionArgs = {id, startDate, lastDate, typeMurojaah};
 
         //Order by String
         String orderBy = MUROJAAH_TYPE + " Murojaah";

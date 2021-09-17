@@ -31,7 +31,7 @@ public class TampilkanMurojaahDatabase extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private static final String SHARED_PREF_NAME = "sharedPrefLogin";
     private static final String KEY_EMAIL = "email";
-    private String startDate, endDate;
+    private String startDate, endDate, typeMurojaah;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,8 @@ public class TampilkanMurojaahDatabase extends AppCompatActivity {
         Intent i = getIntent();
         startDate = i.getStringExtra("start_date_select");
         endDate = i.getStringExtra("end_date_select");
-        Log.d("Date tampil murojaah  ", startDate + " " + endDate);
+        typeMurojaah = i.getStringExtra("tipe_murojaah");
+        Log.d("Date tampil murojaah  ", startDate + " " + endDate + " " + typeMurojaah);
 
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         userEmail = (sharedPreferences.getString(KEY_EMAIL, "").trim());
@@ -77,8 +78,14 @@ public class TampilkanMurojaahDatabase extends AppCompatActivity {
             if (tampilMurojaahArrayList == null) {
                 tampilMurojaahArrayList = new ArrayList<>();
             }
-            tampilMurojaahArrayList.clear();
-            tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDB(sqLiteHelper.getUserId(userEmail), startDate, endDate);
+            if (typeMurojaah.equals("Semua")) {
+                tampilMurojaahArrayList.clear();
+                tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDB(sqLiteHelper.getUserId(userEmail), startDate, endDate);
+            } else {
+                tampilMurojaahArrayList.clear();
+                tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBAll(sqLiteHelper.getUserId(userEmail), startDate, endDate, typeMurojaah);
+            }
+
 
 
         }

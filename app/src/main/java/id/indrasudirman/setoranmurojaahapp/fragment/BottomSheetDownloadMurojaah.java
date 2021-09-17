@@ -102,18 +102,57 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                             startMonth = startCalender.get(Calendar.MONTH);
                             startMonth = startMonth + 1;
                             String defaultDateToDb = startCalender.get(Calendar.YEAR) + "-" + startMonth + "-" + startCalender.get(Calendar.DATE);
-                            Intent intent = new Intent(getContext(), TampilkanMurojaahDatabase.class);
-                            intent.putExtra("start_date_select", defaultDateToDb);
-                            intent.putExtra("end_date_select", defaultDateToDb);
-                            startActivity(intent);
-                            getActivity().overridePendingTransition(0, 0);
+                            switch (tipeMurojaah) {
+                                case "Semua": {
+                                    String tipe = "Semua";
+                                    Intent intent = new Intent(getContext(), TampilkanMurojaahDatabase.class);
+                                    intent.putExtra("start_date_select", defaultDateToDb);
+                                    intent.putExtra("end_date_select", defaultDateToDb);
+                                    intent.putExtra("tipe_murojaah", tipe);
+                                    startActivity(intent);
+                                    getActivity().overridePendingTransition(0, 0);
+                                    break;
+                                }
+                                case "Murojaah": {
+                                    String tipe = "Murojaah";
+                                    Intent intent = new Intent(getContext(), TampilkanMurojaahDatabase.class);
+                                    intent.putExtra("start_date_select", defaultDateToDb);
+                                    intent.putExtra("end_date_select", defaultDateToDb);
+                                    intent.putExtra("tipe_murojaah", tipe);
+                                    startActivity(intent);
+                                    getActivity().overridePendingTransition(0, 0);
+                                    break;
+                                }
+                                case "Ziyadah": {
+                                    String tipe = "Ziyadah";
+                                    Intent intent = new Intent(getContext(), TampilkanMurojaahDatabase.class);
+                                    intent.putExtra("start_date_select", defaultDateToDb);
+                                    intent.putExtra("end_date_select", defaultDateToDb);
+                                    intent.putExtra("tipe_murojaah", tipe);
+                                    startActivity(intent);
+                                    getActivity().overridePendingTransition(0, 0);
+                                    break;
+                                }
+                            }
                         } else if (tipeMurojaah.equals("Semua")) {
-                            Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
-                                    "Kamu pilih " + tipeMurojaah, Snackbar.LENGTH_SHORT).show();
-                        }else {
                             Intent intent = new Intent(getContext(), TampilkanMurojaahDatabase.class);
                             intent.putExtra("start_date_select", startDateToDb);
                             intent.putExtra("end_date_select", endDateToDb);
+                            intent.putExtra("tipe_murojaah", tipeMurojaah);
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(0, 0);
+                        } else if (tipeMurojaah.equals("Murojaah")) {
+                            Intent intent = new Intent(getContext(), TampilkanMurojaahDatabase.class);
+                            intent.putExtra("start_date_select", startDateToDb);
+                            intent.putExtra("end_date_select", endDateToDb);
+                            intent.putExtra("tipe_murojaah", tipeMurojaah);
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(0, 0);
+                        }else if (tipeMurojaah.equals("Ziyadah")) {
+                            Intent intent = new Intent(getContext(), TampilkanMurojaahDatabase.class);
+                            intent.putExtra("start_date_select", startDateToDb);
+                            intent.putExtra("end_date_select", endDateToDb);
+                            intent.putExtra("tipe_murojaah", tipeMurojaah);
                             startActivity(intent);
                             getActivity().overridePendingTransition(0, 0);
                         }
@@ -167,7 +206,6 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                     isTrue = false;
                 } else {
                     tipeMurojaah = adapterView.getItemAtPosition(i).toString();
-                    Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain, "Tipe Murojaah : " + tipeMurojaah, Snackbar.LENGTH_SHORT).show();
                     isTrue = true;
                 }
             }

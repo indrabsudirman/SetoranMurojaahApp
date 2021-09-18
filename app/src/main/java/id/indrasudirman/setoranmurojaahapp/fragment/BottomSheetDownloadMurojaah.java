@@ -1,8 +1,13 @@
 package id.indrasudirman.setoranmurojaahapp.fragment;
 
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -44,15 +49,23 @@ import java.util.List;
 import id.indrasudirman.setoranmurojaahapp.R;
 import id.indrasudirman.setoranmurojaahapp.TampilkanMurojaahDatabase;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomsheetDownloadMurojaahBinding;
+import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
 
 public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
 
+    private static final String SHARED_PREF_NAME = "sharedPrefLogin";
+    private static final String KEY_EMAIL = "email";
+    private static final int PAGE_WIDTH = 1200;
     private View view;
     private LayoutBottomsheetDownloadMurojaahBinding bottomsheetDownloadMurojaahBinding;
     private String tipeMurojaah;
     private boolean isTrue = false;
-    private String startDateToDb, endDateToDb;
+    private String startDateToDb, endDateToDb, defaultDateToDb;
+    private Bitmap headerBitmap, scaleBitmap;
+    private SharedPreferences sharedPreferences;
+    private String userEmail, userName;
+    private SQLiteHelper sqLiteHelper;
 
     private final String[] months = {
             "Januari", "Februari", "Maret", "April",
@@ -73,6 +86,21 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         bottomsheetDownloadMurojaahBinding.pilihTanggalMurojaah.setOnClickListener(view -> {
             pilihTanggalMurojaah();
         });
+
+        sqLiteHelper = new SQLiteHelper(getContext());
+
+        Calendar startCalender = Calendar.getInstance();
+        int startMonth;
+        startMonth = startCalender.get(Calendar.MONTH);
+        startMonth = startMonth + 1;
+        defaultDateToDb = startCalender.get(Calendar.YEAR) + "-" + startMonth + "-" + startCalender.get(Calendar.DATE);
+
+        sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        userEmail = (sharedPreferences.getString(KEY_EMAIL, "").trim());
+        userName = sqLiteHelper.getUserName(userEmail);
+
+        headerBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.rekap_setoran_murojaah_logo_header);
+        scaleBitmap = Bitmap.createScaledBitmap(headerBitmap, 1200, 518, false);
 
         //Set Spinner adapter
         setSpinnerAdapterAndListener();
@@ -107,11 +135,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                     }))
                     .setNegativeButton("Tampilkan", (((dialogInterface, i) -> {
                         if (startDateToDb == null && endDateToDb == null) {
-                            Calendar startCalender = Calendar.getInstance();
-                            int startMonth;
-                            startMonth = startCalender.get(Calendar.MONTH);
-                            startMonth = startMonth + 1;
-                            String defaultDateToDb = startCalender.get(Calendar.YEAR) + "-" + startMonth + "-" + startCalender.get(Calendar.DATE);
+
                             switch (tipeMurojaah) {
                                 case "Semua": {
                                     String tipe = "Semua";
@@ -204,12 +228,29 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                 Snackbar.LENGTH_SHORT).show();
         PdfDocument pdfDocument = new PdfDocument();
         Paint paint = new Paint();
+        Paint titlePaint = new Paint();
 
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(1200, 2010, 1).create();
         PdfDocument.Page page = pdfDocument.startPage(pageInfo);
         Canvas canvas = page.getCanvas();
 
+        canvas.drawBitmap(scaleBitmap, 0, 0, paint);
+
+        titlePaint.setTextAlign(Paint.Align.CENTER);
+        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        titlePaint.setTextSize(70);
+        canvas.drawText(userName, PAGE_WIDTH/2, 270, titlePaint);
+        //Set size to 50
+        titlePaint.setTextSize(50);
+        if (startDateToDb == null && endDateToDb == null) {
+            canvas.drawText("dari tgl " + defaultDateToDb + "sampai tgl " + defaultDateToDb, PAGE_WIDTH/2, 300, titlePaint);
+        }
+
+
+
+
         pdfDocument.finishPage(page);
+
 
 
     }

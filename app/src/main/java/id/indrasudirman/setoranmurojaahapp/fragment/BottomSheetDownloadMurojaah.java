@@ -4,11 +4,13 @@ package id.indrasudirman.setoranmurojaahapp.fragment;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
@@ -46,14 +48,20 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import id.indrasudirman.setoranmurojaahapp.R;
 import id.indrasudirman.setoranmurojaahapp.TampilkanMurojaahDatabase;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomsheetDownloadMurojaahBinding;
 import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
+import id.indrasudirman.setoranmurojaahapp.model.TampilMurojaah;
 
 public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
@@ -228,8 +236,6 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     }
 
     private void createPdfMurojaah() {
-        Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain, "Anda pilih download",
-                Snackbar.LENGTH_SHORT).show();
         PdfDocument pdfDocument = new PdfDocument();
         Paint paint = new Paint();
         Paint titlePaint = new Paint();
@@ -240,20 +246,23 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
         canvas.drawBitmap(scaleBitmap, 0, 0, paint);
 
+        titlePaint.setColor(Color.WHITE);
         titlePaint.setTextAlign(Paint.Align.CENTER);
         titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        titlePaint.setTextSize(70);
+        titlePaint.setTextSize(40);
         canvas.drawText(userName, PAGE_WIDTH/2, 270, titlePaint);
         //Set size to 50
-        titlePaint.setTextSize(50);
+        titlePaint.setTextSize(30);
+        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         if (startDateToDb == null && endDateToDb == null) {
-            canvas.drawText("dari tgl " + defaultDateToDb + "sampai tgl " + defaultDateToDb, PAGE_WIDTH/2, 300, titlePaint);
+            canvas.drawText("Dari tgl " + setDefaultDateForView(defaultDateToDb) + " sampai tgl " + setDefaultDateForView(defaultDateToDb), PAGE_WIDTH/2, 320, titlePaint);
         }
 
 
 
 
         pdfDocument.finishPage(page);
+        ProgressDialog progressdialog = new ProgressDialog(getContext());
 
         // write the document content
         String targetPdf = "/sdcard/pdffromScroll.pdf";
@@ -261,6 +270,8 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         filePath = new File(targetPdf);
         try {
             pdfDocument.writeTo(new FileOutputStream(filePath));
+            progressdialog.setMessage("Please Wait....");
+            progressdialog.setCancelable(false);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -271,9 +282,33 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         pdfDocument.close();
         Toast.makeText(getContext(), "PDF of Scroll is created!!!", Toast.LENGTH_SHORT).show();
 
+        progressdialog.dismiss();
 
 
 
+
+    }
+
+    private String setDefaultDateForView(String dateFrom) {
+        String[] months = {
+                "Januari", "Februari", "Maret", "April",
+                "Mei", "Juni", "Juli", "Agustus",
+                "September", "Oktober", "November", "Desember"};
+        String i = "";
+
+
+//        dateFrom = tampilMurojaah.getTanggalMasehi();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = dateFormat.parse(dateFrom);
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(date);
+            i = calendar.get(Calendar.DATE) + " " + months[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.YEAR) + " M";
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return i;
     }
 
     //setDefaultDateTextView

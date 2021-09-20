@@ -479,7 +479,7 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
 
 
-    private Bitmap takeScreenShot(RecyclerView recyclerView) {
+    public Bitmap takeScreenShot(RecyclerView recyclerView) {
         Bitmap bitmap = null;
         if (recyclerView.getWidth() > 0 | recyclerView.getMeasuredHeight() > 0) {
             recyclerView.measure(

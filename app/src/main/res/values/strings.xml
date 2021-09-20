@@ -29,4 +29,6 @@
     <string name="lbl_take_camera_picture">Take a picture</string>
     <string name="lbl_choose_from_gallery">Choose from gallery</string>
     <string name="toast_image_intent_null">Image picker option is missing!</string>
+<!--    Hadist-->
+    <string name="bacalah_al_quran">\"Bacalah Al Qur\'an! Sesungguhnya Al Qur\'an akan datang pada Hari Kiamat untuk memberi Syafaat para pembacanya.\"</string>
 </resources>

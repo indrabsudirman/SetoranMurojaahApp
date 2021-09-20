@@ -111,7 +111,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         userEmail = (sharedPreferences.getString(KEY_EMAIL, "").trim());
         userName = sqLiteHelper.getUserName(userEmail);
 
-        headerBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.rekap_setoran_murojaah_logo_header);
+        headerBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.rekap_setoran_murojaah_header);
         scaleBitmap = Bitmap.createScaledBitmap(headerBitmap, 1200, 518, false);
 
         //Set Spinner adapter
@@ -249,14 +249,21 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         titlePaint.setColor(Color.WHITE);
         titlePaint.setTextAlign(Paint.Align.CENTER);
         titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        titlePaint.setTextSize(40);
+        titlePaint.setTextSize(35);
         canvas.drawText(userName, PAGE_WIDTH/2, 270, titlePaint);
         //Set size to 50
-        titlePaint.setTextSize(30);
+        titlePaint.setTextSize(20);
         titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         if (startDateToDb == null && endDateToDb == null) {
             canvas.drawText("Dari tgl " + setDefaultDateForView(defaultDateToDb) + " sampai tgl " + setDefaultDateForView(defaultDateToDb), PAGE_WIDTH/2, 320, titlePaint);
         }
+        titlePaint.setTextSize(15);
+        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
+        canvas.drawText(getString(R.string.bacalah_al_quran), 400, 480, titlePaint);
+        //Draw table rectangle
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(1);
+        canvas.drawRect(20, 540, PAGE_WIDTH-20, 600, paint);
 
 
 

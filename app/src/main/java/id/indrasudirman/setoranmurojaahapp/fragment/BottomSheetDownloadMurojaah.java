@@ -263,7 +263,22 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         //Draw table rectangle
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(1);
-        canvas.drawRect(20, 540, PAGE_WIDTH-20, 600, paint);
+//        canvas.drawRect(20, 540, PAGE_WIDTH-20, 600, paint);
+//        canvas.drawLine(20,540, PAGE_WIDTH-20, 540, paint );
+        int count = 20;
+        int space = 60;
+        int top = 540;
+
+//        int newTop = 600;
+        for (int i = 0; i < count; i++) {
+
+            canvas.drawLine(20,top, PAGE_WIDTH-20, top, paint);
+            top = top + space;
+
+
+        }
+
+
 
 
 

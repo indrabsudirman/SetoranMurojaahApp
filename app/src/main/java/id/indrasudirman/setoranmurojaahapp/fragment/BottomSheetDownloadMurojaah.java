@@ -274,15 +274,17 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(25);
         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        canvas.drawText("No", 40, 577, paint);
+        canvas.drawText("No", 50, 577, paint);
+        canvas.drawText("Tanggal", 220, 577, paint);
+        canvas.drawText("Tipe Murojaah", 470, 577, paint);
+        canvas.drawText("Surat", 800, 577, paint);
+        canvas.drawText("Ayat", 1050, 577, paint);
         top = top + space;
 
         for (int i = 0; i < count; i++) {
 
             canvas.drawLine(20,top, PAGE_WIDTH-20, top, paint);
             top = top + space;
-
-
         }
 
 

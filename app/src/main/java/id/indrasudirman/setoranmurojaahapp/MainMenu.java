@@ -410,27 +410,6 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     }
 
-    public String tanggalMasehiToDisplay(String tanggal) {
-
-        String[] months = {
-                "Januari", "Februari", "Maret", "April",
-                "Mei", "Juni", "Juli", "Agustus",
-                "September", "Oktober", "November", "Desember"};
-        String i = "";
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date date = dateFormat.parse(tanggal);
-            GregorianCalendar calendar = new GregorianCalendar();
-            assert date != null;
-            calendar.setTime(date);
-            i = calendar.get(Calendar.DATE) + " " + months[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.YEAR) + " M";
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return i;
-    }
-
     public void setToolbar(@Nullable String title) {
         setSupportActionBar(findViewById(R.id.toolbar));
         CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsingToolbarLayout);

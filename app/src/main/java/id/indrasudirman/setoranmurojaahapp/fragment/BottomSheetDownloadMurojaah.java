@@ -263,14 +263,53 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         //Set size to 50
         titlePaint.setTextSize(20);
         titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+
         if (startDateToDb == null && endDateToDb == null) {
-            tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBAll(sqLiteHelper.getUserId(userEmail), defaultDateToDb, defaultDateToDb);
+
             Log.d(BottomSheetDownloadMurojaah.class.getName(), " Ini dra "+ tampilMurojaahArrayList.toString());
             canvas.drawText("Dari tgl " + setDefaultDateForView(defaultDateToDb) + " sampai tgl " + setDefaultDateForView(defaultDateToDb), PAGE_WIDTH/2, 320, titlePaint);
+
+            switch (tipeMurojaah) {
+                case "Semua": {
+                    tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBAll(sqLiteHelper.getUserId(userEmail), defaultDateToDb, defaultDateToDb);
+                    break;
+                }
+                case "Murojaah": {
+                    String tipe = "Murojaah";
+                    tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBOnlyTypeSelected(sqLiteHelper.getUserId(userEmail), defaultDateToDb, defaultDateToDb, tipe);
+                    break;
+                }
+                case "Ziyadah": {
+                    String tipe = "Ziyadah";
+                    tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBOnlyTypeSelected(sqLiteHelper.getUserId(userEmail), defaultDateToDb, defaultDateToDb, tipe);
+                    break;
+                }
+            }
+        } else {
+            Log.d(BottomSheetDownloadMurojaah.class.getName(), " Ini dra "+ tampilMurojaahArrayList.toString());
+            canvas.drawText("Dari tgl " + setDefaultDateForView(startDateToDb) + " sampai tgl " + setDefaultDateForView(endDateToDb), PAGE_WIDTH/2, 320, titlePaint);
+
+            switch (tipeMurojaah) {
+                case "Semua": {
+                    tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBAll(sqLiteHelper.getUserId(userEmail), startDateToDb, endDateToDb);
+                    break;
+                }
+                case "Murojaah": {
+                    String tipe = "Murojaah";
+                    tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBOnlyTypeSelected(sqLiteHelper.getUserId(userEmail), startDateToDb, endDateToDb, tipe);
+                    break;
+                }
+                case "Ziyadah": {
+                    String tipe = "Ziyadah";
+                    tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBOnlyTypeSelected(sqLiteHelper.getUserId(userEmail), startDateToDb, endDateToDb, tipe);
+                    break;
+                }
+            }
         }
+
         titlePaint.setTextSize(15);
         titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
-        canvas.drawText(getString(R.string.bacalah_al_quran), 400, 480, titlePaint);
+        canvas.drawText(getString(R.string.bacalah_al_quran), 405, 480, titlePaint);
         //Draw table rectangle
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(1);
@@ -296,19 +335,25 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         top = top + space;
         y = y + addY;
-        //Convert date masehi to local format Indonesia
-
+        int yDateMasehi = 652;
+        int yDateHijri = 685;
+        int addYDateSpace = 80;
 
         for (int i = 0; i < count; i++) {
 
             canvas.drawLine(20,top, PAGE_WIDTH-20, top, paint);
             canvas.drawText((i + 1) + ". ", 50, y, paint);
-            canvas.drawText(mainMenu.tanggalMasehiToDisplay(tampilMurojaahArrayList.get(i).getTanggalMasehi()), 140, y, paint);
+            canvas.drawText(setDefaultDateForView(tampilMurojaahArrayList.get(i).getTanggalMasehi()), 140, yDateMasehi, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getTanggalHijriah(), 140, yDateHijri, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getBulanHijriah(), 177, yDateHijri, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getTahunHijriah(), 300, yDateHijri, paint);
             canvas.drawText(tampilMurojaahArrayList.get(i).getTipeMurojaah(), 500, y, paint);
             canvas.drawText(tampilMurojaahArrayList.get(i).getSurat(), 800, y, paint);
             canvas.drawText(tampilMurojaahArrayList.get(i).getAyat(), 1050, y, paint);
             top = top + space;
             y = y + addY;
+            yDateMasehi = yDateMasehi + addYDateSpace;
+            yDateHijri = yDateHijri + addYDateSpace;
         }
 
 
@@ -330,12 +375,12 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(getContext(), "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Gagal download Murojaah: " + e.toString(), Toast.LENGTH_LONG).show();
         }
 
         // close the document
         pdfDocument.close();
-        Toast.makeText(getContext(), "PDF of Scroll is created!!!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Rekap Murojaah berhasil download", Toast.LENGTH_SHORT).show();
 
         progressdialog.dismiss();
 

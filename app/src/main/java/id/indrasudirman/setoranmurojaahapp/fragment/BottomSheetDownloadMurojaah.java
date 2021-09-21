@@ -264,11 +264,11 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(1);
 
-        int count = 20;
-        int space = 60;
+        int count = 10;
+        int space = 80;
         int top = 540;
-        int y = 577;
-        int addY = 60;
+        int y = 586;
+        int addY = 80;
         canvas.drawLine(20,top, PAGE_WIDTH-20, top, paint);
         top = top + space;
         canvas.drawLine(20,top, PAGE_WIDTH-20, top, paint);

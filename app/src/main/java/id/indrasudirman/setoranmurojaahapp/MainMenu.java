@@ -64,6 +64,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -81,6 +83,7 @@ import id.indrasudirman.setoranmurojaahapp.fragment.BottomSheetDownloadMurojaah;
 import id.indrasudirman.setoranmurojaahapp.fragment.BottomSheetEditAccount;
 import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
 import id.indrasudirman.setoranmurojaahapp.model.MurojaahItem;
+import id.indrasudirman.setoranmurojaahapp.model.TampilMurojaah;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 
@@ -405,6 +408,27 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
         return new String[] {i, n};
 
 
+    }
+
+    public String tanggalMasehiToDisplay(String tanggal) {
+
+        String[] months = {
+                "Januari", "Februari", "Maret", "April",
+                "Mei", "Juni", "Juli", "Agustus",
+                "September", "Oktober", "November", "Desember"};
+        String i = "";
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = dateFormat.parse(tanggal);
+            GregorianCalendar calendar = new GregorianCalendar();
+            assert date != null;
+            calendar.setTime(date);
+            i = calendar.get(Calendar.DATE) + " " + months[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.YEAR) + " M";
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return i;
     }
 
     public void setToolbar(@Nullable String title) {

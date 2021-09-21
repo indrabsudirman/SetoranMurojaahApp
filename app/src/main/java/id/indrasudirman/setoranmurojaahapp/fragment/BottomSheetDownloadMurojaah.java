@@ -57,6 +57,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import id.indrasudirman.setoranmurojaahapp.MainMenu;
 import id.indrasudirman.setoranmurojaahapp.R;
 import id.indrasudirman.setoranmurojaahapp.TampilkanMurojaahDatabase;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomsheetDownloadMurojaahBinding;
@@ -78,6 +79,9 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     private SharedPreferences sharedPreferences;
     private String userEmail, userName;
     private SQLiteHelper sqLiteHelper;
+    private ArrayList<TampilMurojaah> tampilMurojaahArrayList;
+    private TampilMurojaah tampilMurojaah;
+    private MainMenu mainMenu;
 
     private final String[] months = {
             "Januari", "Februari", "Maret", "April",
@@ -236,6 +240,11 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     }
 
     private void createPdfMurojaah() {
+
+        tampilMurojaahArrayList = new ArrayList<>();
+        tampilMurojaah = new TampilMurojaah();
+        mainMenu = new MainMenu();
+//        tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBAll(sqLiteHelper.getUserId(userEmail), startDateToDb, endDateToDb);
         PdfDocument pdfDocument = new PdfDocument();
         Paint paint = new Paint();
         Paint titlePaint = new Paint();
@@ -255,6 +264,8 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         titlePaint.setTextSize(20);
         titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         if (startDateToDb == null && endDateToDb == null) {
+            tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBAll(sqLiteHelper.getUserId(userEmail), defaultDateToDb, defaultDateToDb);
+            Log.d(BottomSheetDownloadMurojaah.class.getName(), " Ini dra "+ tampilMurojaahArrayList.toString());
             canvas.drawText("Dari tgl " + setDefaultDateForView(defaultDateToDb) + " sampai tgl " + setDefaultDateForView(defaultDateToDb), PAGE_WIDTH/2, 320, titlePaint);
         }
         titlePaint.setTextSize(15);
@@ -264,7 +275,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(1);
 
-        int count = 10;
+        int count = tampilMurojaahArrayList.size();
         int space = 80;
         int top = 540;
         int y = 586;
@@ -285,11 +296,17 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         top = top + space;
         y = y + addY;
+        //Convert date masehi to local format Indonesia
+
 
         for (int i = 0; i < count; i++) {
 
             canvas.drawLine(20,top, PAGE_WIDTH-20, top, paint);
             canvas.drawText((i + 1) + ". ", 50, y, paint);
+            canvas.drawText(mainMenu.tanggalMasehiToDisplay(tampilMurojaahArrayList.get(i).getTanggalMasehi()), 140, y, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getTipeMurojaah(), 500, y, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getSurat(), 800, y, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getAyat(), 1050, y, paint);
             top = top + space;
             y = y + addY;
         }
@@ -303,12 +320,12 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         ProgressDialog progressdialog = new ProgressDialog(getContext());
 
         // write the document content
-        String targetPdf = "/sdcard/pdffromScroll.pdf";
+        String targetPdf = "/sdcard/rekap_murojaahmu.pdf";
         File filePath;
         filePath = new File(targetPdf);
         try {
             pdfDocument.writeTo(new FileOutputStream(filePath));
-            progressdialog.setMessage("Please Wait....");
+            progressdialog.setMessage("Please Wait...");
             progressdialog.setCancelable(false);
 
         } catch (IOException e) {

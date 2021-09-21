@@ -1,5 +1,7 @@
 package id.indrasudirman.setoranmurojaahapp.model;
 
+import androidx.annotation.NonNull;
+
 public class TampilMurojaah {
 
     private String tanggalMasehi;
@@ -79,4 +81,18 @@ public class TampilMurojaah {
     public void setAyat(String ayat) {
         this.ayat = ayat;
     }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return ("Return. Tampil Murojaah \n " +
+                " Tanggal masehi : " + this.getTanggalMasehi() +
+                " Tanggal Hijri : " + this.getTanggalHijriah() +
+                " Bulan Hijri : " + this.getBulanHijriah() +
+                " Tahun Hijri : " + this.getTahunHijriah() +
+                " Tipe Murojaah : " + this.getTipeMurojaah() +
+                " Surat : " + this.getSurat() +
+                " Ayat : " + this.getAyat());
+    }
+
 }

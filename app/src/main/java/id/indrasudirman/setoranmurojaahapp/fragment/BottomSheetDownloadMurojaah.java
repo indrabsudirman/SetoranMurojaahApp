@@ -264,9 +264,11 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(1);
 
-        int count = 10;
+        int count = 20;
         int space = 60;
         int top = 540;
+        int y = 577;
+        int addY = 60;
         canvas.drawLine(20,top, PAGE_WIDTH-20, top, paint);
         top = top + space;
         canvas.drawLine(20,top, PAGE_WIDTH-20, top, paint);
@@ -274,17 +276,22 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(25);
         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        canvas.drawText("No", 50, 577, paint);
-        canvas.drawText("Tanggal", 220, 577, paint);
-        canvas.drawText("Tipe Murojaah", 470, 577, paint);
-        canvas.drawText("Surat", 800, 577, paint);
-        canvas.drawText("Ayat", 1050, 577, paint);
+        canvas.drawText("No", 50, y, paint);
+        canvas.drawText("Tanggal", 220, y, paint);
+        canvas.drawText("Tipe Murojaah", 470, y, paint);
+        canvas.drawText("Surat", 800, y, paint);
+        canvas.drawText("Ayat", 1050, y, paint);
+        //Set text to normal (not bold)
+        paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         top = top + space;
+        y = y + addY;
 
         for (int i = 0; i < count; i++) {
 
             canvas.drawLine(20,top, PAGE_WIDTH-20, top, paint);
+            canvas.drawText((i + 1) + ". ", 50, y, paint);
             top = top + space;
+            y = y + addY;
         }
 
 

@@ -4,7 +4,9 @@ package id.indrasudirman.setoranmurojaahapp.fragment;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -14,7 +16,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -57,8 +63,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import id.indrasudirman.setoranmurojaahapp.MainActivity;
 import id.indrasudirman.setoranmurojaahapp.MainMenu;
 import id.indrasudirman.setoranmurojaahapp.R;
+import id.indrasudirman.setoranmurojaahapp.SplashScreen;
 import id.indrasudirman.setoranmurojaahapp.TampilkanMurojaahDatabase;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomsheetDownloadMurojaahBinding;
 import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
@@ -362,17 +370,17 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
 
         pdfDocument.finishPage(page);
-        ProgressDialog progressdialog = new ProgressDialog(getContext());
 
         // write the document content
+        if (Build.VERSION.SDK_INT >= 29) {
+            @SuppressLint("SimpleDateFormat") String title = "murojaah" + new SimpleDateFormat("yyyyMMddHHmmss'.png'").format(new Date());
+        }
+
         String targetPdf = "/sdcard/rekap_murojaahmu.pdf";
         File filePath;
         filePath = new File(targetPdf);
         try {
             pdfDocument.writeTo(new FileOutputStream(filePath));
-            progressdialog.setMessage("Please Wait...");
-            progressdialog.setCancelable(false);
-
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Gagal download Murojaah: " + e.toString(), Toast.LENGTH_LONG).show();
@@ -381,12 +389,30 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         // close the document
         pdfDocument.close();
         Toast.makeText(getContext(), "Rekap Murojaah berhasil download", Toast.LENGTH_SHORT).show();
+        new Handler(Looper.getMainLooper()).postDelayed(
+                BottomSheetDownloadMurojaah.this::dismiss, 4000);
 
-        progressdialog.dismiss();
+        //Open pdf file after success created
+        viewPdf("rekap_murojaahmu.pdf", targetPdf);
 
 
+    }
 
+    private void viewPdf (String file, String directory) {
+        File pdfFile = new File("/sdcard/" + file);
+        Uri path = Uri.parse(pdfFile.getPath());
 
+        //Setting the intent for pdf reader
+        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
+        pdfIntent.setDataAndType(path, "application/pdf");
+        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        try {
+            startActivity(pdfIntent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getContext(), "Gagal membuka pdf, No PDF Viewer Installed", Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     private String setDefaultDateForView(String dateFrom) {

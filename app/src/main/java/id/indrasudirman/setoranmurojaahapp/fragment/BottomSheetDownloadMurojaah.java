@@ -5,7 +5,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +18,7 @@ import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Spannable;
@@ -63,10 +63,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import id.indrasudirman.setoranmurojaahapp.MainActivity;
 import id.indrasudirman.setoranmurojaahapp.MainMenu;
 import id.indrasudirman.setoranmurojaahapp.R;
-import id.indrasudirman.setoranmurojaahapp.SplashScreen;
 import id.indrasudirman.setoranmurojaahapp.TampilkanMurojaahDatabase;
 import id.indrasudirman.setoranmurojaahapp.databinding.LayoutBottomsheetDownloadMurojaahBinding;
 import id.indrasudirman.setoranmurojaahapp.helper.SQLiteHelper;
@@ -78,6 +76,10 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     private static final String SHARED_PREF_NAME = "sharedPrefLogin";
     private static final String KEY_EMAIL = "email";
     private static final int PAGE_WIDTH = 1200;
+    private final String[] months = {
+            "Januari", "Februari", "Maret", "April",
+            "Mei", "Juni", "Juli", "Agustus",
+            "September", "Oktober", "November", "Desember"};
     private View view;
     private LayoutBottomsheetDownloadMurojaahBinding bottomsheetDownloadMurojaahBinding;
     private String tipeMurojaah;
@@ -90,11 +92,6 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     private ArrayList<TampilMurojaah> tampilMurojaahArrayList;
     private TampilMurojaah tampilMurojaah;
     private MainMenu mainMenu;
-
-    private final String[] months = {
-            "Januari", "Februari", "Maret", "April",
-            "Mei", "Juni", "Juli", "Agustus",
-            "September", "Oktober", "November", "Desember"};
 
     //Default Constructor
     public BottomSheetDownloadMurojaah() {
@@ -123,7 +120,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         userEmail = (sharedPreferences.getString(KEY_EMAIL, "").trim());
         userName = sqLiteHelper.getUserName(userEmail);
 
-        headerBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.rekap_setoran_murojaah_header);
+        headerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.rekap_setoran_murojaah_header);
         scaleBitmap = Bitmap.createScaledBitmap(headerBitmap, 1200, 518, false);
 
         //Set Spinner adapter
@@ -206,7 +203,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                             intent.putExtra("tipe_murojaah", tipeMurojaah);
                             startActivity(intent);
                             getActivity().overridePendingTransition(0, 0);
-                        }else if (tipeMurojaah.equals("Ziyadah")) {
+                        } else if (tipeMurojaah.equals("Ziyadah")) {
                             Intent intent = new Intent(getContext(), TampilkanMurojaahDatabase.class);
                             intent.putExtra("start_date_select", startDateToDb);
                             intent.putExtra("end_date_select", endDateToDb);
@@ -252,7 +249,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         tampilMurojaahArrayList = new ArrayList<>();
         tampilMurojaah = new TampilMurojaah();
         mainMenu = new MainMenu();
-//        tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBAll(sqLiteHelper.getUserId(userEmail), startDateToDb, endDateToDb);
+
         PdfDocument pdfDocument = new PdfDocument();
         Paint paint = new Paint();
         Paint titlePaint = new Paint();
@@ -267,15 +264,15 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         titlePaint.setTextAlign(Paint.Align.CENTER);
         titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         titlePaint.setTextSize(35);
-        canvas.drawText(userName, PAGE_WIDTH/2, 270, titlePaint);
+        canvas.drawText(userName, PAGE_WIDTH / 2, 270, titlePaint);
         //Set size to 50
         titlePaint.setTextSize(20);
         titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
 
         if (startDateToDb == null && endDateToDb == null) {
 
-            Log.d(BottomSheetDownloadMurojaah.class.getName(), " Ini dra "+ tampilMurojaahArrayList.toString());
-            canvas.drawText("Dari tgl " + setDefaultDateForView(defaultDateToDb) + " sampai tgl " + setDefaultDateForView(defaultDateToDb), PAGE_WIDTH/2, 320, titlePaint);
+            Log.d(BottomSheetDownloadMurojaah.class.getName(), " Ini dra " + tampilMurojaahArrayList.toString());
+            canvas.drawText("Dari tgl " + setDefaultDateForView(defaultDateToDb) + " sampai tgl " + setDefaultDateForView(defaultDateToDb), PAGE_WIDTH / 2, 320, titlePaint);
 
             switch (tipeMurojaah) {
                 case "Semua": {
@@ -294,8 +291,8 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                 }
             }
         } else {
-            Log.d(BottomSheetDownloadMurojaah.class.getName(), " Ini dra "+ tampilMurojaahArrayList.toString());
-            canvas.drawText("Dari tgl " + setDefaultDateForView(startDateToDb) + " sampai tgl " + setDefaultDateForView(endDateToDb), PAGE_WIDTH/2, 320, titlePaint);
+            Log.d(BottomSheetDownloadMurojaah.class.getName(), " Ini dra " + tampilMurojaahArrayList.toString());
+            canvas.drawText("Dari tgl " + setDefaultDateForView(startDateToDb) + " sampai tgl " + setDefaultDateForView(endDateToDb), PAGE_WIDTH / 2, 320, titlePaint);
 
             switch (tipeMurojaah) {
                 case "Semua": {
@@ -327,9 +324,9 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         int top = 540;
         int y = 586;
         int addY = 80;
-        canvas.drawLine(20,top, PAGE_WIDTH-20, top, paint);
+        canvas.drawLine(20, top, PAGE_WIDTH - 20, top, paint);
         top = top + space;
-        canvas.drawLine(20,top, PAGE_WIDTH-20, top, paint);
+        canvas.drawLine(20, top, PAGE_WIDTH - 20, top, paint);
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(25);
@@ -349,7 +346,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
         for (int i = 0; i < count; i++) {
 
-            canvas.drawLine(20,top, PAGE_WIDTH-20, top, paint);
+            canvas.drawLine(20, top, PAGE_WIDTH - 20, top, paint);
             canvas.drawText((i + 1) + ". ", 50, y, paint);
             canvas.drawText(setDefaultDateForView(tampilMurojaahArrayList.get(i).getTanggalMasehi()), 140, yDateMasehi, paint);
             canvas.drawText(tampilMurojaahArrayList.get(i).getTanggalHijriah(), 140, yDateHijri, paint);
@@ -365,42 +362,53 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         }
 
 
-
-
-
-
         pdfDocument.finishPage(page);
 
         // write the document content
         if (Build.VERSION.SDK_INT >= 29) {
-            @SuppressLint("SimpleDateFormat") String title = "murojaah" + new SimpleDateFormat("yyyyMMddHHmmss'.png'").format(new Date());
+            @SuppressLint("SimpleDateFormat") String title = "rekap_murojaah" + new SimpleDateFormat("yyyyMMddHHmmss'.pdf'").format(new Date());
+
+        } else {
+            //SDK Lower 29
+            File directory = new File(Environment.getExternalStorageDirectory().toString() + '/' + getString(R.string.app_name));
+//            File directory = new File(getBaseContext().getExternalFilesDir(n) + '/' + getString(R.string.app_name));
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            @SuppressLint("SimpleDateFormat")
+            String fileName = "rekap_murojaah_" + new SimpleDateFormat("yyyyMMddHHmmss'.pdf'").format(new Date());
+            File file = new File(directory, fileName);
+
+
+//            String targetPdf = "/sdcard/rekap_murojaahmu.pdf";
+//            File filePath;
+//            filePath = new File(targetPdf);
+            try {
+                pdfDocument.writeTo(new FileOutputStream(file));
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(getContext(), "Gagal download Murojaah: " + e.toString(), Toast.LENGTH_LONG).show();
+            }
+
+            // close the document
+            pdfDocument.close();
+            Toast.makeText(getContext(), "Rekap Murojaah berhasil download", Toast.LENGTH_SHORT).show();
+//            new Handler(Looper.getMainLooper()).postDelayed(
+//                    BottomSheetDownloadMurojaah.this::dismiss, 4000);
+
+            //Open pdf file after success created
+            viewPdf(fileName, directory.getAbsolutePath());
         }
-
-        String targetPdf = "/sdcard/rekap_murojaahmu.pdf";
-        File filePath;
-        filePath = new File(targetPdf);
-        try {
-            pdfDocument.writeTo(new FileOutputStream(filePath));
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Gagal download Murojaah: " + e.toString(), Toast.LENGTH_LONG).show();
-        }
-
-        // close the document
-        pdfDocument.close();
-        Toast.makeText(getContext(), "Rekap Murojaah berhasil download", Toast.LENGTH_SHORT).show();
-        new Handler(Looper.getMainLooper()).postDelayed(
-                BottomSheetDownloadMurojaah.this::dismiss, 4000);
-
-        //Open pdf file after success created
-        viewPdf("rekap_murojaahmu.pdf", targetPdf);
 
 
     }
 
-    private void viewPdf (String file, String directory) {
-        File pdfFile = new File("/sdcard/" + file);
-        Uri path = Uri.parse(pdfFile.getPath());
+    private void viewPdf(String file, String directory) {
+
+        File pdfFile = new File(directory + File.separator + file);
+        Log.d("PATH", pdfFile.getAbsolutePath());
+        Uri path = Uri.parse(pdfFile.getAbsolutePath());
+        Log.d("PATH", path.toString());
 
         //Setting the intent for pdf reader
         Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
@@ -541,6 +549,8 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     public int getTheme() {
         return R.style.BottomSheetDialogTheme;
     }
+
+
 
 
 }

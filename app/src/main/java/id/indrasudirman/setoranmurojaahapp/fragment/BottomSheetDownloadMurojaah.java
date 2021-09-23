@@ -366,6 +366,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
         // write the document content
         if (Build.VERSION.SDK_INT >= 29) {
+            Log.d(BottomSheetDownloadMurojaah.class.getName(), "OS Android adalah " + Build.VERSION.SDK_INT);
             @SuppressLint("SimpleDateFormat") String title = "rekap_murojaah" + new SimpleDateFormat("yyyyMMddHHmmss'.pdf'").format(new Date());
 
         } else {
@@ -414,6 +415,8 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
         pdfIntent.setDataAndType(path, "application/pdf");
         pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        pdfIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         try {
             startActivity(pdfIntent);

@@ -375,9 +375,9 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
         // write the document content
         if (Build.VERSION.SDK_INT >= 29) {
-            Log.d(BottomSheetDownloadMurojaah.class.getName(), "OS Android adalah " + Build.VERSION.SDK_INT);
+            Log.d("Timber ini, OS Android adalah %s", String.valueOf(Build.VERSION.SDK_INT));
             //SDK Lower 29
-            String fileName = "rekap_murojaah_" + new SimpleDateFormat("yyyyMMddHHmmss'.pdf'").format(new Date());
+            @SuppressLint("SimpleDateFormat") String fileName = "rekap_murojaah_" + new SimpleDateFormat("yyyyMMddHHmmss'.pdf'").format(new Date());
             OutputStream outputStream;
             ContentResolver contentResolver = getActivity().getContentResolver();
             ContentValues contentValues = new ContentValues();

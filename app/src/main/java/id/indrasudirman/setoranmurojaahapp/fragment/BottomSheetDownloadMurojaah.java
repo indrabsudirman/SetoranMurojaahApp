@@ -37,6 +37,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
 import androidx.core.util.Pair;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -63,6 +64,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import id.indrasudirman.setoranmurojaahapp.BuildConfig;
 import id.indrasudirman.setoranmurojaahapp.MainMenu;
 import id.indrasudirman.setoranmurojaahapp.R;
 import id.indrasudirman.setoranmurojaahapp.TampilkanMurojaahDatabase;
@@ -372,7 +374,6 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         } else {
             //SDK Lower 29
             File directory = new File(Environment.getExternalStorageDirectory().toString() + '/' + getString(R.string.app_name));
-//            File directory = new File(getBaseContext().getExternalFilesDir(n) + '/' + getString(R.string.app_name));
             if (!directory.exists()) {
                 directory.mkdirs();
             }
@@ -381,9 +382,6 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
             File file = new File(directory, fileName);
 
 
-//            String targetPdf = "/sdcard/rekap_murojaahmu.pdf";
-//            File filePath;
-//            filePath = new File(targetPdf);
             try {
                 pdfDocument.writeTo(new FileOutputStream(file));
             } catch (IOException e) {
@@ -394,32 +392,26 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
             // close the document
             pdfDocument.close();
             Toast.makeText(getContext(), "Rekap Murojaah berhasil download", Toast.LENGTH_SHORT).show();
-//            new Handler(Looper.getMainLooper()).postDelayed(
-//                    BottomSheetDownloadMurojaah.this::dismiss, 4000);
+            BottomSheetDownloadMurojaah.this.dismiss();
 
             //Open pdf file after success created
-            viewPdf(fileName, directory.getAbsolutePath());
+            viewPdf(file);
         }
 
 
     }
 
-    private void viewPdf(String file, String directory) {
+    private void viewPdf(File file) {
 
-        File pdfFile = new File(directory + File.separator + file);
-        Log.d("PATH", pdfFile.getAbsolutePath());
-        Uri path = Uri.parse(pdfFile.getAbsolutePath());
-        Log.d("PATH", path.toString());
-
-        //Setting the intent for pdf reader
-        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
-        pdfIntent.setDataAndType(path, "application/pdf");
-        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        pdfIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri outputFileUri = Uri.fromFile(file);
+        intent.setDataAndType(outputFileUri, "application/pdf");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent in = Intent.createChooser(intent, "Open File");
 
         try {
-            startActivity(pdfIntent);
+            startActivity(in);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(getContext(), "Gagal membuka pdf, No PDF Viewer Installed", Toast.LENGTH_SHORT).show();
 

@@ -100,6 +100,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     private ArrayList<TampilMurojaah> tampilMurojaahArrayList;
     private TampilMurojaah tampilMurojaah;
     private MainMenu mainMenu;
+    private Uri pdfUriForQ;
 
     //Default Constructor
     public BottomSheetDownloadMurojaah() {
@@ -384,13 +385,13 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
             contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
             contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf");
             contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + File.separator + getString(R.string.app_name));
-            Uri pdfUri = contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues);
+            Uri pdfUriForQ = contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues);
 
 
             try {
-                outputStream = contentResolver.openOutputStream(pdfUri);
+                outputStream = contentResolver.openOutputStream(pdfUriForQ);
                 savePdfToStream(pdfDocument, outputStream);
-                getActivity().getContentResolver().update(pdfUri, contentValues, null, null);
+                getActivity().getContentResolver().update(pdfUriForQ, contentValues, null, null);
                 // close the document
                 pdfDocument.close();
                 Toast.makeText(getContext(), "Rekap Murojaah berhasil download", Toast.LENGTH_SHORT).show();
@@ -443,12 +444,12 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     }
 
 
-    private void viewPdf(File file) {
+    private void viewPdf(File file ) {
         Uri outputFileUri;
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         if (Build.VERSION.SDK_INT >= 29) {
-            outputFileUri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".provider", file);
+            outputFileUri = pdfUriForQ;
         } else {
             outputFileUri = Uri.fromFile(file);
         }

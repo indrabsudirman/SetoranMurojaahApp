@@ -6,6 +6,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -57,6 +58,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -375,20 +377,28 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
             Log.d(BottomSheetDownloadMurojaah.class.getName(), "OS Android adalah " + Build.VERSION.SDK_INT);
             //SDK Lower 29
             String fileName = "rekap_murojaah_" + new SimpleDateFormat("yyyyMMddHHmmss'.pdf'").format(new Date());
-//            ContentValues values = contentValues();
-//            values.put(MediaStore.Downloads.RELATIVE_PATH, "Download/" + getString(R.string.app_name));
-//            values.put(MediaStore.Downloads.IS_PENDING, true);
-//            values.put(MediaStore.Downloads.DISPLAY_NAME, fileName); //set name image
-//
-//            Uri uri = getActivity().getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
-//            if (uri != null) {
-//                try {
-//                    pdfDocument.writeTo(new FileOutputStream(fileName));
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    Toast.makeText(getContext(), "Gagal download Murojaah: " + e.toString(), Toast.LENGTH_LONG).show();
-//                }
-//            }
+            OutputStream outputStream;
+            ContentResolver contentResolver = getActivity().getContentResolver();
+            ContentValues contentValues = new ContentValues();
+
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf");
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + File.separator + getString(R.string.app_name));
+            Uri pdfUri = contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues);
+
+
+            try {
+                outputStream = contentResolver.openOutputStream(pdfUri);
+                savePdfToStream(pdfDocument, outputStream);
+                getActivity().getContentResolver().update(pdfUri, contentValues, null, null);
+                // close the document
+                pdfDocument.close();
+                Toast.makeText(getContext(), "Rekap Murojaah berhasil download", Toast.LENGTH_SHORT).show();
+                BottomSheetDownloadMurojaah.this.dismiss();
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
 
         } else {
@@ -421,18 +431,17 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
     }
 
-    private void createFile(Uri pickerInitialUri, String fileName) {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/pdf");
-        intent.putExtra(Intent.EXTRA_TITLE, fileName);
-
-        // Optionally, specify a URI for the directory that should be opened in
-        // the system file picker when your app creates the document.
-        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
-
-        startActivityForResult(intent, CREATE_FILE);
+    private void savePdfToStream(PdfDocument pdfDocument, OutputStream outputStream) {
+        if (outputStream != null) {
+            try {
+                pdfDocument.writeTo(outputStream);
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 
     private void viewPdf(File file) {
         Uri outputFileUri;

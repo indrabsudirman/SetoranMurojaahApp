@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -76,8 +77,8 @@ import id.indrasudirman.setoranmurojaahapp.model.TampilMurojaah;
 public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
 
-    // Request code for creating a PDF document.
-    private static final int CREATE_FILE = 1;
+    // Request code for selecting a PDF document.
+    private static final int PICK_PDF_FILE = 2;
     private static final String SHARED_PREF_NAME = "sharedPrefLogin";
     private static final String KEY_EMAIL = "email";
     private static final int PAGE_WIDTH = 1200;
@@ -409,6 +410,8 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                     BottomSheetDownloadMurojaah.this.dismiss();
                 }
             }
+            viewPdfQ(Uri.parse(Environment.DIRECTORY_DOWNLOADS + File.separator + getString(R.string.app_name) + File.separator + fileName));
+            Log.d("30", String.valueOf(Uri.parse(Environment.DIRECTORY_DOWNLOADS + File.separator + getString(R.string.app_name) + fileName)));
 
 
         } else {
@@ -457,11 +460,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         Uri outputFileUri;
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        if (Build.VERSION.SDK_INT >= 29) {
-            outputFileUri = pdfUriForQ;
-        } else {
-            outputFileUri = Uri.fromFile(file);
-        }
+        outputFileUri = Uri.fromFile(file);
         intent.setDataAndType(outputFileUri, "application/pdf");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -473,6 +472,34 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
             Toast.makeText(getContext(), "Gagal membuka pdf, No PDF Viewer Installed", Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    private void viewPdfQ(Uri uri) {
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri, "application/pdf");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent in = Intent.createChooser(intent, "Open File");
+
+        try {
+            startActivity(in);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getContext(), "Gagal membuka pdf, No PDF Viewer Installed", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    private void openFile(Uri pickerInitialUri) {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/pdf");
+
+        // Optionally, specify a URI for the file that should appear in the
+        // system file picker when it loads.
+        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+
+        startActivityForResult(intent, PICK_PDF_FILE);
     }
 
     private ContentValues contentValues() {

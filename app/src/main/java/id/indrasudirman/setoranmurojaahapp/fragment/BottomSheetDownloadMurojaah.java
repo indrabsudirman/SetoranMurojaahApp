@@ -21,7 +21,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -39,7 +38,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.FileProvider;
 import androidx.core.util.Pair;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -68,7 +66,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import id.indrasudirman.setoranmurojaahapp.BuildConfig;
 import id.indrasudirman.setoranmurojaahapp.MainMenu;
 import id.indrasudirman.setoranmurojaahapp.R;
 import id.indrasudirman.setoranmurojaahapp.TampilkanMurojaahDatabase;
@@ -394,11 +391,23 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                 getActivity().getContentResolver().update(pdfUriForQ, contentValues, null, null);
                 // close the document
                 pdfDocument.close();
-                Toast.makeText(getContext(), "Rekap Murojaah berhasil download", Toast.LENGTH_SHORT).show();
-                BottomSheetDownloadMurojaah.this.dismiss();
+                if (Build.VERSION.SDK_INT >= 30) {
+                    Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
+                            "Rekap Murojaah berhasil download", Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Rekap Murojaah berhasil download", Toast.LENGTH_SHORT).show();
+                    BottomSheetDownloadMurojaah.this.dismiss();
+                }
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+                if (Build.VERSION.SDK_INT >= 30) {
+                    Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
+                            "Gagal download Murojaah: " + e.toString(), Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Gagal download Murojaah: " + e.toString(), Toast.LENGTH_SHORT).show();
+                    BottomSheetDownloadMurojaah.this.dismiss();
+                }
             }
 
 
@@ -444,7 +453,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     }
 
 
-    private void viewPdf(File file ) {
+    private void viewPdf(File file) {
         Uri outputFileUri;
 
         Intent intent = new Intent(Intent.ACTION_VIEW);

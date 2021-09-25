@@ -6,8 +6,8 @@
     <external-path
         name="name"
         path="path" />
-    <external-files-path
-        name="Setoran Murojaah App"
-        path="/" />
+    <external-path
+        name="external_files"
+        path="." />
 
 </paths>

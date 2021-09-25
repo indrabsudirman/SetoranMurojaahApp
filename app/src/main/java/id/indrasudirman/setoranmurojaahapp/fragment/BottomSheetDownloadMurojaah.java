@@ -3,13 +3,17 @@ package id.indrasudirman.setoranmurojaahapp.fragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import static com.yalantis.ucrop.UCropFragment.TAG;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -39,6 +43,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
 import androidx.core.util.Pair;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -67,6 +72,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import id.indrasudirman.setoranmurojaahapp.BuildConfig;
 import id.indrasudirman.setoranmurojaahapp.MainMenu;
 import id.indrasudirman.setoranmurojaahapp.R;
 import id.indrasudirman.setoranmurojaahapp.TampilkanMurojaahDatabase;
@@ -410,9 +416,16 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                     BottomSheetDownloadMurojaah.this.dismiss();
                 }
             }
-            viewPdfQ(Uri.parse(Environment.DIRECTORY_DOWNLOADS + File.separator + getString(R.string.app_name) + File.separator + fileName));
-            Log.d("30", String.valueOf(Uri.parse(Environment.DIRECTORY_DOWNLOADS + File.separator + getString(R.string.app_name) + fileName)));
-
+            Uri pathUri = FileProvider.getUriForFile(
+                    getContext().getApplicationContext(),
+                    BuildConfig.APPLICATION_ID + ".provider", new File(getRealPathFromURI(getContext(),pdfUriForQ)));
+//            Uri photoURI = FileProvider.getUriForFile(getContext(), getContext().getApplicationContext().getPackageName() + ".provider", getRealPathFromURI(getContext().getApplicationContext(),pdfUriForQ)))
+////            viewPdf(new File("storage/emulated/0/Download/Setoran Murojaah App/rekap_murojaah_20210926024041.pdf"));
+            openPdf(new File(getRealPathFromURI(getContext(),pdfUriForQ)));
+            Log.d("31", String.valueOf(Uri.parse(getRealPathFromURI(getContext().getApplicationContext(), pdfUriForQ))));//
+            // Environment.DIRECTORY_DOWNLOADS + File.separator + getString(R.string.app_name) + fileName)));
+            Log.e("30", String.valueOf(Uri.parse(getRealPathFromURI(getContext().getApplicationContext(), pdfUriForQ))));
+            System.out.println(Uri.parse(getRealPathFromURI(getContext().getApplicationContext(), pdfUriForQ)));
 
         } else {
             //SDK Lower 29
@@ -455,6 +468,35 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         }
     }
 
+    public void openPdf(File pdfFile) {
+
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "openPdf() called with: magazine = [" + pdfFile + "]");
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+            File file = new File(Uri.parse(pdfFile.getPath()).getPath());
+            Uri uri = FileProvider.getUriForFile(getContext(),
+                    BuildConfig.APPLICATION_ID + ".provider", file);
+            intent.setDataAndType(uri, "application/pdf");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        } else {
+            intent.setDataAndType(Uri.parse(pdfFile.getPath()), "application/pdf");
+        }
+
+        try {
+            startActivity(intent);
+        } catch (Throwable t) {
+            t.printStackTrace();
+            //attemptInstallViewer();
+        }
+
+    }
+
 
     private void viewPdf(File file) {
         Uri outputFileUri;
@@ -480,6 +522,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         intent.setDataAndType(uri, "application/pdf");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         Intent in = Intent.createChooser(intent, "Open File");
 
         try {
@@ -490,16 +533,22 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         }
     }
 
-    private void openFile(Uri pickerInitialUri) {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/pdf");
-
-        // Optionally, specify a URI for the file that should appear in the
-        // system file picker when it loads.
-        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
-
-        startActivityForResult(intent, PICK_PDF_FILE);
+    private String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } catch (Exception e) {
+            Log.e(TAG, "getRealPathFromURI Exception : " + e.toString());
+            return "";
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     private ContentValues contentValues() {

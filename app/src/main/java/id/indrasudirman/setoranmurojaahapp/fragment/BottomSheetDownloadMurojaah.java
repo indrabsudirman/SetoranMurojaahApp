@@ -451,7 +451,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
             BottomSheetDownloadMurojaah.this.dismiss();
 
             //Open pdf file after success created
-            viewPdf(file);
+            openPdf(file);
         }
 
 

@@ -419,11 +419,8 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
             Uri pathUri = FileProvider.getUriForFile(
                     getContext().getApplicationContext(),
                     BuildConfig.APPLICATION_ID + ".provider", new File(getRealPathFromURI(getContext(),pdfUriForQ)));
-//            Uri photoURI = FileProvider.getUriForFile(getContext(), getContext().getApplicationContext().getPackageName() + ".provider", getRealPathFromURI(getContext().getApplicationContext(),pdfUriForQ)))
-////            viewPdf(new File("storage/emulated/0/Download/Setoran Murojaah App/rekap_murojaah_20210926024041.pdf"));
             openPdf(new File(getRealPathFromURI(getContext(),pdfUriForQ)));
-            Log.d("31", String.valueOf(Uri.parse(getRealPathFromURI(getContext().getApplicationContext(), pdfUriForQ))));//
-            // Environment.DIRECTORY_DOWNLOADS + File.separator + getString(R.string.app_name) + fileName)));
+            Log.d("31", String.valueOf(Uri.parse(getRealPathFromURI(getContext().getApplicationContext(), pdfUriForQ))));
             Log.e("30", String.valueOf(Uri.parse(getRealPathFromURI(getContext().getApplicationContext(), pdfUriForQ))));
             System.out.println(Uri.parse(getRealPathFromURI(getContext().getApplicationContext(), pdfUriForQ)));
 
@@ -492,7 +489,6 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
             startActivity(intent);
         } catch (Throwable t) {
             t.printStackTrace();
-            //attemptInstallViewer();
         }
 
     }
@@ -551,16 +547,6 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         }
     }
 
-    private ContentValues contentValues() {
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Downloads.MIME_TYPE, "application/pdf");
-        values.put(MediaStore.Downloads.DATE_ADDED, System.currentTimeMillis() / 1000);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            values.put(MediaStore.Downloads.DATE_TAKEN, System.currentTimeMillis());
-        }
-        return values;
-    }
-
     private String setDefaultDateForView(String dateFrom) {
         String[] months = {
                 "Januari", "Februari", "Maret", "April",
@@ -591,18 +577,6 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         bottomsheetDownloadMurojaahBinding.textViewEndDateShow.setText(startDate1 + " M");
     }
 
-    private void underlinePilihTipeMurojaahTextView() {
-        SpannableString[] spannableString = new SpannableString[]{
-                new SpannableString("Pilih tipe Murojaah"),
-                new SpannableString("Dari Tanggal"),
-                new SpannableString("Sampai Tanggal")};
-        spannableString[0].setSpan(new UnderlineSpan(), 0, 19, 0);
-        spannableString[1].setSpan(new UnderlineSpan(), 0, 12, 0);
-        spannableString[2].setSpan(new UnderlineSpan(), 0, 14, 0);
-        bottomsheetDownloadMurojaahBinding.textViewPilihTipeMurojaah.setText(spannableString[0]);
-        bottomsheetDownloadMurojaahBinding.textViewStartDate.setText(spannableString[1]);
-        bottomsheetDownloadMurojaahBinding.textViewEndDate.setText(spannableString[2]);
-    }
 
     private void setSpinnerAdapterAndListener() {
         List<String> typeMurojaah = new ArrayList<>();

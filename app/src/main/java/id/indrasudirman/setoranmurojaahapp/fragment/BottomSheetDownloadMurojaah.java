@@ -269,7 +269,8 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
-                        createPdfMurojaah();
+//                        createPdfMurojaah();
+                        generatedPdf();
                     }
 
                     @Override
@@ -283,6 +284,200 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                         token.continuePermissionRequest();
                     }
                 }).check();
+    }
+    private void generatedPdf() {
+        tampilMurojaahArrayList = new ArrayList<>();
+        tampilMurojaah = new TampilMurojaah();
+        mainMenu = new MainMenu();
+
+        PdfDocument pdfDocument = new PdfDocument();
+        createPdfMurojaahNew(1, pdfDocument);
+        createPdfMurojaahNew(2, pdfDocument);
+
+        // write the document content
+        if (Build.VERSION.SDK_INT >= 29) {
+            Log.d("Timber ini, OS Android adalah %s", String.valueOf(Build.VERSION.SDK_INT));
+            //SDK Lower 29
+            @SuppressLint("SimpleDateFormat") String fileName = "rekap_murojaah_" + new SimpleDateFormat("yyyyMMddHHmmss'.pdf'").format(new Date());
+            OutputStream outputStream;
+            ContentResolver contentResolver = getActivity().getContentResolver();
+            ContentValues contentValues = new ContentValues();
+
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf");
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + File.separator + getString(R.string.app_name));
+            Uri pdfUriForQ = contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues);
+
+
+            try {
+                outputStream = contentResolver.openOutputStream(pdfUriForQ);
+                savePdfToStream(pdfDocument, outputStream);
+                getActivity().getContentResolver().update(pdfUriForQ, contentValues, null, null);
+                // close the document
+                pdfDocument.close();
+                if (Build.VERSION.SDK_INT >= 30) {
+                    Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
+                            "Rekap Murojaah berhasil download", Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Rekap Murojaah berhasil download", Toast.LENGTH_SHORT).show();
+                    BottomSheetDownloadMurojaah.this.dismiss();
+                }
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                if (Build.VERSION.SDK_INT >= 30) {
+                    Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
+                            "Gagal download Murojaah: " + e.toString(), Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Gagal download Murojaah: " + e.toString(), Toast.LENGTH_SHORT).show();
+                    BottomSheetDownloadMurojaah.this.dismiss();
+                }
+            }
+            openPdf(new File(getRealPathFromURI(getContext(),pdfUriForQ)));
+            Log.e("30", String.valueOf(Uri.parse(getRealPathFromURI(getContext().getApplicationContext(), pdfUriForQ))));
+            System.out.println(Uri.parse(getRealPathFromURI(getContext().getApplicationContext(), pdfUriForQ)));
+
+        } else {
+            //SDK Lower 29
+            File directory = new File(Environment.getExternalStorageDirectory().toString() + '/' + getString(R.string.app_name));
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            @SuppressLint("SimpleDateFormat")
+            String fileName = "rekap_murojaah_" + new SimpleDateFormat("yyyyMMddHHmmss'.pdf'").format(new Date());
+            File file = new File(directory, fileName);
+
+
+            try {
+                pdfDocument.writeTo(new FileOutputStream(file));
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(getContext(), "Gagal download Murojaah: " + e.toString(), Toast.LENGTH_LONG).show();
+            }
+
+            // close the document
+            pdfDocument.close();
+            Toast.makeText(getContext(), "Rekap Murojaah berhasil download", Toast.LENGTH_SHORT).show();
+            BottomSheetDownloadMurojaah.this.dismiss();
+
+            //Open pdf file after success created
+            openPdf(file);
+        }
+    }
+    private void createPdfMurojaahNew(int numPage, PdfDocument pdfDocument) {
+        Paint paint = new Paint();
+        Paint titlePaint = new Paint();
+
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(1200, 2010, numPage).create();
+        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+        Canvas canvas = page.getCanvas();
+
+        canvas.drawBitmap(scaleBitmap, 0, 0, paint);
+
+        titlePaint.setColor(Color.WHITE);
+        titlePaint.setTextAlign(Paint.Align.CENTER);
+        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        titlePaint.setTextSize(35);
+        canvas.drawText(userName, PAGE_WIDTH / 2, 170, titlePaint);
+        //Set size to 50
+        titlePaint.setTextSize(20);
+        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+
+        if (startDateToDb == null && endDateToDb == null) {
+
+            Log.d(BottomSheetDownloadMurojaah.class.getName(), " Ini dra " + tampilMurojaahArrayList.toString());
+            canvas.drawText("Dari tgl " + setDefaultDateForView(defaultDateToDb) + " sampai tgl " + setDefaultDateForView(defaultDateToDb), PAGE_WIDTH / 2, 210, titlePaint);
+
+            switch (tipeMurojaah) {
+                case "Semua": {
+                    tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBAll(sqLiteHelper.getUserId(userEmail), defaultDateToDb, defaultDateToDb);
+                    break;
+                }
+                case "Murojaah": {
+                    String tipe = "Murojaah";
+                    tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBOnlyTypeSelected(sqLiteHelper.getUserId(userEmail), defaultDateToDb, defaultDateToDb, tipe);
+                    break;
+                }
+                case "Ziyadah": {
+                    String tipe = "Ziyadah";
+                    tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBOnlyTypeSelected(sqLiteHelper.getUserId(userEmail), defaultDateToDb, defaultDateToDb, tipe);
+                    break;
+                }
+            }
+        } else {
+            Log.d(BottomSheetDownloadMurojaah.class.getName(), " Ini dra " + tampilMurojaahArrayList.toString());
+            canvas.drawText("Dari tgl " + setDefaultDateForView(startDateToDb) + " sampai tgl " + setDefaultDateForView(endDateToDb), PAGE_WIDTH / 2, 210, titlePaint);
+
+            switch (tipeMurojaah) {
+                case "Semua": {
+                    tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBAll(sqLiteHelper.getUserId(userEmail), startDateToDb, endDateToDb);
+                    break;
+                }
+                case "Murojaah": {
+                    String tipe = "Murojaah";
+                    tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBOnlyTypeSelected(sqLiteHelper.getUserId(userEmail), startDateToDb, endDateToDb, tipe);
+                    break;
+                }
+                case "Ziyadah": {
+                    String tipe = "Ziyadah";
+                    tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBOnlyTypeSelected(sqLiteHelper.getUserId(userEmail), startDateToDb, endDateToDb, tipe);
+                    break;
+                }
+            }
+        }
+
+        titlePaint.setTextSize(15);
+        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
+        canvas.drawText(getString(R.string.bacalah_al_quran), 405, 290, titlePaint);
+        //Draw table rectangle
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(1);
+
+        //Max row in a page 19.
+        int count = 19;//tampilMurojaahArrayList.size();
+        int space = 80;
+        int top = 340;
+        int y = 386;
+        int addY = 80;
+        canvas.drawLine(20, top, PAGE_WIDTH - 20, top, paint);
+        top = top + space;
+        canvas.drawLine(20, top, PAGE_WIDTH - 20, top, paint);
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setTextSize(25);
+        paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        canvas.drawText("No", 50, y, paint);
+        canvas.drawText("Tanggal", 220, y, paint);
+        canvas.drawText("Tipe Murojaah", 470, y, paint);
+        canvas.drawText("Surat", 800, y, paint);
+        canvas.drawText("Ayat", 1050, y, paint);
+        //Set text to normal (not bold)
+        paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+        top = top + space;
+        y = y + addY;
+        int yDateMasehi = 452;
+        int yDateHijri = 485;
+        int addYDateSpace = 80;
+
+        for (int i = 0; i < count; i++) {
+
+            canvas.drawLine(20, top, PAGE_WIDTH - 20, top, paint);
+            canvas.drawText((i + 1) + ". ", 50, y, paint);
+//            canvas.drawText(setDefaultDateForView(tampilMurojaahArrayList.get(i).getTanggalMasehi()), 140, yDateMasehi, paint);
+//            canvas.drawText(tampilMurojaahArrayList.get(i).getTanggalHijriah(), 140, yDateHijri, paint);
+//            canvas.drawText(tampilMurojaahArrayList.get(i).getBulanHijriah(), 177, yDateHijri, paint);
+//            canvas.drawText(tampilMurojaahArrayList.get(i).getTahunHijriah(), 300, yDateHijri, paint);
+//            canvas.drawText(tampilMurojaahArrayList.get(i).getTipeMurojaah(), 500, y, paint);
+//            canvas.drawText(tampilMurojaahArrayList.get(i).getSurat(), 800, y, paint);
+//            canvas.drawText(tampilMurojaahArrayList.get(i).getAyat(), 1050, y, paint);
+            top = top + space;
+            y = y + addY;
+            yDateMasehi = yDateMasehi + addYDateSpace;
+            yDateHijri = yDateHijri + addYDateSpace;
+        }
+
+
+        pdfDocument.finishPage(page);
     }
 
     private void createPdfMurojaah() {
@@ -360,6 +555,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(1);
 
+        //Max row in a page 19.
         int count = tampilMurojaahArrayList.size();
         int space = 80;
         int top = 340;

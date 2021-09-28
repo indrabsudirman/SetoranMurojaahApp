@@ -135,7 +135,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         userName = sqLiteHelper.getUserName(userEmail);
 
         headerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.rekap_setoran_murojaah_header);
-        scaleBitmap = Bitmap.createScaledBitmap(headerBitmap, 1200, 518, false);
+        scaleBitmap = Bitmap.createScaledBitmap(headerBitmap, 1200, 318, false);
 
         //Set Spinner adapter
         setSpinnerAdapterAndListener();
@@ -305,7 +305,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         titlePaint.setTextAlign(Paint.Align.CENTER);
         titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         titlePaint.setTextSize(35);
-        canvas.drawText(userName, PAGE_WIDTH / 2, 270, titlePaint);
+        canvas.drawText(userName, PAGE_WIDTH / 2, 170, titlePaint);
         //Set size to 50
         titlePaint.setTextSize(20);
         titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
@@ -313,7 +313,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         if (startDateToDb == null && endDateToDb == null) {
 
             Log.d(BottomSheetDownloadMurojaah.class.getName(), " Ini dra " + tampilMurojaahArrayList.toString());
-            canvas.drawText("Dari tgl " + setDefaultDateForView(defaultDateToDb) + " sampai tgl " + setDefaultDateForView(defaultDateToDb), PAGE_WIDTH / 2, 320, titlePaint);
+            canvas.drawText("Dari tgl " + setDefaultDateForView(defaultDateToDb) + " sampai tgl " + setDefaultDateForView(defaultDateToDb), PAGE_WIDTH / 2, 210, titlePaint);
 
             switch (tipeMurojaah) {
                 case "Semua": {
@@ -333,7 +333,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
             }
         } else {
             Log.d(BottomSheetDownloadMurojaah.class.getName(), " Ini dra " + tampilMurojaahArrayList.toString());
-            canvas.drawText("Dari tgl " + setDefaultDateForView(startDateToDb) + " sampai tgl " + setDefaultDateForView(endDateToDb), PAGE_WIDTH / 2, 320, titlePaint);
+            canvas.drawText("Dari tgl " + setDefaultDateForView(startDateToDb) + " sampai tgl " + setDefaultDateForView(endDateToDb), PAGE_WIDTH / 2, 210, titlePaint);
 
             switch (tipeMurojaah) {
                 case "Semua": {
@@ -355,15 +355,15 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
         titlePaint.setTextSize(15);
         titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
-        canvas.drawText(getString(R.string.bacalah_al_quran), 405, 480, titlePaint);
+        canvas.drawText(getString(R.string.bacalah_al_quran), 405, 290, titlePaint);
         //Draw table rectangle
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(1);
 
         int count = tampilMurojaahArrayList.size();
         int space = 80;
-        int top = 540;
-        int y = 586;
+        int top = 340;
+        int y = 386;
         int addY = 80;
         canvas.drawLine(20, top, PAGE_WIDTH - 20, top, paint);
         top = top + space;
@@ -381,8 +381,8 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         top = top + space;
         y = y + addY;
-        int yDateMasehi = 652;
-        int yDateHijri = 685;
+        int yDateMasehi = 452;
+        int yDateHijri = 485;
         int addYDateSpace = 80;
 
         for (int i = 0; i < count; i++) {
@@ -445,7 +445,6 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                 }
             }
             openPdf(new File(getRealPathFromURI(getContext(),pdfUriForQ)));
-            Log.d("31", String.valueOf(Uri.parse(getRealPathFromURI(getContext().getApplicationContext(), pdfUriForQ))));
             Log.e("30", String.valueOf(Uri.parse(getRealPathFromURI(getContext().getApplicationContext(), pdfUriForQ))));
             System.out.println(Uri.parse(getRealPathFromURI(getContext().getApplicationContext(), pdfUriForQ)));
 

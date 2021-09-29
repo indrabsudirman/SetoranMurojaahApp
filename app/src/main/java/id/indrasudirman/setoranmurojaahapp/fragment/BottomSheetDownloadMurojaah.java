@@ -510,13 +510,13 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
             canvas.drawLine(20, top, PAGE_WIDTH - 20, top, paint);
             canvas.drawText((i + 1) + ". ", 50, y, paint);
-//            canvas.drawText(setDefaultDateForView(tampilMurojaahArrayList.get(i).getTanggalMasehi()), 140, yDateMasehi, paint);
-//            canvas.drawText(tampilMurojaahArrayList.get(i).getTanggalHijriah(), 140, yDateHijri, paint);
-//            canvas.drawText(tampilMurojaahArrayList.get(i).getBulanHijriah(), 177, yDateHijri, paint);
-//            canvas.drawText(tampilMurojaahArrayList.get(i).getTahunHijriah(), 300, yDateHijri, paint);
-//            canvas.drawText(tampilMurojaahArrayList.get(i).getTipeMurojaah(), 500, y, paint);
-//            canvas.drawText(tampilMurojaahArrayList.get(i).getSurat(), 800, y, paint);
-//            canvas.drawText(tampilMurojaahArrayList.get(i).getAyat(), 1050, y, paint);
+            canvas.drawText(setDefaultDateForView(tampilMurojaahArrayList.get(i).getTanggalMasehi()), 140, yDateMasehi, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getTanggalHijriah(), 140, yDateHijri, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getBulanHijriah(), 177, yDateHijri, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getTahunHijriah(), 300, yDateHijri, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getTipeMurojaah(), 500, y, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getSurat(), 800, y, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getAyat(), 1050, y, paint);
             top = top + space;
             y = y + addY;
             yDateMasehi = yDateMasehi + addYDateSpace;

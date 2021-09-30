@@ -107,6 +107,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     private MainMenu mainMenu;
     private Uri pdfUriForQ;
     private boolean bulanSama = true;
+    private int i = 0;
 
     //Default Constructor
     public BottomSheetDownloadMurojaah() {
@@ -287,6 +288,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                 }).check();
     }
     private void generatedPdf() {
+
         tampilMurojaahArrayList = new ArrayList<>();
         if (startDateToDb == null && endDateToDb == null) {
             Log.d(BottomSheetDownloadMurojaah.class.getName(), " Ini dra " + tampilMurojaahArrayList.toString());
@@ -335,9 +337,69 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         if (row <= 19) {
             createPdfMurojaahNew(row, 1, pdfDocument);
         } else {
+            int iRow = row / 19;
+            switch (iRow) {
+                case 1:
+                    createPdfMurojaahNew(row, 1, pdfDocument);
+                    i = 19;
+                    createPdfMurojaahNew(row, 2, pdfDocument);
+                    break;
+                case 2:
+                    createPdfMurojaahNew(row, 1, pdfDocument);
+                    i = 19;
+                    createPdfMurojaahNew(row, 2, pdfDocument);
+                    i = 38;
+                    createPdfMurojaahNew(row, 3, pdfDocument);
+                    break;
+                case 3:
+                    createPdfMurojaahNew(row, 1, pdfDocument);
+                    i = 19;
+                    createPdfMurojaahNew(row, 2, pdfDocument);
+                    i = 38;
+                    createPdfMurojaahNew(row, 3, pdfDocument);
+                    i = 57;
+                    createPdfMurojaahNew(row, 4, pdfDocument);
+                    break;
+                case 4:
+                    createPdfMurojaahNew(row, 1, pdfDocument);
+                    i = 19;
+                    createPdfMurojaahNew(row, 2, pdfDocument);
+                    i = 38;
+                    createPdfMurojaahNew(row, 3, pdfDocument);
+                    i = 57;
+                    createPdfMurojaahNew(row, 4, pdfDocument);
+                    i = 76;
+                    createPdfMurojaahNew(row, 5, pdfDocument);
+                    break;
+                case 5:
+                    createPdfMurojaahNew(row, 1, pdfDocument);
+                    i = 19;
+                    createPdfMurojaahNew(row, 2, pdfDocument);
+                    i = 38;
+                    createPdfMurojaahNew(row, 3, pdfDocument);
+                    i = 57;
+                    createPdfMurojaahNew(row, 4, pdfDocument);
+                    i = 76;
+                    createPdfMurojaahNew(row, 5, pdfDocument);
+                    i = 95;
+                    createPdfMurojaahNew(row, 6, pdfDocument);
+                    break;
+                default:
+                    SpannableStringBuilder sStringTitle = new SpannableStringBuilder("Error!");
+                    sStringTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    //Set Title
+                    alertDialog
+                            .setTitle(sStringTitle)
+                            .setCancelable(false)
+                            .setMessage("Terlalu banyak halamannya untuk donwload murojaah, kurangi tgl pencarian!")
+                            .setPositiveButton("Oke, ulang lagi", ((dialogInterface, i) -> {
 
-            createPdfMurojaahNew(row, 1, pdfDocument);
-            createPdfMurojaahNew(row, 2, pdfDocument);
+
+                            }));
+                    alertDialog.show();
+            }
+
         }
 
 
@@ -480,8 +542,6 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(1);
 
-        //Max row in a page 19.
-//        row = 19;//tampilMurojaahArrayList.size();
         int space = 80;
         int top = 340;
         int y = 386;
@@ -506,7 +566,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         int yDateHijri = 485;
         int addYDateSpace = 80;
 
-        for (int i = 0; i < row; i++) {
+        for (; i < row; i++) {
 
             canvas.drawLine(20, top, PAGE_WIDTH - 20, top, paint);
             canvas.drawText((i + 1) + ". ", 50, y, paint);
@@ -521,6 +581,10 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
             y = y + addY;
             yDateMasehi = yDateMasehi + addYDateSpace;
             yDateHijri = yDateHijri + addYDateSpace;
+
+            if (i == 18 | i == 37 | i == 56 | i == 75 | i == 94 | i == 114) {
+                break;
+            }
         }
         paint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(String.valueOf(numPage), PAGE_WIDTH / 2, PAGE_HEIGHT - 20, paint);

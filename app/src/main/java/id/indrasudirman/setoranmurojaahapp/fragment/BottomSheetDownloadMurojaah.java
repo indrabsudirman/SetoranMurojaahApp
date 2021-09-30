@@ -338,7 +338,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         }
 
 
-        int row = 113;//tampilMurojaahArrayList.size();
+        int row = tampilMurojaahArrayList.size();
         tampilMurojaah = new TampilMurojaah();
         mainMenu = new MainMenu();
 
@@ -589,13 +589,13 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
 
             canvas.drawLine(20, top, PAGE_WIDTH - 20, top, paint);
             canvas.drawText((i + 1) + ". ", 50, y, paint);
-//            canvas.drawText(setDefaultDateForView(tampilMurojaahArrayList.get(i).getTanggalMasehi()), 140, yDateMasehi, paint);
-//            canvas.drawText(tampilMurojaahArrayList.get(i).getTanggalHijriah(), 140, yDateHijri, paint);
-//            canvas.drawText(tampilMurojaahArrayList.get(i).getBulanHijriah(), 177, yDateHijri, paint);
-//            canvas.drawText(tampilMurojaahArrayList.get(i).getTahunHijriah(), 300, yDateHijri, paint);
-//            canvas.drawText(tampilMurojaahArrayList.get(i).getTipeMurojaah(), 500, y, paint);
-//            canvas.drawText(tampilMurojaahArrayList.get(i).getSurat(), 800, y, paint);
-//            canvas.drawText(tampilMurojaahArrayList.get(i).getAyat(), 1050, y, paint);
+            canvas.drawText(setDefaultDateForView(tampilMurojaahArrayList.get(i).getTanggalMasehi()), 140, yDateMasehi, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getTanggalHijriah(), 140, yDateHijri, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getBulanHijriah(), 177, yDateHijri, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getTahunHijriah(), 300, yDateHijri, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getTipeMurojaah(), 500, y, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getSurat(), 800, y, paint);
+            canvas.drawText(tampilMurojaahArrayList.get(i).getAyat(), 1050, y, paint);
             top = top + space;
             y = y + addY;
             yDateMasehi = yDateMasehi + addYDateSpace;
@@ -637,29 +637,30 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                         genetaredPdfOutPage = false;
                     }));
             alertDialog.show();
-        }
-        if (BuildConfig.DEBUG)
-            Log.d(TAG, "openPdf() called with: magazine = [" + pdfFile + "]");
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-            File file = new File(Uri.parse(pdfFile.getPath()).getPath());
-            Uri uri = FileProvider.getUriForFile(getContext(),
-                    BuildConfig.APPLICATION_ID + ".provider", file);
-            intent.setDataAndType(uri, "application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
         } else {
-            intent.setDataAndType(Uri.parse(pdfFile.getPath()), "application/pdf");
-        }
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "openPdf() called with: magazine = [" + pdfFile + "]");
 
-        try {
-            startActivity(intent);
-        } catch (Throwable t) {
-            t.printStackTrace();
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+                File file = new File(Uri.parse(pdfFile.getPath()).getPath());
+                Uri uri = FileProvider.getUriForFile(getContext(),
+                        BuildConfig.APPLICATION_ID + ".provider", file);
+                intent.setDataAndType(uri, "application/pdf");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            } else {
+                intent.setDataAndType(Uri.parse(pdfFile.getPath()), "application/pdf");
+            }
+
+            try {
+                startActivity(intent);
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
         }
 
     }

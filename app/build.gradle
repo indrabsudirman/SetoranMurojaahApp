@@ -49,11 +49,13 @@ dependencies {
     //RecyclerView Swipe Detector https://github.com/xabaras/RecyclerViewSwipeDecorator.git
     implementation 'com.github.xabaras:RecyclerViewSwipeDecorator:1.3'
     //Add Gson Library
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
     //Picasso Library to Share Murojaah harian
     implementation 'com.squareup.picasso:picasso:2.3.2'
     //dexter permissions
     implementation "com.karumi:dexter:5.0.0"
+    //Pdf read source : https://programmerworld.co/android/how-to-create-and-read-a-pdf-file-in-your-android-11-app/
+    implementation 'com.itextpdf:itextg:5.5.10'
     //Crop Image Camera/Gallery
     implementation 'com.github.yalantis:ucrop:2.2.2'
     //Glide

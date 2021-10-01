@@ -2,7 +2,6 @@ package id.indrasudirman.setoranmurojaahapp.fragment;
 
 
 import static android.content.Context.MODE_PRIVATE;
-
 import static com.yalantis.ucrop.UCropFragment.TAG;
 
 import android.Manifest;
@@ -25,13 +24,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,12 +101,24 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     private ArrayList<TampilMurojaah> tampilMurojaahArrayList;
     private TampilMurojaah tampilMurojaah;
     private MainMenu mainMenu;
-    private Uri pdfUriForQ;
     private boolean bulanSama = true;
+    private boolean genetaredPdfOutPage = false;
     private int i = 0;
 
     //Default Constructor
     public BottomSheetDownloadMurojaah() {
+    }
+
+    // chops a list into non-view sublists of length L
+    private static <T> List<List<T>> chopped(List<T> list, final int L) {
+        List<List<T>> parts = new ArrayList<List<T>>();
+        final int N = list.size();
+        for (int i = 0; i < N; i += L) {
+            parts.add(new ArrayList<T>(
+                    list.subList(i, Math.min(N, i + L))
+            ));
+        }
+        return parts;
     }
 
     @Nullable
@@ -287,6 +295,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                     }
                 }).check();
     }
+
     private void generatedPdf() {
 
         tampilMurojaahArrayList = new ArrayList<>();
@@ -333,6 +342,9 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         tampilMurojaah = new TampilMurojaah();
         mainMenu = new MainMenu();
 
+        if (row >= 114) {
+            genetaredPdfOutPage = true;
+        }
         PdfDocument pdfDocument = new PdfDocument();
         if (row <= 19) {
             createPdfMurojaahNew(row, 1, pdfDocument);
@@ -425,11 +437,17 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                 // close the document
                 pdfDocument.close();
                 if (Build.VERSION.SDK_INT >= 30) {
-                    Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
-                            "Rekap Murojaah berhasil download", Snackbar.LENGTH_SHORT).show();
+                    if (!genetaredPdfOutPage) {
+                        Snackbar.make(bottomsheetDownloadMurojaahBinding.coordinatorLayoutMain,
+                                "Rekap Murojaah berhasil download", Snackbar.LENGTH_SHORT).show();
+                    }
+
                 } else {
-                    Toast.makeText(getContext(), "Rekap Murojaah berhasil download", Toast.LENGTH_SHORT).show();
-                    BottomSheetDownloadMurojaah.this.dismiss();
+                    if (!genetaredPdfOutPage) {
+                        Toast.makeText(getContext(), "Rekap Murojaah berhasil download", Toast.LENGTH_SHORT).show();
+                        BottomSheetDownloadMurojaah.this.dismiss();
+                    }
+
                 }
 
             } catch (FileNotFoundException e) {
@@ -442,7 +460,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                     BottomSheetDownloadMurojaah.this.dismiss();
                 }
             }
-            openPdf(new File(getRealPathFromURI(getContext(),pdfUriForQ)));
+            openPdf(new File(getRealPathFromURI(getContext(), pdfUriForQ)));
             Log.e("30", String.valueOf(Uri.parse(getRealPathFromURI(getContext().getApplicationContext(), pdfUriForQ))));
             System.out.println(Uri.parse(getRealPathFromURI(getContext().getApplicationContext(), pdfUriForQ)));
 
@@ -473,6 +491,7 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
             openPdf(file);
         }
     }
+
     private void createPdfMurojaahNew(int row, int numPage, PdfDocument pdfDocument) {
         Paint paint = new Paint();
         Paint titlePaint = new Paint();
@@ -605,33 +624,46 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     }
 
     public void openPdf(File pdfFile) {
-
-        if (BuildConfig.DEBUG)
-            Log.d(TAG, "openPdf() called with: magazine = [" + pdfFile + "]");
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-            File file = new File(Uri.parse(pdfFile.getPath()).getPath());
-            Uri uri = FileProvider.getUriForFile(getContext(),
-                    BuildConfig.APPLICATION_ID + ".provider", file);
-            intent.setDataAndType(uri, "application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
+        if (genetaredPdfOutPage) {
+            SpannableStringBuilder sStringTitle = new SpannableStringBuilder("Error!");
+            sStringTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            //Set Title
+            alertDialog
+                    .setTitle(sStringTitle)
+                    .setCancelable(false)
+                    .setMessage("Terlalu banyak halamannya untuk donwload murojaah, kurangi tgl pencarian!")
+                    .setPositiveButton("Oke, ulang lagi", ((dialogInterface, i) -> {
+                        genetaredPdfOutPage = false;
+                    }));
+            alertDialog.show();
         } else {
-            intent.setDataAndType(Uri.parse(pdfFile.getPath()), "application/pdf");
-        }
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "openPdf() called with: magazine = [" + pdfFile + "]");
 
-        try {
-            startActivity(intent);
-        } catch (Throwable t) {
-            t.printStackTrace();
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+                File file = new File(Uri.parse(pdfFile.getPath()).getPath());
+                Uri uri = FileProvider.getUriForFile(getContext(),
+                        BuildConfig.APPLICATION_ID + ".provider", file);
+                intent.setDataAndType(uri, "application/pdf");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            } else {
+                intent.setDataAndType(Uri.parse(pdfFile.getPath()), "application/pdf");
+            }
+
+            try {
+                startActivity(intent);
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
         }
 
     }
-
 
     private void viewPdf(File file) {
         Uri outputFileUri;
@@ -671,8 +703,8 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     private String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);
@@ -715,7 +747,6 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
         bottomsheetDownloadMurojaahBinding.textViewStartDateShow.setText(startDate1 + " M");
         bottomsheetDownloadMurojaahBinding.textViewEndDateShow.setText(startDate1 + " M");
     }
-
 
     private void setSpinnerAdapterAndListener() {
         List<String> typeMurojaah = new ArrayList<>();
@@ -803,18 +834,6 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                         Snackbar.LENGTH_SHORT).show());
 
 
-    }
-
-    // chops a list into non-view sublists of length L
-    private static <T> List<List<T>> chopped (List<T> list, final int L) {
-        List<List<T>> parts = new ArrayList<List<T>>();
-        final int N = list.size();
-        for (int i = 0; i < N; i+= L) {
-            parts.add(new ArrayList<T>(
-                    list.subList(i, Math.min(N, i + L))
-            ));
-        }
-        return parts;
     }
 
     @Override

@@ -621,7 +621,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         /**
          * Here query function is used to fetch records from user table this function works like we use sql query
          * SQL query equivalent to this query function is
-         * SELECT user_id FROM users WHERE user_email = 'indrabsudirman@gmail.com';
+         * SELECT surat FROM Murojaah WHERE surat = 'ٱلْفَاتِحَة' AND date_masehi = '2021-9-17';
          */
         Cursor cursor = sqLiteDatabase.query(TABLE_MUROJAAH,
                 columns,

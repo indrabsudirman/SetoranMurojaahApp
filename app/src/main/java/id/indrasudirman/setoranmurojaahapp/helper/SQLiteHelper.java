@@ -606,4 +606,35 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return userName;
     }
 
+    public boolean checkSuratHarian (String surat, String dateMasehi) {
+        //array of columns to fetch
+        String[] columns = {SURAT};
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        //Selection criteria
+        String selection = SURAT + " = ? AND " + DATE_MASEHI + " = ?";
+
+        //Selection argument
+        String [] selectionArgs = {surat, dateMasehi};
+
+        //Query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM users WHERE user_email = 'indrabsudirman@gmail.com';
+         */
+        Cursor cursor = sqLiteDatabase.query(TABLE_MUROJAAH,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null);
+        int cursorCount = cursor.getCount();
+        cursor.close();
+        sqLiteDatabase.close();
+
+        return cursorCount > 0;
+    }
+
 }

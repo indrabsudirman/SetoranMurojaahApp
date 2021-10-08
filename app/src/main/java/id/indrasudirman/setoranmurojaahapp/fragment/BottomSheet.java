@@ -1,5 +1,7 @@
 package id.indrasudirman.setoranmurojaahapp.fragment;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,8 +43,6 @@ import id.indrasudirman.setoranmurojaahapp.model.Murojaah;
 import id.indrasudirman.setoranmurojaahapp.model.MurojaahItem;
 import it.sephiroth.android.library.checkbox3state.CheckBox3;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class BottomSheet extends BottomSheetDialogFragment {
 
     private static final String SHARED_PREF_NAME = "sharedPrefLogin";
@@ -61,7 +61,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
     private SharedPreferences sharedPreferences;
     private String switchText = "Murojaah";
     private ArrayList<MurojaahItem> listMurojaah;
-    private boolean isTrueBack = false;
+    private final boolean isTrueBack = false;
 
     private MainMenu mainMenu;
 
@@ -230,27 +230,41 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 murojaah.setSurat(namaSurat);
                 murojaah.setAyat(finalAyatMurojaah1);
 
-                //Add murojaah to table Murojaah
-                sqLiteHelper.addMurojaah(murojaah, userID);
+                if (!sqLiteHelper.checkSuratHarian(namaSurat, tanggalMasehi)) {
+                    //Add murojaah to table Murojaah
+                    sqLiteHelper.addMurojaah(murojaah, userID);
 
-                SpannableStringBuilder sStringTitleContinue = new SpannableStringBuilder("Murojaah tersimpan");
-                sStringTitleContinue.setSpan(new StyleSpan(Typeface.BOLD), 0, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                //Alert dialog continue murojaah or no
-                AlertDialog.Builder alertContinue = new AlertDialog.Builder(getContext());
-                alertContinue.setTitle(sStringTitleContinue);
-                //Set Cancelable false
-                alertContinue.setCancelable(false);
-                alertContinue.setMessage("Murojaah berhasil disimpan. Lanjut tambah Murojaah/Ziyadah?");
-                alertContinue.setPositiveButton("Ya", (dialogInterface, i) -> new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500));
+                    SpannableStringBuilder sStringTitleContinue = new SpannableStringBuilder("Murojaah tersimpan");
+                    sStringTitleContinue.setSpan(new StyleSpan(Typeface.BOLD), 0, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    //Alert dialog continue murojaah or no
+                    AlertDialog.Builder alertContinue = new AlertDialog.Builder(getContext());
+                    alertContinue.setTitle(sStringTitleContinue);
+                    //Set Cancelable false
+                    alertContinue.setCancelable(false);
+                    alertContinue.setMessage("Murojaah berhasil disimpan. Lanjut tambah Murojaah/Ziyadah?");
+                    alertContinue.setPositiveButton("Ya", (dialogInterface, i) -> new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500));
 
-                alertContinue.setNegativeButton("Tidak", (dialogInterface, i) -> {
-                    //Move to Main Menu Activity and send value murojaah_list true
-                    Intent intent = new Intent(getContext().getApplicationContext(), MainMenu.class);
-                    intent.putExtra("murojaah_list", true);
-                    startActivity(intent);
-                    getActivity().overridePendingTransition(0, 0);
-                });
-                alertContinue.show();
+                    alertContinue.setNegativeButton("Tidak", (dialogInterface, i) -> {
+                        //Move to Main Menu Activity and send value murojaah_list true
+                        Intent intent = new Intent(getContext().getApplicationContext(), MainMenu.class);
+                        intent.putExtra("murojaah_list", true);
+                        startActivity(intent);
+                        requireActivity().overridePendingTransition(0, 0);
+                    });
+                    alertContinue.show();
+                } else {
+                    SpannableStringBuilder sStringTitleError = new SpannableStringBuilder("Error");
+                    sStringTitleError.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                Log.e("BottomSheet.class", "Anda pilih ayat tidak berurutan");
+                    AlertDialog.Builder alertDialogError = new AlertDialog.Builder(getContext());
+                    //Set Title
+                    alertDialogError.setTitle(sStringTitleError);
+                    //Set Cancelable false
+                    alertDialogError.setCancelable(false);
+                    alertDialogError.setMessage("Surat " + namaSurat + " sudah ada di list murojaah hari ini!");
+                    alertDialogError.setPositiveButton("Oke", (dialog1, which1) -> Toast.makeText(getContext(), "Batal simpan", Toast.LENGTH_SHORT).show());
+                    alertDialogError.show();
+                }
 
 
             });
@@ -291,28 +305,41 @@ public class BottomSheet extends BottomSheetDialogFragment {
                     murojaah.setSurat(namaSurat);
                     murojaah.setAyat(finalAyatMurojaah);
 
-                    //Add murojaah to table Murojaah
-                    sqLiteHelper.addMurojaah(murojaah, userID);
-                    SpannableStringBuilder sStringTitleContinue = new SpannableStringBuilder("Murojaah tersimpan");
-                    sStringTitleContinue.setSpan(new StyleSpan(Typeface.BOLD), 0, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    //Alert dialog continue murojaah or no
-                    AlertDialog.Builder alertContinue = new AlertDialog.Builder(getContext());
-                    alertContinue.setTitle(sStringTitleContinue);
-                    //Set Cancelable false
-                    alertContinue.setCancelable(false);
-                    alertContinue.setMessage("Murojaah berhasil disimpan. Lanjut tambah Murojaah/Ziyadah?");
-                    alertContinue.setPositiveButton("Ya", (dialogInterface, i) -> new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500));
+                    if (!sqLiteHelper.checkSuratHarian(namaSurat, tanggalMasehi)) {
+                        //Add murojaah to table Murojaah
+                        sqLiteHelper.addMurojaah(murojaah, userID);
 
-                    alertContinue.setNegativeButton("Tidak", (dialogInterface, i) -> {
-                        //Move to Main Menu Activity and send value murojaah_list true
-                        Intent intent = new Intent(getContext().getApplicationContext(), MainMenu.class);
-                        intent.putExtra("murojaah_list", true);
-                        startActivity(intent);
-                        getActivity().overridePendingTransition(0, 0);
-                    });
-                    alertContinue.show();
+                        SpannableStringBuilder sStringTitleContinue = new SpannableStringBuilder("Murojaah tersimpan");
+                        sStringTitleContinue.setSpan(new StyleSpan(Typeface.BOLD), 0, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        //Alert dialog continue murojaah or no
+                        AlertDialog.Builder alertContinue = new AlertDialog.Builder(getContext());
+                        alertContinue.setTitle(sStringTitleContinue);
+                        //Set Cancelable false
+                        alertContinue.setCancelable(false);
+                        alertContinue.setMessage("Murojaah berhasil disimpan. Lanjut tambah Murojaah/Ziyadah?");
+                        alertContinue.setPositiveButton("Ya", (dialogInterface, i) -> new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500));
 
-
+                        alertContinue.setNegativeButton("Tidak", (dialogInterface, i) -> {
+                            //Move to Main Menu Activity and send value murojaah_list true
+                            Intent intent = new Intent(getContext().getApplicationContext(), MainMenu.class);
+                            intent.putExtra("murojaah_list", true);
+                            startActivity(intent);
+                            requireActivity().overridePendingTransition(0, 0);
+                        });
+                        alertContinue.show();
+                    } else {
+                        SpannableStringBuilder sStringTitleError = new SpannableStringBuilder("Error");
+                        sStringTitleError.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                Log.e("BottomSheet.class", "Anda pilih ayat tidak berurutan");
+                        AlertDialog.Builder alertDialogError = new AlertDialog.Builder(getContext());
+                        //Set Title
+                        alertDialogError.setTitle(sStringTitleError);
+                        //Set Cancelable false
+                        alertDialogError.setCancelable(false);
+                        alertDialogError.setMessage("Surat " + namaSurat + " sudah ada di list murojaah hari ini!");
+                        alertDialogError.setPositiveButton("Oke", (dialog1, which1) -> Toast.makeText(getContext(), "Batal simpan", Toast.LENGTH_SHORT).show());
+                        alertDialogError.show();
+                    }
                 });
                 alertDialog.setNegativeButton("Tidak", (dialog, which) -> {
                     new Handler(Looper.getMainLooper()).postDelayed(BottomSheet.this::dismiss, 500);

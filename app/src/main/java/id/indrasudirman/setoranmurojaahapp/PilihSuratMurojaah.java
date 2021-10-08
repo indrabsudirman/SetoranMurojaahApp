@@ -1,9 +1,9 @@
 package id.indrasudirman.setoranmurojaahapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,6 +26,7 @@ public class PilihSuratMurojaah extends AppCompatActivity {
     List<Surat> suratList = new ArrayList<>();
     //View Binding Variable
     private ActivityPilihSuratMurojaahBinding pilihSuratMurojaahBinding;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -506,10 +506,10 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
     public Bitmap addPaddingTopForBitmap(Bitmap bitmap) {
 
-        Bitmap outputBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight() + 500, Bitmap.Config.ARGB_8888);
+        Bitmap outputBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight() + 400, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(outputBitmap);
         canvas.drawColor(getColor(R.color.teal_700));
-        canvas.drawBitmap(bitmap, 0, 500, null);
+        canvas.drawBitmap(bitmap, 0, 400, null);
 
         return outputBitmap;
     }
@@ -539,12 +539,12 @@ public class MainMenu extends AppCompatActivity implements NavigationView.OnNavi
 
 
         canvas.drawBitmap(src, 0, 0, paint);
-        canvas.drawText(userName, 85, 340, paint);
+        canvas.drawText(userName, 85, 270, paint);
         paint.setTextSize(40);
-        canvas.drawText(dateMasehi[0] + " M", 85, 400, paint);
-        canvas.drawText(tanggalHijri[1], 85, 460, paint); //Tanggal
-        canvas.drawText(tanggalHijri[0], 150, 460, paint); //Bulan
-        canvas.drawText(tanggalHijri[2] + " H", 280, 460, paint); //Tahun
+        canvas.drawText(dateMasehi[0] + " M", 85, 330, paint);
+        canvas.drawText(tanggalHijri[1], 85, 390, paint); //Tanggal
+        canvas.drawText(tanggalHijri[0], 150, 390, paint); //Bulan
+        canvas.drawText(tanggalHijri[2] + " H", 310, 390, paint); //Tahun
 
         return src;
 

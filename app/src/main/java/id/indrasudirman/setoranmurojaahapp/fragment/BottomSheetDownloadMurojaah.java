@@ -109,18 +109,6 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
     public BottomSheetDownloadMurojaah() {
     }
 
-    // chops a list into non-view sublists of length L
-    private static <T> List<List<T>> chopped(List<T> list, final int L) {
-        List<List<T>> parts = new ArrayList<List<T>>();
-        final int N = list.size();
-        for (int i = 0; i < N; i += L) {
-            parts.add(new ArrayList<T>(
-                    list.subList(i, Math.min(N, i + L))
-            ));
-        }
-        return parts;
-    }
-
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override
@@ -316,6 +304,20 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                     tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBOnlyTypeSelected(sqLiteHelper.getUserId(userEmail), defaultDateToDb, defaultDateToDb, tipe);
                     break;
                 }
+                default:
+                    SpannableStringBuilder sStringTitle = new SpannableStringBuilder("Error!");
+                    sStringTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    //Set Title
+                    alertDialog
+                            .setTitle(sStringTitle)
+                            .setCancelable(false)
+                            .setMessage("Belum ada data murojaah yang tersimpan, murojaah masih kosong!")
+                            .setPositiveButton("Oke", ((dialogInterface, i) -> {
+
+
+                            }));
+                    alertDialog.show();
             }
         } else {
             Log.d(BottomSheetDownloadMurojaah.class.getName(), " Ini dra " + tampilMurojaahArrayList.toString());
@@ -334,6 +336,20 @@ public class BottomSheetDownloadMurojaah extends BottomSheetDialogFragment {
                     tampilMurojaahArrayList = sqLiteHelper.getTampilMurojaahDBOnlyTypeSelected(sqLiteHelper.getUserId(userEmail), startDateToDb, endDateToDb, tipe);
                     break;
                 }
+                default:
+                    SpannableStringBuilder sStringTitle = new SpannableStringBuilder("Error!");
+                    sStringTitle.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    //Set Title
+                    alertDialog
+                            .setTitle(sStringTitle)
+                            .setCancelable(false)
+                            .setMessage("Belum ada data murojaah yang tersimpan, murojaah masih kosong!")
+                            .setPositiveButton("Oke", ((dialogInterface, i) -> {
+
+
+                            }));
+                    alertDialog.show();
             }
         }
 
